@@ -35,7 +35,7 @@
       <nameValuePair>
         <name>QUALITY_THRESHOLD</name>
         <value>
-          <float>0.75</float>
+          <float>0.05</float>
         </value>
       </nameValuePair>
       <nameValuePair>
@@ -47,7 +47,7 @@
       <nameValuePair>
         <name>MIN_LENGTH</name>
         <value>
-          <integer>25</integer>
+          <integer>5</integer>
         </value>
       </nameValuePair>
     </configurationParameterSettings>
