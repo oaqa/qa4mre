@@ -35,11 +35,11 @@
     <delegateAnalysisEngine key="StanfordSentenceAnnotator">
       <import location="annotators/StanfordSentenceAnnotator.xml"/>
     </delegateAnalysisEngine>
-    <delegateAnalysisEngine key="SolrIndexer">
+  <!--  <delegateAnalysisEngine key="SolrIndexer">
       <import location="annotators/SolrIndexer.xml"/>
     </delegateAnalysisEngine>
     
-    <!--<delegateAnalysisEngine key="QuestionCandSentDependencyMatcher">
+    <delegateAnalysisEngine key="QuestionCandSentDependencyMatcher">
       <import location="annotators/QuestionCandSentDependencyMatcher.xml"/>
     </delegateAnalysisEngine>-->
     
