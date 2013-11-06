@@ -1,10 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?><analysisEngineDescription xmlns="http://uima.apache.org/resourceSpecifier">
+<?xml version="1.0" encoding="UTF-8"?>
+<analysisEngineDescription xmlns="http://uima.apache.org/resourceSpecifier">
   <frameworkImplementation>org.apache.uima.java</frameworkImplementation>
   <primitive>false</primitive>
   <delegateAnalysisEngineSpecifiers>
-    <delegateAnalysisEngine key="AnswerChoiceCandAnsPMIScorer">
-      <import location="annotators/AnswerChoiceCandAnsPMIScorer.xml"/>
-    </delegateAnalysisEngine>
     <delegateAnalysisEngine key="AnswerSelectionByKCandAggregation">
       <import location="annotators/AnswerSelectionByKCandAggregation.xml"/>
     </delegateAnalysisEngine>
@@ -13,6 +11,9 @@
     </delegateAnalysisEngine>
     <delegateAnalysisEngine key="QuestionCandSentSimilarityMatcher">
       <import location="annotators/QuestionCandSentSimilarityMatcher.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="AnswerChoiceCandAnsSimilarityScorer">
+      <import location="annotators/AnswerChoiceCandAnsSimilarityScorer.xml"/>
     </delegateAnalysisEngine>
     <!-- <delegateAnalysisEngine key="AnswerChoiceCandAnsSynonymScorer">
       <import location="annotators/AnswerChoiceCandAnsSynonymScorer.xml"/>
@@ -23,8 +24,8 @@
     <!-- <delegateAnalysisEngine key="QuestionCandSentDependencyMatcher">
       <import location="annotators/QuestionCandSentDependencyMatcher.xml"/>
     </delegateAnalysisEngine>-->
-    <delegateAnalysisEngine key="AnswerChoiceCandAnsSimilarityScorer">
-      <import location="annotators/AnswerChoiceCandAnsSimilarityScorer.xml"/>
+    <delegateAnalysisEngine key="AnswerChoiceCandAnsNPMIScorer">
+      <import name="annotators.AnswerChoiceCandAnsNPMIScorer"/>
     </delegateAnalysisEngine>
   </delegateAnalysisEngineSpecifiers>
   <analysisEngineMetaData>
@@ -42,7 +43,8 @@
         <node>AnswerChoiceCandAnsSimilarityScorer</node>
         <!-- <node>AnswerChoiceCandAnsSynonymScorer</node>-->
         <!--<node>AnswerChoiceCandAnsPMIScorer</node>-->
-        <node>AnswerSelectionByKCandVoting</node>
+        <node>AnswerChoiceCandAnsNPMIScorer</node>
+      <node>AnswerSelectionByKCandVoting</node>
       </fixedFlow>
     </flowConstraints>
     <typePriorities/>

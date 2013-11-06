@@ -25,7 +25,7 @@ import edu.cmu.lti.qalab.types.QuestionAnswerSet;
 import edu.cmu.lti.qalab.types.TestDocument;
 import edu.cmu.lti.qalab.utils.Utils;
 
-public class AnswerChoiceCandAnsPMIScorer extends JCasAnnotator_ImplBase {
+public class AnswerChoiceCandAnsNPMIScorer extends JCasAnnotator_ImplBase {
 
 	private SolrWrapper solrWrapper;
 	HashSet<String> hshStopWords = new HashSet<String>();
@@ -164,7 +164,7 @@ public class AnswerChoiceCandAnsPMIScorer extends JCasAnnotator_ImplBase {
 			try {
 				rsp = solrWrapper.getServer().query(solrParams);
 				combinedHits = rsp.getResults().getNumFound();
-				ncombinedHits = Math.pow(combinedHits,2);
+				ncombinedHits = (long) Math.pow(combinedHits,2);
 			} catch (Exception e) {
 				// System.out.println(e + "\t" + query);
 			}
@@ -198,7 +198,7 @@ public class AnswerChoiceCandAnsPMIScorer extends JCasAnnotator_ImplBase {
 
 			// score += myLog(combinedHits, nHits1, nHits2);
 			if (nHits1 != 0) {
-				score += 0.5*(double) combinedHits / nHits1 + 0.5*(double)ncobinedHits/nHits1;
+				score += 0.5*(double) combinedHits / nHits1 + 0.5*(double)ncombinedHits/nHits1;
 			}
 		}
 		if (choiceNounPhrases.size() > 0) {
