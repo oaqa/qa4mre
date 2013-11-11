@@ -42,13 +42,13 @@
       <nameValuePair>
         <name>SOLR_SERVER_URL</name>
         <value>
-          <string>http://ur.lti.cs.cmu.edu:8983/solr/</string>
+          <string>http://localhost:8983/solr</string>
         </value>
       </nameValuePair>
       <nameValuePair>
         <name>SOLR_CORE</name>
         <value>
-          <string>qa4mre</string>
+          <string></string>
         </value>
       </nameValuePair>
       <nameValuePair>

@@ -7,12 +7,13 @@ import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.JCasRegistry;
 import org.apache.uima.jcas.cas.TOP_Type;
 
+import org.apache.uima.jcas.cas.FSList;
 import org.apache.uima.jcas.tcas.Annotation;
 
 
 /** 
- * Updated by JCasGen Mon May 13 14:41:33 EDT 2013
- * XML source: /media/alkesh/Windows7_OS/Users/alkesh/git/qa4mre-cse/qa4mre-base/src/main/resources/TypeSystemDescriptor.xml
+ * Updated by JCasGen Sun Nov 10 19:24:19 EST 2013
+ * XML source: C:/Users/Lars/git/hw5-team08/qa4mre-base/src/main/resources/TypeSystemDescriptor.xml
  * @generated */
 public class Token extends Annotation {
   /** @generated
@@ -114,6 +115,24 @@ public class Token extends Annotation {
     if (Token_Type.featOkTst && ((Token_Type)jcasType).casFeat_ner == null)
       jcasType.jcas.throwFeatMissing("ner", "edu.cmu.lti.qalab.types.Token");
     jcasType.ll_cas.ll_setStringValue(addr, ((Token_Type)jcasType).casFeatCode_ner, v);}    
+   
+    
+  //*--------------*
+  //* Feature: synonyms
+
+  /** getter for synonyms - gets 
+   * @generated */
+  public FSList getSynonyms() {
+    if (Token_Type.featOkTst && ((Token_Type)jcasType).casFeat_synonyms == null)
+      jcasType.jcas.throwFeatMissing("synonyms", "edu.cmu.lti.qalab.types.Token");
+    return (FSList)(jcasType.ll_cas.ll_getFSForRef(jcasType.ll_cas.ll_getRefValue(addr, ((Token_Type)jcasType).casFeatCode_synonyms)));}
+    
+  /** setter for synonyms - sets  
+   * @generated */
+  public void setSynonyms(FSList v) {
+    if (Token_Type.featOkTst && ((Token_Type)jcasType).casFeat_synonyms == null)
+      jcasType.jcas.throwFeatMissing("synonyms", "edu.cmu.lti.qalab.types.Token");
+    jcasType.ll_cas.ll_setRefValue(addr, ((Token_Type)jcasType).casFeatCode_synonyms, jcasType.ll_cas.ll_getFSRef(v));}    
   }
 
     

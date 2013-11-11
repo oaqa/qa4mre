@@ -1,0 +1,13 @@
+In 12 test data, we have 4 document, each with10 questions.
+In 13 sample data, we have 1 document with 10 questions.
+In 13 test data, we have 16 document, each with 15-20 questions.
+
+Each question in 12 test data and 13 sample data have 5 options and an implicit option of choosing nothing.
+But questions in 13 test data have 5 options which contains a explicit "None of above" option.
+
+The type of the questions are mainly factoid.
+  First is question about a specific part of a fact like what, where, how, why, who, aim, purpose.
+  Second is asking about some numeric features like how many, how old.
+  Third is asking us to name 2-3 examples, like "Name 2 ways to do ..."
+There is a special type of question in 13 test data, which asks about the degree of a certain fact. The options are like "Absolutely yes", "Probably yes", "Probably not" and "Absolutely not".
+We definitely need a special pipeline for the last type of questions.

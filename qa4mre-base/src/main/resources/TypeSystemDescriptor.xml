@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?><typeSystemDescription xmlns="http://uima.apache.org/resourceSpecifier">
+<?xml version="1.0" encoding="UTF-8"?>
+<typeSystemDescription xmlns="http://uima.apache.org/resourceSpecifier">
   <name>typeSystemDescriptor</name>
   <description/>
   <version>1.0</version>
@@ -158,6 +159,12 @@
           <name>ner</name>
           <description/>
           <rangeTypeName>uima.cas.String</rangeTypeName>
+        </featureDescription>
+      <featureDescription>
+          <name>synonyms</name>
+          <description/>
+          <rangeTypeName>uima.cas.FSList</rangeTypeName>
+          <elementType>edu.cmu.lti.qalab.types.Synonym</elementType>
         </featureDescription>
       </features>
     </typeDescription>

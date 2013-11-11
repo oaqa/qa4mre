@@ -15,7 +15,6 @@ import org.apache.uima.util.Progress;
 import org.apache.uima.util.ProgressImpl;
 import org.xml.sax.SAXException;
 
-import edu.cmu.lti.qalab.types.SourceDocument;
 import edu.cmu.lti.qalab.types.TestDocument;
 
 /**
