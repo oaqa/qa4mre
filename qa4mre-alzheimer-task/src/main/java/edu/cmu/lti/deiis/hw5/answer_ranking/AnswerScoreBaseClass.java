@@ -13,10 +13,12 @@ import edu.cmu.lti.qalab.types.Answer;
 import edu.cmu.lti.qalab.types.CandidateAnswer;
 import edu.cmu.lti.qalab.types.CandidateSentence;
 import edu.cmu.lti.qalab.types.CandidateSentenceAnswerSet;
+import edu.cmu.lti.qalab.types.Dependency;
 import edu.cmu.lti.qalab.types.NER;
 import edu.cmu.lti.qalab.types.NounPhrase;
 import edu.cmu.lti.qalab.types.Question;
 import edu.cmu.lti.qalab.types.QuestionAnswerSet;
+import edu.cmu.lti.qalab.types.Synonym;
 import edu.cmu.lti.qalab.types.TestDocument;
 import edu.cmu.lti.qalab.utils.Utils;
 
@@ -69,12 +71,76 @@ public class AnswerScoreBaseClass extends JCasAnnotator_ImplBase {
     return (double) nnMatch;
   }
 
+	public double computeJaccardSimilarityScore(Answer answer,
+			CandidateSentence sentence) {
+		ArrayList<NounPhrase> candSentNouns = Utils.fromFSListToCollection(
+				sentence.getSentence().getPhraseList(), NounPhrase.class);
+		ArrayList<NER> candSentNers = Utils.fromFSListToCollection(sentence
+				.getSentence().getNerList(), NER.class);
+		ArrayList<Dependency> candSentDependencies = Utils.fromFSListToCollection(sentence.getSentence().getDependencyList(), Dependency.class);
+		
+		ArrayList<NounPhrase> choiceNouns = Utils.fromFSListToCollection(
+				answer.getNounPhraseList(), NounPhrase.class);
+		ArrayList<NER> choiceNers = Utils.fromFSListToCollection(
+				answer.getNerList(), NER.class);
+		ArrayList<Dependency> choiceDependencies = Utils.fromFSListToCollection(sentence.getSentence().getDependencyList(), Dependency.class);
+		
+		
+		
+		double nnNounPhrase=0, nnNER=0, nnDependency=0;
+		double scoreNounPhrase=0, scoreNER=0, scoreDependency=0;
+		
+		for (int k = 0; k < candSentNouns.size(); k++) {
+			for (int l = 0; l < choiceNouns.size(); l++) {
+				if (candSentNouns.get(k).getText()
+						.equals(choiceNouns.get(l).getText())) {
+					nnNounPhrase+=1;
+				}
+			}
+		}
+		
+		if(candSentNouns.size()+choiceNouns.size()-nnNounPhrase!=0 )
+			scoreNounPhrase=nnNounPhrase/((double)candSentNouns.size()+ choiceNouns.size()-nnNounPhrase);
+		
+
+		for (int k = 0; k < candSentNers.size(); k++) {
+			for (int l = 0; l < choiceNers.size(); l++) {
+				if (candSentNers.get(k).getText()
+						.equals(choiceNers.get(l).getText())) {
+					nnNER+=1;
+				}
+			}
+		}
+		if(candSentNers.size()+choiceNers.size()-nnNER!=0 )
+			scoreNER = nnNER/((double)candSentNers.size() + choiceNers.size()-nnNER);
+		
+		
+		for (int k = 0; k < candSentDependencies.size(); k++) {
+			for (int l = 0; l < choiceDependencies.size(); l++) {
+				if (candSentDependencies.get(k).getCoveredText()
+						.equals(choiceDependencies.get(l).getCoveredText())) {
+					nnDependency+=1;
+				}
+			}
+		}
+		
+		if(candSentDependencies.size()+choiceDependencies.size() - nnDependency!=0 )
+			scoreDependency = nnDependency/((double)candSentDependencies.size() + choiceDependencies.size()- nnDependency);
+		
+		double ans = (scoreDependency + scoreNER + scoreNounPhrase)/3;
+//		System.out.println("***" + ans +"**");
+		return ans;
+	}
+  
+  
   /*
    * Implement this function by assigning score to some field of candidateAnswer
    */
   public void processCandidateAnswerScore(CandidateAnswer candidateAnswer,
           CandidateSentence sentence, Answer answer) {
-    candidateAnswer.setSimilarityScore(computScore(answer, sentence));
+	 
+   //candidateAnswer.setSimilarityScore(computScore(answer, sentence));
+	  candidateAnswer.setSimilarityScore(computeJaccardSimilarityScore(answer, sentence));
   }
 
   @Override
