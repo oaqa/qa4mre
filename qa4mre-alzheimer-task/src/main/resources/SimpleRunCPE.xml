@@ -59,9 +59,6 @@
 		<delegateAnalysisEngine key="SymbolAnnotator">
       <import name="annotators.SymbolAnnotator"/>
     </delegateAnalysisEngine>
-    <delegateAnalysisEngine key="StanfordCorefAnnotator">
-      <import name="annotators.StanfordCorefAnnotator"/>
-    </delegateAnalysisEngine>
     <!--<delegateAnalysisEngine key="AnswerSelectionByKCandAggregation"> <import 
 			location="annotators/AnswerSelectionByKCandAggregation.xml"/> </delegateAnalysisEngine> -->
 
@@ -78,24 +75,23 @@
 				<node>TextSegmenter</node>
 				<node>StanfordSentenceAnnotator</node>
 				<node>NoiseFilter</node>
-				<node>StanfordCorefAnnotator</node>
 				<node>StanfordNLPAnnotator</node>
 				<node>StanfordQuestionNLPAnnotator</node>
 				<node>PhraseAnnotator</node>
 				<node>QuestionPhraseAnnotator</node>
 				<node>NEAnnotator</node>
+				<node>QuestionNEAnnotator</node>
 				<!-- <node>SynonymAnnotator</node> -->
 				<!-- <node>QASynonymAnnotator</node> -->
-				<node>QuestionNEAnnotator</node>
 				<node>SymbolAnnotator</node>
+				<node>SolrIndexer</node>
 				<!-- <node>QuestionCandSentSynonymMatcher</node> -->
 				<!-- <node>QuestionCandSentDependencyMatcher</node> -->
-				<node>SolrIndexer</node>
+				<node>QuestionCandSentSimilarityMatcher</node>
 				<!--<node>AnswerChoiceCandAnsSynonymScorer</node> -->
 				<!--<node>AnswerChoiceCandAnsPMIScorer</node> -->
-				<node>QuestionCandSentSimilarityMatcher</node>
 				<node>AnswerChoiceCandAnsSimilarityScorer</node>
-        <node>AnswerSelectionByKCandVoting</node>
+				<node>AnswerSelectionByKCandVoting</node>
         <!--<node>AnswerSelectionByKCandVoting</node> -->
 			</fixedFlow>
 		</flowConstraints>

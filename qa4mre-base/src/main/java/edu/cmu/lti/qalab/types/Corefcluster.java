@@ -12,7 +12,7 @@ import org.apache.uima.jcas.tcas.Annotation;
 
 
 /** Denotes the coreference cluster
- * Updated by JCasGen Tue Nov 12 12:49:38 EST 2013
+ * Updated by JCasGen Tue Nov 12 14:20:03 EST 2013
  * XML source: /home/kartik/git/hw5-team08/qa4mre-base/src/main/resources/TypeSystemDescriptor.xml
  * @generated */
 public class Corefcluster extends Annotation {
@@ -97,6 +97,24 @@ public class Corefcluster extends Annotation {
     if (Corefcluster_Type.featOkTst && ((Corefcluster_Type)jcasType).casFeat_chain == null)
       jcasType.jcas.throwFeatMissing("chain", "edu.cmu.lti.qalab.types.Corefcluster");
     jcasType.ll_cas.ll_setRefValue(addr, ((Corefcluster_Type)jcasType).casFeatCode_chain, jcasType.ll_cas.ll_getFSRef(v));}    
+   
+    
+  //*--------------*
+  //* Feature: head
+
+  /** getter for head - gets 
+   * @generated */
+  public String getHead() {
+    if (Corefcluster_Type.featOkTst && ((Corefcluster_Type)jcasType).casFeat_head == null)
+      jcasType.jcas.throwFeatMissing("head", "edu.cmu.lti.qalab.types.Corefcluster");
+    return jcasType.ll_cas.ll_getStringValue(addr, ((Corefcluster_Type)jcasType).casFeatCode_head);}
+    
+  /** setter for head - sets  
+   * @generated */
+  public void setHead(String v) {
+    if (Corefcluster_Type.featOkTst && ((Corefcluster_Type)jcasType).casFeat_head == null)
+      jcasType.jcas.throwFeatMissing("head", "edu.cmu.lti.qalab.types.Corefcluster");
+    jcasType.ll_cas.ll_setStringValue(addr, ((Corefcluster_Type)jcasType).casFeatCode_head, v);}    
   }
 
     

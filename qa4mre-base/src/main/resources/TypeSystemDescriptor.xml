@@ -55,6 +55,12 @@
           <rangeTypeName>uima.cas.FSList</rangeTypeName>
           <elementType>edu.cmu.lti.qalab.types.NER</elementType>
         </featureDescription>
+      <featureDescription>
+          <name>genPhraseList</name>
+          <description/>
+          <rangeTypeName>uima.cas.FSList</rangeTypeName>
+          <elementType>edu.cmu.lti.qalab.types.Phrase</elementType>
+        </featureDescription>
       </features>
     </typeDescription>
     <typeDescription>
@@ -463,6 +469,11 @@
           <description/>
           <rangeTypeName>uima.cas.FSList</rangeTypeName>
           <elementType>Phrase</elementType>
+        </featureDescription>
+        <featureDescription>
+          <name>head</name>
+          <description/>
+          <rangeTypeName>uima.cas.String</rangeTypeName>
         </featureDescription>
       </features>
     </typeDescription>

@@ -14,7 +14,7 @@ import org.apache.uima.cas.Feature;
 import org.apache.uima.jcas.tcas.Annotation_Type;
 
 /** Denotes the coreference cluster
- * Updated by JCasGen Tue Nov 12 12:49:38 EST 2013
+ * Updated by JCasGen Tue Nov 12 14:20:03 EST 2013
  * @generated */
 public class Corefcluster_Type extends Annotation_Type {
   /** @generated */
@@ -79,6 +79,24 @@ public class Corefcluster_Type extends Annotation_Type {
     ll_cas.ll_setRefValue(addr, casFeatCode_chain, v);}
     
   
+ 
+  /** @generated */
+  final Feature casFeat_head;
+  /** @generated */
+  final int     casFeatCode_head;
+  /** @generated */ 
+  public String getHead(int addr) {
+        if (featOkTst && casFeat_head == null)
+      jcas.throwFeatMissing("head", "edu.cmu.lti.qalab.types.Corefcluster");
+    return ll_cas.ll_getStringValue(addr, casFeatCode_head);
+  }
+  /** @generated */    
+  public void setHead(int addr, String v) {
+        if (featOkTst && casFeat_head == null)
+      jcas.throwFeatMissing("head", "edu.cmu.lti.qalab.types.Corefcluster");
+    ll_cas.ll_setStringValue(addr, casFeatCode_head, v);}
+    
+  
 
 
 
@@ -95,6 +113,10 @@ public class Corefcluster_Type extends Annotation_Type {
  
     casFeat_chain = jcas.getRequiredFeatureDE(casType, "chain", "uima.cas.FSList", featOkTst);
     casFeatCode_chain  = (null == casFeat_chain) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_chain).getCode();
+
+ 
+    casFeat_head = jcas.getRequiredFeatureDE(casType, "head", "uima.cas.String", featOkTst);
+    casFeatCode_head  = (null == casFeat_head) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_head).getCode();
 
   }
 }

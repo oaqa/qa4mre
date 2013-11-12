@@ -23,6 +23,7 @@ import edu.cmu.lti.qalab.types.TestDocument;
 import edu.cmu.lti.qalab.types.Token;
 import edu.cmu.lti.qalab.utils.Utils;
 import edu.stanford.nlp.dcoref.CorefChain;
+import edu.stanford.nlp.dcoref.CorefChain.CorefMention;
 import edu.stanford.nlp.dcoref.CorefCoreAnnotations.CorefChainAnnotation;
 import edu.stanford.nlp.ling.CoreAnnotations.NamedEntityTagAnnotation;
 import edu.stanford.nlp.ling.CoreAnnotations.PartOfSpeechAnnotation;
@@ -45,7 +46,7 @@ public class StanfordCorefAnnotator extends JCasAnnotator_ImplBase {
       throws ResourceInitializationException {
     super.initialize(context);
     Properties props = new Properties();
-    props.put("annotators", "tokenize, ssplit, pos, lemma, ner,dcoref");// ,
+    props.put("annotators", "tokenize, ssplit, pos, lemma, ner,parse,dcoref");// ,
                                       // ssplit
     stanfordAnnotator = new StanfordCoreNLP(props);
   }
@@ -89,9 +90,12 @@ public class StanfordCorefAnnotator extends JCasAnnotator_ImplBase {
       // along with a method for getting the most representative mention
       // Both sentence and token offsets start at 1!
       Map<Integer, CorefChain> graph = document.get(CorefChainAnnotation.class);
-      for(Entry<Integer, CorefChain> set:graph.entrySet()){
-        System.out.println("MentionHead: "+set.getValue().getRepresentativeMention().toString());
-      }
+      /*for(Entry<Integer, CorefChain> set:graph.entrySet()){
+        System.out.println("MentionHead: "+set.getValue().getRepresentativeMention().mentionSpan);
+        for(CorefMention ment:set.getValue().getMentionsInTextualOrder()){
+          System.out.println("The mention is: "+ment.mentionSpan+" in sentence: "+((Integer)ment.sentNum).toString()+" with offstes: "+((Integer)ment.startIndex).toString()+":"+((Integer)ment.endIndex).toString());
+        }
+      }*/
       /*for (CoreMap sentence : sentences) {
         String sentText = sentence.toString();
         Sentence annSentence = new Sentence(jCas);
