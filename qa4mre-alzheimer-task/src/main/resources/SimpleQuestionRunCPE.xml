@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <analysisEngineDescription xmlns="http://uima.apache.org/resourceSpecifier">
   <frameworkImplementation>org.apache.uima.java</frameworkImplementation>
   <primitive>false</primitive>
@@ -33,6 +34,12 @@
     <delegateAnalysisEngine key="AnswerScoreBaseClass">
       <import name="annotators.AnswerScoreBaseClass"/>
     </delegateAnalysisEngine>
+  <delegateAnalysisEngine key="AnswerChoiceCandAnsCosineSimilarity">
+      <import name="annotators.AnswerChoiceCandAnsCosineSimilarity"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="AnswerChoiceCandAnsDiceCoefficient">
+      <import name="annotators.AnswerChoiceCandAnsDiceCoefficient"/>
+    </delegateAnalysisEngine>
   </delegateAnalysisEngineSpecifiers>
   <analysisEngineMetaData>
     <name>CpeQuestionDescriptor</name>
@@ -49,6 +56,8 @@
         <node>AnswerScoreBaseClass</node>
         <!-- <node>AnswerChoiceCandAnsSynonymScorer</node>-->
         <!--<node>AnswerChoiceCandAnsPMIScorer</node>-->
+        <node>AnswerChoiceCandAnsCosineSimilarity</node>
+      <node>AnswerChoiceCandAnsDiceCoefficient</node>
         <node>AnswerSelectionByKCandVoting</node>
       </fixedFlow>
     </flowConstraints>
