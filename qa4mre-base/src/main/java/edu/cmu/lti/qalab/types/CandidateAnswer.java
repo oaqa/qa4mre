@@ -11,8 +11,8 @@ import org.apache.uima.jcas.tcas.Annotation;
 
 
 /** 
- * Updated by JCasGen Sat Nov 09 21:17:39 EST 2013
- * XML source: /Users/troy/git/hw5-team10/qa4mre-base/src/main/resources/TypeSystemDescriptor.xml
+ * Updated by JCasGen Mon Nov 11 19:52:43 EST 2013
+ * XML source: /Users/mabodx/git/hw5-team10/qa4mre-base/src/main/resources/TypeSystemDescriptor.xml
  * @generated */
 public class CandidateAnswer extends Annotation {
   /** @generated
@@ -168,6 +168,24 @@ public class CandidateAnswer extends Annotation {
     if (CandidateAnswer_Type.featOkTst && ((CandidateAnswer_Type)jcasType).casFeat_synonymScore == null)
       jcasType.jcas.throwFeatMissing("synonymScore", "edu.cmu.lti.qalab.types.CandidateAnswer");
     jcasType.ll_cas.ll_setDoubleValue(addr, ((CandidateAnswer_Type)jcasType).casFeatCode_synonymScore, v);}    
+   
+    
+  //*--------------*
+  //* Feature: JaccardSimilarityScore
+
+  /** getter for JaccardSimilarityScore - gets score  of the Jaccard Similarity 
+   * @generated */
+  public double getJaccardSimilarityScore() {
+    if (CandidateAnswer_Type.featOkTst && ((CandidateAnswer_Type)jcasType).casFeat_JaccardSimilarityScore == null)
+      jcasType.jcas.throwFeatMissing("JaccardSimilarityScore", "edu.cmu.lti.qalab.types.CandidateAnswer");
+    return jcasType.ll_cas.ll_getDoubleValue(addr, ((CandidateAnswer_Type)jcasType).casFeatCode_JaccardSimilarityScore);}
+    
+  /** setter for JaccardSimilarityScore - sets score  of the Jaccard Similarity  
+   * @generated */
+  public void setJaccardSimilarityScore(double v) {
+    if (CandidateAnswer_Type.featOkTst && ((CandidateAnswer_Type)jcasType).casFeat_JaccardSimilarityScore == null)
+      jcasType.jcas.throwFeatMissing("JaccardSimilarityScore", "edu.cmu.lti.qalab.types.CandidateAnswer");
+    jcasType.ll_cas.ll_setDoubleValue(addr, ((CandidateAnswer_Type)jcasType).casFeatCode_JaccardSimilarityScore, v);}    
   }
 
     
