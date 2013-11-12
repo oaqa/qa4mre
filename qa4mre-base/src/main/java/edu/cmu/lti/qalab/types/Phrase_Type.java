@@ -1,5 +1,5 @@
 
-/* First created by JCasGen Wed Feb 20 04:59:42 EST 2013 */
+/* First created by JCasGen Tue Nov 12 12:49:38 EST 2013 */
 package edu.cmu.lti.qalab.types;
 
 import org.apache.uima.jcas.JCas;
@@ -16,7 +16,7 @@ import org.apache.uima.jcas.tcas.Annotation_Type;
 /** 
  * Updated by JCasGen Tue Nov 12 12:49:38 EST 2013
  * @generated */
-public class Synonym_Type extends Annotation_Type {
+public class Phrase_Type extends Annotation_Type {
   /** @generated */
   @Override
   protected FSGenerator getFSGenerator() {return fsGenerator;}
@@ -24,25 +24,25 @@ public class Synonym_Type extends Annotation_Type {
   private final FSGenerator fsGenerator = 
     new FSGenerator() {
       public FeatureStructure createFS(int addr, CASImpl cas) {
-  			 if (Synonym_Type.this.useExistingInstance) {
+  			 if (Phrase_Type.this.useExistingInstance) {
   			   // Return eq fs instance if already created
-  		     FeatureStructure fs = Synonym_Type.this.jcas.getJfsFromCaddr(addr);
+  		     FeatureStructure fs = Phrase_Type.this.jcas.getJfsFromCaddr(addr);
   		     if (null == fs) {
-  		       fs = new Synonym(addr, Synonym_Type.this);
-  			   Synonym_Type.this.jcas.putJfsFromCaddr(addr, fs);
+  		       fs = new Phrase(addr, Phrase_Type.this);
+  			   Phrase_Type.this.jcas.putJfsFromCaddr(addr, fs);
   			   return fs;
   		     }
   		     return fs;
-        } else return new Synonym(addr, Synonym_Type.this);
+        } else return new Phrase(addr, Phrase_Type.this);
   	  }
     };
   /** @generated */
   @SuppressWarnings ("hiding")
-  public final static int typeIndexID = Synonym.typeIndexID;
+  public final static int typeIndexID = Phrase.typeIndexID;
   /** @generated 
      @modifiable */
   @SuppressWarnings ("hiding")
-  public final static boolean featOkTst = JCasRegistry.getFeatOkTst("edu.cmu.lti.qalab.types.Synonym");
+  public final static boolean featOkTst = JCasRegistry.getFeatOkTst("edu.cmu.lti.qalab.types.Phrase");
  
   /** @generated */
   final Feature casFeat_text;
@@ -51,32 +51,14 @@ public class Synonym_Type extends Annotation_Type {
   /** @generated */ 
   public String getText(int addr) {
         if (featOkTst && casFeat_text == null)
-      jcas.throwFeatMissing("text", "edu.cmu.lti.qalab.types.Synonym");
+      jcas.throwFeatMissing("text", "edu.cmu.lti.qalab.types.Phrase");
     return ll_cas.ll_getStringValue(addr, casFeatCode_text);
   }
   /** @generated */    
   public void setText(int addr, String v) {
         if (featOkTst && casFeat_text == null)
-      jcas.throwFeatMissing("text", "edu.cmu.lti.qalab.types.Synonym");
+      jcas.throwFeatMissing("text", "edu.cmu.lti.qalab.types.Phrase");
     ll_cas.ll_setStringValue(addr, casFeatCode_text, v);}
-    
-  
- 
-  /** @generated */
-  final Feature casFeat_source;
-  /** @generated */
-  final int     casFeatCode_source;
-  /** @generated */ 
-  public String getSource(int addr) {
-        if (featOkTst && casFeat_source == null)
-      jcas.throwFeatMissing("source", "edu.cmu.lti.qalab.types.Synonym");
-    return ll_cas.ll_getStringValue(addr, casFeatCode_source);
-  }
-  /** @generated */    
-  public void setSource(int addr, String v) {
-        if (featOkTst && casFeat_source == null)
-      jcas.throwFeatMissing("source", "edu.cmu.lti.qalab.types.Synonym");
-    ll_cas.ll_setStringValue(addr, casFeatCode_source, v);}
     
   
  
@@ -87,14 +69,50 @@ public class Synonym_Type extends Annotation_Type {
   /** @generated */ 
   public double getWeight(int addr) {
         if (featOkTst && casFeat_weight == null)
-      jcas.throwFeatMissing("weight", "edu.cmu.lti.qalab.types.Synonym");
+      jcas.throwFeatMissing("weight", "edu.cmu.lti.qalab.types.Phrase");
     return ll_cas.ll_getDoubleValue(addr, casFeatCode_weight);
   }
   /** @generated */    
   public void setWeight(int addr, double v) {
         if (featOkTst && casFeat_weight == null)
-      jcas.throwFeatMissing("weight", "edu.cmu.lti.qalab.types.Synonym");
+      jcas.throwFeatMissing("weight", "edu.cmu.lti.qalab.types.Phrase");
     ll_cas.ll_setDoubleValue(addr, casFeatCode_weight, v);}
+    
+  
+ 
+  /** @generated */
+  final Feature casFeat_synonyms;
+  /** @generated */
+  final int     casFeatCode_synonyms;
+  /** @generated */ 
+  public int getSynonyms(int addr) {
+        if (featOkTst && casFeat_synonyms == null)
+      jcas.throwFeatMissing("synonyms", "edu.cmu.lti.qalab.types.Phrase");
+    return ll_cas.ll_getRefValue(addr, casFeatCode_synonyms);
+  }
+  /** @generated */    
+  public void setSynonyms(int addr, int v) {
+        if (featOkTst && casFeat_synonyms == null)
+      jcas.throwFeatMissing("synonyms", "edu.cmu.lti.qalab.types.Phrase");
+    ll_cas.ll_setRefValue(addr, casFeatCode_synonyms, v);}
+    
+  
+ 
+  /** @generated */
+  final Feature casFeat_cluster;
+  /** @generated */
+  final int     casFeatCode_cluster;
+  /** @generated */ 
+  public int getCluster(int addr) {
+        if (featOkTst && casFeat_cluster == null)
+      jcas.throwFeatMissing("cluster", "edu.cmu.lti.qalab.types.Phrase");
+    return ll_cas.ll_getIntValue(addr, casFeatCode_cluster);
+  }
+  /** @generated */    
+  public void setCluster(int addr, int v) {
+        if (featOkTst && casFeat_cluster == null)
+      jcas.throwFeatMissing("cluster", "edu.cmu.lti.qalab.types.Phrase");
+    ll_cas.ll_setIntValue(addr, casFeatCode_cluster, v);}
     
   
 
@@ -102,7 +120,7 @@ public class Synonym_Type extends Annotation_Type {
 
   /** initialize variables to correspond with Cas Type and Features
 	* @generated */
-  public Synonym_Type(JCas jcas, Type casType) {
+  public Phrase_Type(JCas jcas, Type casType) {
     super(jcas, casType);
     casImpl.getFSClassRegistry().addGeneratorForType((TypeImpl)this.casType, getFSGenerator());
 
@@ -111,12 +129,16 @@ public class Synonym_Type extends Annotation_Type {
     casFeatCode_text  = (null == casFeat_text) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_text).getCode();
 
  
-    casFeat_source = jcas.getRequiredFeatureDE(casType, "source", "uima.cas.String", featOkTst);
-    casFeatCode_source  = (null == casFeat_source) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_source).getCode();
-
- 
     casFeat_weight = jcas.getRequiredFeatureDE(casType, "weight", "uima.cas.Double", featOkTst);
     casFeatCode_weight  = (null == casFeat_weight) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_weight).getCode();
+
+ 
+    casFeat_synonyms = jcas.getRequiredFeatureDE(casType, "synonyms", "uima.cas.FSList", featOkTst);
+    casFeatCode_synonyms  = (null == casFeat_synonyms) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_synonyms).getCode();
+
+ 
+    casFeat_cluster = jcas.getRequiredFeatureDE(casType, "cluster", "uima.cas.Integer", featOkTst);
+    casFeatCode_cluster  = (null == casFeat_cluster) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_cluster).getCode();
 
   }
 }
