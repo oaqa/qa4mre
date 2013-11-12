@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <analysisEngineDescription xmlns="http://uima.apache.org/resourceSpecifier">
 	<frameworkImplementation>org.apache.uima.java</frameworkImplementation>
 	<primitive>false</primitive>
@@ -58,6 +59,9 @@
 		<delegateAnalysisEngine key="SymbolAnnotator">
       <import name="annotators.SymbolAnnotator"/>
     </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="StanfordCorefAnnotator">
+      <import name="annotators.StanfordCorefAnnotator"/>
+    </delegateAnalysisEngine>
     <!--<delegateAnalysisEngine key="AnswerSelectionByKCandAggregation"> <import 
 			location="annotators/AnswerSelectionByKCandAggregation.xml"/> </delegateAnalysisEngine> -->
 
@@ -74,23 +78,24 @@
 				<node>TextSegmenter</node>
 				<node>StanfordSentenceAnnotator</node>
 				<node>NoiseFilter</node>
+				<node>StanfordCorefAnnotator</node>
 				<node>StanfordNLPAnnotator</node>
 				<node>StanfordQuestionNLPAnnotator</node>
 				<node>PhraseAnnotator</node>
 				<node>QuestionPhraseAnnotator</node>
 				<node>NEAnnotator</node>
-				<node>QuestionNEAnnotator</node>
 				<!-- <node>SynonymAnnotator</node> -->
 				<!-- <node>QASynonymAnnotator</node> -->
+				<node>QuestionNEAnnotator</node>
 				<node>SymbolAnnotator</node>
-				<node>SolrIndexer</node>
 				<!-- <node>QuestionCandSentSynonymMatcher</node> -->
 				<!-- <node>QuestionCandSentDependencyMatcher</node> -->
-				<node>QuestionCandSentSimilarityMatcher</node>
+				<node>SolrIndexer</node>
 				<!--<node>AnswerChoiceCandAnsSynonymScorer</node> -->
 				<!--<node>AnswerChoiceCandAnsPMIScorer</node> -->
+				<node>QuestionCandSentSimilarityMatcher</node>
 				<node>AnswerChoiceCandAnsSimilarityScorer</node>
-				<node>AnswerSelectionByKCandVoting</node>
+        <node>AnswerSelectionByKCandVoting</node>
         <!--<node>AnswerSelectionByKCandVoting</node> -->
 			</fixedFlow>
 		</flowConstraints>

@@ -63,9 +63,10 @@ public class StanfordNLPAnnotator extends JCasAnnotator_ImplBase {
 		for (int i = 0; i < filteredSents.length; i++) {
 
 			Annotation document = new Annotation(filteredSents[i]);
-
+			//Annotation document = new Annotation(filteredText);
 			try {
 				// System.out.println("Entering stanford annotation");
+			  System.out.println("Annotating: "+filteredSents[i]);
 				stanfordAnnotator.annotate(document);
 				// System.out.println("Out of stanford annotation");
 			} catch (Exception e) {
@@ -73,6 +74,7 @@ public class StanfordNLPAnnotator extends JCasAnnotator_ImplBase {
 				return;
 			}
 			List<CoreMap> sentences = document.get(SentencesAnnotation.class);
+			//System.out.println("No. of sentences found: "+((Integer)sentences.size()).toString());
 			// SourceDocument sourcecDocument=(SourceDocument)
 			// jCas.getAnnotationIndex(SourceDocument.type);
 			
