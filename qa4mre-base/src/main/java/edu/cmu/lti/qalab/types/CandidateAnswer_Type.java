@@ -14,7 +14,7 @@ import org.apache.uima.cas.Feature;
 import org.apache.uima.jcas.tcas.Annotation_Type;
 
 /** 
- * Updated by JCasGen Mon Nov 11 19:52:43 EST 2013
+ * Updated by JCasGen Tue Nov 12 13:45:02 EST 2013
  * @generated */
 public class CandidateAnswer_Type extends Annotation_Type {
   /** @generated */
@@ -153,20 +153,38 @@ public class CandidateAnswer_Type extends Annotation_Type {
   
  
   /** @generated */
-  final Feature casFeat_JaccardSimilarityScore;
+  final Feature casFeat_cosineSimilarityScore;
   /** @generated */
-  final int     casFeatCode_JaccardSimilarityScore;
+  final int     casFeatCode_cosineSimilarityScore;
   /** @generated */ 
-  public double getJaccardSimilarityScore(int addr) {
-        if (featOkTst && casFeat_JaccardSimilarityScore == null)
-      jcas.throwFeatMissing("JaccardSimilarityScore", "edu.cmu.lti.qalab.types.CandidateAnswer");
-    return ll_cas.ll_getDoubleValue(addr, casFeatCode_JaccardSimilarityScore);
+  public double getCosineSimilarityScore(int addr) {
+        if (featOkTst && casFeat_cosineSimilarityScore == null)
+      jcas.throwFeatMissing("cosineSimilarityScore", "edu.cmu.lti.qalab.types.CandidateAnswer");
+    return ll_cas.ll_getDoubleValue(addr, casFeatCode_cosineSimilarityScore);
   }
   /** @generated */    
-  public void setJaccardSimilarityScore(int addr, double v) {
-        if (featOkTst && casFeat_JaccardSimilarityScore == null)
-      jcas.throwFeatMissing("JaccardSimilarityScore", "edu.cmu.lti.qalab.types.CandidateAnswer");
-    ll_cas.ll_setDoubleValue(addr, casFeatCode_JaccardSimilarityScore, v);}
+  public void setCosineSimilarityScore(int addr, double v) {
+        if (featOkTst && casFeat_cosineSimilarityScore == null)
+      jcas.throwFeatMissing("cosineSimilarityScore", "edu.cmu.lti.qalab.types.CandidateAnswer");
+    ll_cas.ll_setDoubleValue(addr, casFeatCode_cosineSimilarityScore, v);}
+    
+  
+ 
+  /** @generated */
+  final Feature casFeat_diceCoefficientScore;
+  /** @generated */
+  final int     casFeatCode_diceCoefficientScore;
+  /** @generated */ 
+  public double getDiceCoefficientScore(int addr) {
+        if (featOkTst && casFeat_diceCoefficientScore == null)
+      jcas.throwFeatMissing("diceCoefficientScore", "edu.cmu.lti.qalab.types.CandidateAnswer");
+    return ll_cas.ll_getDoubleValue(addr, casFeatCode_diceCoefficientScore);
+  }
+  /** @generated */    
+  public void setDiceCoefficientScore(int addr, double v) {
+        if (featOkTst && casFeat_diceCoefficientScore == null)
+      jcas.throwFeatMissing("diceCoefficientScore", "edu.cmu.lti.qalab.types.CandidateAnswer");
+    ll_cas.ll_setDoubleValue(addr, casFeatCode_diceCoefficientScore, v);}
     
   
 
@@ -203,8 +221,12 @@ public class CandidateAnswer_Type extends Annotation_Type {
     casFeatCode_synonymScore  = (null == casFeat_synonymScore) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_synonymScore).getCode();
 
  
-    casFeat_JaccardSimilarityScore = jcas.getRequiredFeatureDE(casType, "JaccardSimilarityScore", "uima.cas.Double", featOkTst);
-    casFeatCode_JaccardSimilarityScore  = (null == casFeat_JaccardSimilarityScore) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_JaccardSimilarityScore).getCode();
+    casFeat_cosineSimilarityScore = jcas.getRequiredFeatureDE(casType, "cosineSimilarityScore", "uima.cas.Double", featOkTst);
+    casFeatCode_cosineSimilarityScore  = (null == casFeat_cosineSimilarityScore) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_cosineSimilarityScore).getCode();
+
+ 
+    casFeat_diceCoefficientScore = jcas.getRequiredFeatureDE(casType, "diceCoefficientScore", "uima.cas.Double", featOkTst);
+    casFeatCode_diceCoefficientScore  = (null == casFeat_diceCoefficientScore) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_diceCoefficientScore).getCode();
 
   }
 }

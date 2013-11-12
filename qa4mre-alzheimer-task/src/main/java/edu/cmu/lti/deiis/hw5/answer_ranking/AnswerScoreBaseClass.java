@@ -139,8 +139,8 @@ public class AnswerScoreBaseClass extends JCasAnnotator_ImplBase {
   public void processCandidateAnswerScore(CandidateAnswer candidateAnswer,
           CandidateSentence sentence, Answer answer) {
 	 
-   //candidateAnswer.setSimilarityScore(computScore(answer, sentence));
-	  candidateAnswer.setJaccardSimilarityScore(computeJaccardSimilarityScore(answer, sentence));
+	  candidateAnswer.setSimilarityScore(computScore(answer, sentence));
+	  //candidateAnswer.setJaccardSimilarityScore(computeJaccardSimilarityScore(answer, sentence));
   }
 
   @Override
