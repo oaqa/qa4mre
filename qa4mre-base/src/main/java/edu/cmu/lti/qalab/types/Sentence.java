@@ -12,8 +12,8 @@ import org.apache.uima.jcas.tcas.Annotation;
 
 
 /** 
- * Updated by JCasGen Sun Nov 10 19:24:19 EST 2013
- * XML source: C:/Users/Lars/git/hw5-team08/qa4mre-base/src/main/resources/TypeSystemDescriptor.xml
+ * Updated by JCasGen Tue Nov 12 14:20:03 EST 2013
+ * XML source: /home/kartik/git/hw5-team08/qa4mre-base/src/main/resources/TypeSystemDescriptor.xml
  * @generated */
 public class Sentence extends Annotation {
   /** @generated
@@ -205,6 +205,24 @@ public class Sentence extends Annotation {
     if (Sentence_Type.featOkTst && ((Sentence_Type)jcasType).casFeat_nerList == null)
       jcasType.jcas.throwFeatMissing("nerList", "edu.cmu.lti.qalab.types.Sentence");
     jcasType.ll_cas.ll_setRefValue(addr, ((Sentence_Type)jcasType).casFeatCode_nerList, jcasType.ll_cas.ll_getFSRef(v));}    
+   
+    
+  //*--------------*
+  //* Feature: genPhraseList
+
+  /** getter for genPhraseList - gets 
+   * @generated */
+  public FSList getGenPhraseList() {
+    if (Sentence_Type.featOkTst && ((Sentence_Type)jcasType).casFeat_genPhraseList == null)
+      jcasType.jcas.throwFeatMissing("genPhraseList", "edu.cmu.lti.qalab.types.Sentence");
+    return (FSList)(jcasType.ll_cas.ll_getFSForRef(jcasType.ll_cas.ll_getRefValue(addr, ((Sentence_Type)jcasType).casFeatCode_genPhraseList)));}
+    
+  /** setter for genPhraseList - sets  
+   * @generated */
+  public void setGenPhraseList(FSList v) {
+    if (Sentence_Type.featOkTst && ((Sentence_Type)jcasType).casFeat_genPhraseList == null)
+      jcasType.jcas.throwFeatMissing("genPhraseList", "edu.cmu.lti.qalab.types.Sentence");
+    jcasType.ll_cas.ll_setRefValue(addr, ((Sentence_Type)jcasType).casFeatCode_genPhraseList, jcasType.ll_cas.ll_getFSRef(v));}    
   }
 
     

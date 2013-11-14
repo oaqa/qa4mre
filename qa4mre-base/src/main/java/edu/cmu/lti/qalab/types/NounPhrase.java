@@ -12,8 +12,8 @@ import org.apache.uima.jcas.tcas.Annotation;
 
 
 /** 
- * Updated by JCasGen Sun Nov 10 19:24:19 EST 2013
- * XML source: C:/Users/Lars/git/hw5-team08/qa4mre-base/src/main/resources/TypeSystemDescriptor.xml
+ * Updated by JCasGen Tue Nov 12 14:20:02 EST 2013
+ * XML source: /home/kartik/git/hw5-team08/qa4mre-base/src/main/resources/TypeSystemDescriptor.xml
  * @generated */
 public class NounPhrase extends Annotation {
   /** @generated
@@ -115,6 +115,24 @@ public class NounPhrase extends Annotation {
     if (NounPhrase_Type.featOkTst && ((NounPhrase_Type)jcasType).casFeat_synonyms == null)
       jcasType.jcas.throwFeatMissing("synonyms", "edu.cmu.lti.qalab.types.NounPhrase");
     jcasType.ll_cas.ll_setRefValue(addr, ((NounPhrase_Type)jcasType).casFeatCode_synonyms, jcasType.ll_cas.ll_getFSRef(v));}    
+   
+    
+  //*--------------*
+  //* Feature: cluster
+
+  /** getter for cluster - gets 
+   * @generated */
+  public int getCluster() {
+    if (NounPhrase_Type.featOkTst && ((NounPhrase_Type)jcasType).casFeat_cluster == null)
+      jcasType.jcas.throwFeatMissing("cluster", "edu.cmu.lti.qalab.types.NounPhrase");
+    return jcasType.ll_cas.ll_getIntValue(addr, ((NounPhrase_Type)jcasType).casFeatCode_cluster);}
+    
+  /** setter for cluster - sets  
+   * @generated */
+  public void setCluster(int v) {
+    if (NounPhrase_Type.featOkTst && ((NounPhrase_Type)jcasType).casFeat_cluster == null)
+      jcasType.jcas.throwFeatMissing("cluster", "edu.cmu.lti.qalab.types.NounPhrase");
+    jcasType.ll_cas.ll_setIntValue(addr, ((NounPhrase_Type)jcasType).casFeatCode_cluster, v);}    
   }
 
     

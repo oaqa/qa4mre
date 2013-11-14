@@ -14,7 +14,7 @@ import org.apache.uima.cas.Feature;
 import org.apache.uima.jcas.tcas.Annotation_Type;
 
 /** 
- * Updated by JCasGen Sun Nov 10 19:24:19 EST 2013
+ * Updated by JCasGen Tue Nov 12 14:20:03 EST 2013
  * @generated */
 public class Sentence_Type extends Annotation_Type {
   /** @generated */
@@ -187,6 +187,24 @@ public class Sentence_Type extends Annotation_Type {
     ll_cas.ll_setRefValue(addr, casFeatCode_nerList, v);}
     
   
+ 
+  /** @generated */
+  final Feature casFeat_genPhraseList;
+  /** @generated */
+  final int     casFeatCode_genPhraseList;
+  /** @generated */ 
+  public int getGenPhraseList(int addr) {
+        if (featOkTst && casFeat_genPhraseList == null)
+      jcas.throwFeatMissing("genPhraseList", "edu.cmu.lti.qalab.types.Sentence");
+    return ll_cas.ll_getRefValue(addr, casFeatCode_genPhraseList);
+  }
+  /** @generated */    
+  public void setGenPhraseList(int addr, int v) {
+        if (featOkTst && casFeat_genPhraseList == null)
+      jcas.throwFeatMissing("genPhraseList", "edu.cmu.lti.qalab.types.Sentence");
+    ll_cas.ll_setRefValue(addr, casFeatCode_genPhraseList, v);}
+    
+  
 
 
 
@@ -227,6 +245,10 @@ public class Sentence_Type extends Annotation_Type {
  
     casFeat_nerList = jcas.getRequiredFeatureDE(casType, "nerList", "uima.cas.FSList", featOkTst);
     casFeatCode_nerList  = (null == casFeat_nerList) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_nerList).getCode();
+
+ 
+    casFeat_genPhraseList = jcas.getRequiredFeatureDE(casType, "genPhraseList", "uima.cas.FSList", featOkTst);
+    casFeatCode_genPhraseList  = (null == casFeat_genPhraseList) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_genPhraseList).getCode();
 
   }
 }

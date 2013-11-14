@@ -86,15 +86,14 @@
 				<!-- <node>SynonymAnnotator</node> -->
 				<!-- <node>QASynonymAnnotator</node> -->
 				<node>SymbolAnnotator</node>
-				<node>AcronymAnnotator</node>
+				<node>SolrIndexer</node>
 				<!-- <node>QuestionCandSentSynonymMatcher</node> -->
 				<!-- <node>QuestionCandSentDependencyMatcher</node> -->
-				<node>SolrIndexer</node>
+				<node>QuestionCandSentSimilarityMatcher</node>
 				<!--<node>AnswerChoiceCandAnsSynonymScorer</node> -->
 				<!--<node>AnswerChoiceCandAnsPMIScorer</node> -->
-				<node>QuestionCandSentSimilarityMatcher</node>
 				<node>AnswerChoiceCandAnsSimilarityScorer</node>
-        <node>AnswerSelectionByKCandVoting</node>
+				<node>AnswerSelectionByKCandVoting</node>
         <!--<node>AnswerSelectionByKCandVoting</node> -->
 			</fixedFlow>
 		</flowConstraints>

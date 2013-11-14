@@ -12,8 +12,8 @@ import org.apache.uima.jcas.tcas.Annotation;
 
 
 /** 
- * Updated by JCasGen Sun Nov 10 19:24:19 EST 2013
- * XML source: C:/Users/Lars/git/hw5-team08/qa4mre-base/src/main/resources/TypeSystemDescriptor.xml
+ * Updated by JCasGen Tue Nov 12 14:20:02 EST 2013
+ * XML source: /home/kartik/git/hw5-team08/qa4mre-base/src/main/resources/TypeSystemDescriptor.xml
  * @generated */
 public class NER extends Annotation {
   /** @generated
@@ -151,6 +151,24 @@ public class NER extends Annotation {
     if (NER_Type.featOkTst && ((NER_Type)jcasType).casFeat_synonyms == null)
       jcasType.jcas.throwFeatMissing("synonyms", "edu.cmu.lti.qalab.types.NER");
     jcasType.ll_cas.ll_setRefValue(addr, ((NER_Type)jcasType).casFeatCode_synonyms, jcasType.ll_cas.ll_getFSRef(v));}    
+   
+    
+  //*--------------*
+  //* Feature: cluster
+
+  /** getter for cluster - gets 
+   * @generated */
+  public int getCluster() {
+    if (NER_Type.featOkTst && ((NER_Type)jcasType).casFeat_cluster == null)
+      jcasType.jcas.throwFeatMissing("cluster", "edu.cmu.lti.qalab.types.NER");
+    return jcasType.ll_cas.ll_getIntValue(addr, ((NER_Type)jcasType).casFeatCode_cluster);}
+    
+  /** setter for cluster - sets  
+   * @generated */
+  public void setCluster(int v) {
+    if (NER_Type.featOkTst && ((NER_Type)jcasType).casFeat_cluster == null)
+      jcasType.jcas.throwFeatMissing("cluster", "edu.cmu.lti.qalab.types.NER");
+    jcasType.ll_cas.ll_setIntValue(addr, ((NER_Type)jcasType).casFeatCode_cluster, v);}    
   }
 
     

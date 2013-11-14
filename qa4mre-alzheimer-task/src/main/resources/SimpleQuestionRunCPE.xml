@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <analysisEngineDescription xmlns="http://uima.apache.org/resourceSpecifier">
 	<frameworkImplementation>org.apache.uima.java</frameworkImplementation>
 	<primitive>false</primitive>
 	<delegateAnalysisEngineSpecifiers>
 		<delegateAnalysisEngine key="AnswerChoiceCandAnsPMIScorer">
-			<import location="annotators/AnswerChoiceCandAnsPMIScorer.xml" />
+			<import location="annotators/AnswerChoiceCandAnsPMIScorer.xml"/>
 		</delegateAnalysisEngine>
 		<delegateAnalysisEngine key="AnswerSelectionByKCandAggregation">
-			<import location="annotators/AnswerSelectionByKCandAggregation.xml" />
+			<import location="annotators/AnswerSelectionByKCandAggregation.xml"/>
 		</delegateAnalysisEngine>
 		<delegateAnalysisEngine key="AnswerSelectionByKCandVoting">
-			<import location="annotators/AnswerSelectionByKCandVoting.xml" />
+			<import location="annotators/AnswerSelectionByKCandVoting.xml"/>
 		</delegateAnalysisEngine>
 		<delegateAnalysisEngine key="QuestionCandSentSimilarityMatcher">
-			<import location="annotators/QuestionCandSentSimilarityMatcher.xml" />
+			<import location="annotators/QuestionCandSentSimilarityMatcher.xml"/>
 		</delegateAnalysisEngine>
 		<!-- <delegateAnalysisEngine key="AnswerChoiceCandAnsSynonymScorer"> <import 
 			location="annotators/AnswerChoiceCandAnsSynonymScorer.xml"/> </delegateAnalysisEngine> 
@@ -22,34 +23,34 @@
 		<!-- <delegateAnalysisEngine key="QuestionCandSentDependencyMatcher"> <import 
 			location="annotators/QuestionCandSentDependencyMatcher.xml"/> </delegateAnalysisEngine> -->
 		<delegateAnalysisEngine key="AnswerChoiceCandAnsSimilarityScorer">
-			<import location="annotators/AnswerChoiceCandAnsSimilarityScorer.xml" />
+			<import location="annotators/AnswerChoiceCandAnsSimilarityScorer.xml"/>
 		</delegateAnalysisEngine>
 	</delegateAnalysisEngineSpecifiers>
 	<analysisEngineMetaData>
 		<name>CpeQuestionDescriptor</name>
-		<description />
+		<description/>
 		<version>1.0</version>
-		<vendor />
-		<configurationParameters searchStrategy="language_fallback" />
-		<configurationParameterSettings />
+		<vendor/>
+		<configurationParameters searchStrategy="language_fallback"/>
+		<configurationParameterSettings/>
 		<flowConstraints>
 			<fixedFlow>
 				<node>QuestionCandSentSimilarityMatcher</node>
 				<!-- <node>QuestionCandSentSynonymMatcher</node> -->
 				<!-- <node>QuestionCandSentDependencyMatcher</node> -->
-				<node>AnswerChoiceCandAnsSimilarityScorer</node>
+				<node>AnswerChoiceCandAnsPMIScorer</node>
 				<!-- <node>AnswerChoiceCandAnsSynonymScorer</node> -->
 				<!--<node>AnswerChoiceCandAnsPMIScorer</node> -->
 				<node>AnswerSelectionByKCandVoting</node>
 			</fixedFlow>
 		</flowConstraints>
-		<typePriorities />
-		<fsIndexCollection />
+		<typePriorities/>
+		<fsIndexCollection/>
 		<capabilities>
 			<capability>
-				<inputs />
-				<outputs />
-				<languagesSupported />
+				<inputs/>
+				<outputs/>
+				<languagesSupported/>
 			</capability>
 		</capabilities>
 		<operationalProperties>
@@ -58,5 +59,5 @@
 			<outputsNewCASes>false</outputsNewCASes>
 		</operationalProperties>
 	</analysisEngineMetaData>
-	<resourceManagerConfiguration />
+	<resourceManagerConfiguration/>
 </analysisEngineDescription>
