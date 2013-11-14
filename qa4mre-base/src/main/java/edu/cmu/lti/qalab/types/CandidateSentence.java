@@ -14,8 +14,8 @@ import org.apache.uima.jcas.tcas.Annotation;
 
 
 /** 
- * Updated by JCasGen Sat Nov 09 21:17:39 EST 2013
- * XML source: /Users/troy/git/hw5-team10/qa4mre-base/src/main/resources/TypeSystemDescriptor.xml
+ * Updated by JCasGen Tue Nov 12 13:45:02 EST 2013
+ * XML source: /Users/vvvemuri1/git/hw5-team10/qa4mre-base/src/main/resources/TypeSystemDescriptor.xml
  * @generated */
 public class CandidateSentence extends Annotation {
   /** @generated
@@ -141,15 +141,13 @@ public class CandidateSentence extends Annotation {
   //* Feature: candAnswerList
 
   /** getter for candAnswerList - gets Deprecated
-
    * @generated */
   public FSList getCandAnswerList() {
     if (CandidateSentence_Type.featOkTst && ((CandidateSentence_Type)jcasType).casFeat_candAnswerList == null)
       jcasType.jcas.throwFeatMissing("candAnswerList", "edu.cmu.lti.qalab.types.CandidateSentence");
     return (FSList)(jcasType.ll_cas.ll_getFSForRef(jcasType.ll_cas.ll_getRefValue(addr, ((CandidateSentence_Type)jcasType).casFeatCode_candAnswerList)));}
     
-  /** setter for candAnswerList - sets Deprecated
- 
+  /** setter for candAnswerList - sets Deprecated 
    * @generated */
   public void setCandAnswerList(FSList v) {
     if (CandidateSentence_Type.featOkTst && ((CandidateSentence_Type)jcasType).casFeat_candAnswerList == null)

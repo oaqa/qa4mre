@@ -14,7 +14,7 @@ import org.apache.uima.cas.Feature;
 import org.apache.uima.jcas.tcas.Annotation_Type;
 
 /** 
- * Updated by JCasGen Sat Nov 09 21:17:39 EST 2013
+ * Updated by JCasGen Tue Nov 12 13:45:02 EST 2013
  * @generated */
 public class CandidateAnswer_Type extends Annotation_Type {
   /** @generated */
@@ -151,6 +151,42 @@ public class CandidateAnswer_Type extends Annotation_Type {
     ll_cas.ll_setDoubleValue(addr, casFeatCode_synonymScore, v);}
     
   
+ 
+  /** @generated */
+  final Feature casFeat_cosineSimilarityScore;
+  /** @generated */
+  final int     casFeatCode_cosineSimilarityScore;
+  /** @generated */ 
+  public double getCosineSimilarityScore(int addr) {
+        if (featOkTst && casFeat_cosineSimilarityScore == null)
+      jcas.throwFeatMissing("cosineSimilarityScore", "edu.cmu.lti.qalab.types.CandidateAnswer");
+    return ll_cas.ll_getDoubleValue(addr, casFeatCode_cosineSimilarityScore);
+  }
+  /** @generated */    
+  public void setCosineSimilarityScore(int addr, double v) {
+        if (featOkTst && casFeat_cosineSimilarityScore == null)
+      jcas.throwFeatMissing("cosineSimilarityScore", "edu.cmu.lti.qalab.types.CandidateAnswer");
+    ll_cas.ll_setDoubleValue(addr, casFeatCode_cosineSimilarityScore, v);}
+    
+  
+ 
+  /** @generated */
+  final Feature casFeat_diceCoefficientScore;
+  /** @generated */
+  final int     casFeatCode_diceCoefficientScore;
+  /** @generated */ 
+  public double getDiceCoefficientScore(int addr) {
+        if (featOkTst && casFeat_diceCoefficientScore == null)
+      jcas.throwFeatMissing("diceCoefficientScore", "edu.cmu.lti.qalab.types.CandidateAnswer");
+    return ll_cas.ll_getDoubleValue(addr, casFeatCode_diceCoefficientScore);
+  }
+  /** @generated */    
+  public void setDiceCoefficientScore(int addr, double v) {
+        if (featOkTst && casFeat_diceCoefficientScore == null)
+      jcas.throwFeatMissing("diceCoefficientScore", "edu.cmu.lti.qalab.types.CandidateAnswer");
+    ll_cas.ll_setDoubleValue(addr, casFeatCode_diceCoefficientScore, v);}
+    
+  
 
 
 
@@ -183,6 +219,14 @@ public class CandidateAnswer_Type extends Annotation_Type {
  
     casFeat_synonymScore = jcas.getRequiredFeatureDE(casType, "synonymScore", "uima.cas.Double", featOkTst);
     casFeatCode_synonymScore  = (null == casFeat_synonymScore) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_synonymScore).getCode();
+
+ 
+    casFeat_cosineSimilarityScore = jcas.getRequiredFeatureDE(casType, "cosineSimilarityScore", "uima.cas.Double", featOkTst);
+    casFeatCode_cosineSimilarityScore  = (null == casFeat_cosineSimilarityScore) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_cosineSimilarityScore).getCode();
+
+ 
+    casFeat_diceCoefficientScore = jcas.getRequiredFeatureDE(casType, "diceCoefficientScore", "uima.cas.Double", featOkTst);
+    casFeatCode_diceCoefficientScore  = (null == casFeat_diceCoefficientScore) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_diceCoefficientScore).getCode();
 
   }
 }
