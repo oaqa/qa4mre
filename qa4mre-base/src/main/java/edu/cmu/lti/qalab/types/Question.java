@@ -12,8 +12,8 @@ import org.apache.uima.jcas.tcas.Annotation;
 
 
 /** 
- * Updated by JCasGen Tue Nov 12 14:20:02 EST 2013
- * XML source: /home/kartik/git/hw5-team08/qa4mre-base/src/main/resources/TypeSystemDescriptor.xml
+ * Updated by JCasGen Thu Nov 21 21:50:12 EST 2013
+ * XML source: C:/Users/Lars/git/hw5-team08/qa4mre-base/src/main/resources/TypeSystemDescriptor.xml
  * @generated */
 public class Question extends Annotation {
   /** @generated
@@ -169,6 +169,50 @@ public class Question extends Annotation {
     if (Question_Type.featOkTst && ((Question_Type)jcasType).casFeat_tokenList == null)
       jcasType.jcas.throwFeatMissing("tokenList", "edu.cmu.lti.qalab.types.Question");
     jcasType.ll_cas.ll_setRefValue(addr, ((Question_Type)jcasType).casFeatCode_tokenList, jcasType.ll_cas.ll_getFSRef(v));}    
+   
+    
+  //*--------------*
+  //* Feature: cardinality
+
+  /** getter for cardinality - gets 1 - Singular (question target entity is singular)
+2 - Plural (question target entity is plural)
+   * @generated */
+  public int getCardinality() {
+    if (Question_Type.featOkTst && ((Question_Type)jcasType).casFeat_cardinality == null)
+      jcasType.jcas.throwFeatMissing("cardinality", "edu.cmu.lti.qalab.types.Question");
+    return jcasType.ll_cas.ll_getIntValue(addr, ((Question_Type)jcasType).casFeatCode_cardinality);}
+    
+  /** setter for cardinality - sets 1 - Singular (question target entity is singular)
+2 - Plural (question target entity is plural) 
+   * @generated */
+  public void setCardinality(int v) {
+    if (Question_Type.featOkTst && ((Question_Type)jcasType).casFeat_cardinality == null)
+      jcasType.jcas.throwFeatMissing("cardinality", "edu.cmu.lti.qalab.types.Question");
+    jcasType.ll_cas.ll_setIntValue(addr, ((Question_Type)jcasType).casFeatCode_cardinality, v);}    
+   
+    
+  //*--------------*
+  //* Feature: entityType
+
+  /** getter for entityType - gets "Integer" - question is looking for target entity that is an integer value (or NP containing integer value)
+"Double" - question is looking for target entity that is a double value (or NP containing double value)
+"DateTime" - question is looking for target entity that contains date or time information (date, event, relative time, etc)
+"Entity" - question is looking for target entity that is a "thing" - not a quantity or date
+   * @generated */
+  public String getEntityType() {
+    if (Question_Type.featOkTst && ((Question_Type)jcasType).casFeat_entityType == null)
+      jcasType.jcas.throwFeatMissing("entityType", "edu.cmu.lti.qalab.types.Question");
+    return jcasType.ll_cas.ll_getStringValue(addr, ((Question_Type)jcasType).casFeatCode_entityType);}
+    
+  /** setter for entityType - sets "Integer" - question is looking for target entity that is an integer value (or NP containing integer value)
+"Double" - question is looking for target entity that is a double value (or NP containing double value)
+"DateTime" - question is looking for target entity that contains date or time information (date, event, relative time, etc)
+"Entity" - question is looking for target entity that is a "thing" - not a quantity or date 
+   * @generated */
+  public void setEntityType(String v) {
+    if (Question_Type.featOkTst && ((Question_Type)jcasType).casFeat_entityType == null)
+      jcasType.jcas.throwFeatMissing("entityType", "edu.cmu.lti.qalab.types.Question");
+    jcasType.ll_cas.ll_setStringValue(addr, ((Question_Type)jcasType).casFeatCode_entityType, v);}    
   }
 
     

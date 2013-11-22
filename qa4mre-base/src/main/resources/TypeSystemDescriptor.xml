@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <typeSystemDescription xmlns="http://uima.apache.org/resourceSpecifier">
   <name>typeSystemDescriptor</name>
   <description/>
@@ -272,6 +271,16 @@
           <rangeTypeName>uima.cas.FSList</rangeTypeName>
           <elementType>edu.cmu.lti.qalab.types.Dependency</elementType>
         </featureDescription>
+      <featureDescription>
+          <name>matchesQuestionCardinality</name>
+          <description/>
+          <rangeTypeName>uima.cas.Integer</rangeTypeName>
+        </featureDescription>
+        <featureDescription>
+          <name>matchesQuestionEntityType</name>
+          <description/>
+          <rangeTypeName>uima.cas.Boolean</rangeTypeName>
+        </featureDescription>
       </features>
     </typeDescription>
     <typeDescription>
@@ -312,6 +321,20 @@
           <description/>
           <rangeTypeName>uima.cas.FSList</rangeTypeName>
           <elementType>edu.cmu.lti.qalab.types.Token</elementType>
+        </featureDescription>
+      <featureDescription>
+          <name>cardinality</name>
+          <description>1 - Singular (question target entity is singular)
+2 - Plural (question target entity is plural)</description>
+          <rangeTypeName>uima.cas.Integer</rangeTypeName>
+        </featureDescription>
+        <featureDescription>
+          <name>entityType</name>
+          <description>"Integer" - question is looking for target entity that is an integer value (or NP containing integer value)
+"Double" - question is looking for target entity that is a double value (or NP containing double value)
+"DateTime" - question is looking for target entity that contains date or time information (date, event, relative time, etc)
+"Entity" - question is looking for target entity that is a "thing" - not a quantity or date</description>
+          <rangeTypeName>uima.cas.String</rangeTypeName>
         </featureDescription>
       </features>
     </typeDescription>

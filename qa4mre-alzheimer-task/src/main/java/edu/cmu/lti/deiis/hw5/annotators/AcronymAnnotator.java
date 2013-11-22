@@ -186,6 +186,7 @@ public class AcronymAnnotator extends JCasAnnotator_ImplBase{
       for (Map.Entry<String, Integer> entry : synonymMap.entrySet())
       {
         Synonym newSynonym = new Synonym(jCas);
+        newSynonym.addToIndexes(jCas);
         newSynonym.setText(entry.getKey());
         newSynonyms.add(newSynonym);
       }
@@ -225,7 +226,9 @@ public class AcronymAnnotator extends JCasAnnotator_ImplBase{
 
     // Set synonymList as the new FSList<Synonym> for the token
     FSList updatedSynonyms = Utils.fromCollectionToFSList(jCas, synonymList);
+    updatedSynonyms.addToIndexes(jCas);
     t.setSynonyms(updatedSynonyms);
+    t.addToIndexes();
         
   }
 }

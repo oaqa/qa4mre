@@ -14,7 +14,7 @@ import org.apache.uima.cas.Feature;
 import org.apache.uima.jcas.tcas.Annotation_Type;
 
 /** 
- * Updated by JCasGen Tue Nov 12 14:20:02 EST 2013
+ * Updated by JCasGen Thu Nov 21 21:50:12 EST 2013
  * @generated */
 public class Answer_Type extends Annotation_Type {
   /** @generated */
@@ -241,6 +241,42 @@ public class Answer_Type extends Annotation_Type {
     ll_cas.ll_setRefValue(addr, casFeatCode_dependencies, v);}
     
   
+ 
+  /** @generated */
+  final Feature casFeat_matchesQuestionCardinality;
+  /** @generated */
+  final int     casFeatCode_matchesQuestionCardinality;
+  /** @generated */ 
+  public int getMatchesQuestionCardinality(int addr) {
+        if (featOkTst && casFeat_matchesQuestionCardinality == null)
+      jcas.throwFeatMissing("matchesQuestionCardinality", "edu.cmu.lti.qalab.types.Answer");
+    return ll_cas.ll_getIntValue(addr, casFeatCode_matchesQuestionCardinality);
+  }
+  /** @generated */    
+  public void setMatchesQuestionCardinality(int addr, int v) {
+        if (featOkTst && casFeat_matchesQuestionCardinality == null)
+      jcas.throwFeatMissing("matchesQuestionCardinality", "edu.cmu.lti.qalab.types.Answer");
+    ll_cas.ll_setIntValue(addr, casFeatCode_matchesQuestionCardinality, v);}
+    
+  
+ 
+  /** @generated */
+  final Feature casFeat_matchesQuestionEntityType;
+  /** @generated */
+  final int     casFeatCode_matchesQuestionEntityType;
+  /** @generated */ 
+  public boolean getMatchesQuestionEntityType(int addr) {
+        if (featOkTst && casFeat_matchesQuestionEntityType == null)
+      jcas.throwFeatMissing("matchesQuestionEntityType", "edu.cmu.lti.qalab.types.Answer");
+    return ll_cas.ll_getBooleanValue(addr, casFeatCode_matchesQuestionEntityType);
+  }
+  /** @generated */    
+  public void setMatchesQuestionEntityType(int addr, boolean v) {
+        if (featOkTst && casFeat_matchesQuestionEntityType == null)
+      jcas.throwFeatMissing("matchesQuestionEntityType", "edu.cmu.lti.qalab.types.Answer");
+    ll_cas.ll_setBooleanValue(addr, casFeatCode_matchesQuestionEntityType, v);}
+    
+  
 
 
 
@@ -293,6 +329,14 @@ public class Answer_Type extends Annotation_Type {
  
     casFeat_dependencies = jcas.getRequiredFeatureDE(casType, "dependencies", "uima.cas.FSList", featOkTst);
     casFeatCode_dependencies  = (null == casFeat_dependencies) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_dependencies).getCode();
+
+ 
+    casFeat_matchesQuestionCardinality = jcas.getRequiredFeatureDE(casType, "matchesQuestionCardinality", "uima.cas.Integer", featOkTst);
+    casFeatCode_matchesQuestionCardinality  = (null == casFeat_matchesQuestionCardinality) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_matchesQuestionCardinality).getCode();
+
+ 
+    casFeat_matchesQuestionEntityType = jcas.getRequiredFeatureDE(casType, "matchesQuestionEntityType", "uima.cas.Boolean", featOkTst);
+    casFeatCode_matchesQuestionEntityType  = (null == casFeat_matchesQuestionEntityType) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_matchesQuestionEntityType).getCode();
 
   }
 }

@@ -14,7 +14,7 @@ import org.apache.uima.cas.Feature;
 import org.apache.uima.jcas.tcas.Annotation_Type;
 
 /** 
- * Updated by JCasGen Tue Nov 12 14:20:02 EST 2013
+ * Updated by JCasGen Thu Nov 21 21:50:12 EST 2013
  * @generated */
 public class Question_Type extends Annotation_Type {
   /** @generated */
@@ -151,6 +151,42 @@ public class Question_Type extends Annotation_Type {
     ll_cas.ll_setRefValue(addr, casFeatCode_tokenList, v);}
     
   
+ 
+  /** @generated */
+  final Feature casFeat_cardinality;
+  /** @generated */
+  final int     casFeatCode_cardinality;
+  /** @generated */ 
+  public int getCardinality(int addr) {
+        if (featOkTst && casFeat_cardinality == null)
+      jcas.throwFeatMissing("cardinality", "edu.cmu.lti.qalab.types.Question");
+    return ll_cas.ll_getIntValue(addr, casFeatCode_cardinality);
+  }
+  /** @generated */    
+  public void setCardinality(int addr, int v) {
+        if (featOkTst && casFeat_cardinality == null)
+      jcas.throwFeatMissing("cardinality", "edu.cmu.lti.qalab.types.Question");
+    ll_cas.ll_setIntValue(addr, casFeatCode_cardinality, v);}
+    
+  
+ 
+  /** @generated */
+  final Feature casFeat_entityType;
+  /** @generated */
+  final int     casFeatCode_entityType;
+  /** @generated */ 
+  public String getEntityType(int addr) {
+        if (featOkTst && casFeat_entityType == null)
+      jcas.throwFeatMissing("entityType", "edu.cmu.lti.qalab.types.Question");
+    return ll_cas.ll_getStringValue(addr, casFeatCode_entityType);
+  }
+  /** @generated */    
+  public void setEntityType(int addr, String v) {
+        if (featOkTst && casFeat_entityType == null)
+      jcas.throwFeatMissing("entityType", "edu.cmu.lti.qalab.types.Question");
+    ll_cas.ll_setStringValue(addr, casFeatCode_entityType, v);}
+    
+  
 
 
 
@@ -183,6 +219,14 @@ public class Question_Type extends Annotation_Type {
  
     casFeat_tokenList = jcas.getRequiredFeatureDE(casType, "tokenList", "uima.cas.FSList", featOkTst);
     casFeatCode_tokenList  = (null == casFeat_tokenList) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_tokenList).getCode();
+
+ 
+    casFeat_cardinality = jcas.getRequiredFeatureDE(casType, "cardinality", "uima.cas.Integer", featOkTst);
+    casFeatCode_cardinality  = (null == casFeat_cardinality) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_cardinality).getCode();
+
+ 
+    casFeat_entityType = jcas.getRequiredFeatureDE(casType, "entityType", "uima.cas.String", featOkTst);
+    casFeatCode_entityType  = (null == casFeat_entityType) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_entityType).getCode();
 
   }
 }
