@@ -12,8 +12,8 @@ import org.apache.uima.jcas.tcas.Annotation;
 
 
 /** 
- * Updated by JCasGen Thu Nov 21 21:50:12 EST 2013
- * XML source: C:/Users/Lars/git/hw5-team08/qa4mre-base/src/main/resources/TypeSystemDescriptor.xml
+ * Updated by JCasGen Fri Nov 22 12:51:38 EST 2013
+ * XML source: /Users/wanghaoyu/git/hw5-team08/qa4mre-base/src/main/resources/TypeSystemDescriptor.xml
  * @generated */
 public class NounPhrase extends Annotation {
   /** @generated

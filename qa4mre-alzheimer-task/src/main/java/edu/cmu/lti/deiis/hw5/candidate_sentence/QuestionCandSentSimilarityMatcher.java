@@ -14,6 +14,7 @@ import org.apache.uima.jcas.cas.FSList;
 import org.apache.uima.resource.ResourceInitializationException;
 
 import edu.cmu.lti.oaqa.core.provider.solr.SolrWrapper;
+import edu.cmu.lti.qalab.types.Answer;
 import edu.cmu.lti.qalab.types.CandidateSentence;
 import edu.cmu.lti.qalab.types.NER;
 import edu.cmu.lti.qalab.types.NounPhrase;
@@ -74,6 +75,7 @@ public class QuestionCandSentSimilarityMatcher extends JCasAnnotator_ImplBase {
       solrQuery.add("q", searchQuery);
       solrQuery.add("rows", String.valueOf(TOP_SEARCH_RESULTS));
       solrQuery.setFields("*", "score");
+      
       try {
         SolrDocumentList results = solrWrapper.runQuery(solrQuery, TOP_SEARCH_RESULTS);
         System.out.println("results size:" + results.size());
@@ -112,36 +114,139 @@ public class QuestionCandSentSimilarityMatcher extends JCasAnnotator_ImplBase {
       } catch (SolrServerException e) {
         e.printStackTrace();
       }
+
+      // for answer
+      ArrayList<Answer> answers = Utils.fromFSListToCollection(qaSet.get(i).getAnswerList(),
+              Answer.class);
+      for (int answerNum = 0; answerNum < answers.size(); answerNum++) {
+        Answer answer = answers.get(answerNum);
+        System.out.println("--------------------------------------------------------");
+        System.out.println("Answer: " + answer.getText());
+        String searchQuery4Answer = this.formSolrQuery4Answer(question, answer);
+        if (searchQuery4Answer.trim().equals("")) {
+          continue;
+        }
+        ArrayList<CandidateSentence> candidateSentList4Answer = new ArrayList<CandidateSentence>();
+        SolrQuery solrQuery4Answer = new SolrQuery();
+        solrQuery4Answer.add("fq", "docid:" + testDocId);
+        solrQuery4Answer.add("q", searchQuery4Answer);
+        solrQuery4Answer.add("rows", String.valueOf(TOP_SEARCH_RESULTS));
+        solrQuery4Answer.setFields("*", "score");
+        try {
+          SolrDocumentList results = solrWrapper.runQuery(solrQuery4Answer, TOP_SEARCH_RESULTS);
+          System.out.println("results size:" + results.size());
+          for (int j = 0; j < results.size(); j++) {
+            SolrDocument doc = results.get(j);
+            String sentId = doc.get("id").toString();
+            String docId = doc.get("docid").toString();
+            if (!testDocId.equals(docId)) {
+              continue;
+            }
+            String sentIdx = sentId.replace(docId, "").replace("_", "").trim();
+            int idx = Integer.parseInt(sentIdx);
+
+            // Sentence annSentence=sentenceList.get(idx);
+            // System.out.println(idx);
+            Sentence annSentence = null;
+            if (sentenceList.size() > idx) {
+              annSentence = sentenceList.get(idx);
+            } else {
+              continue;
+            }
+
+            String sentence = doc.get("text").toString();
+            double relScore = Double.parseDouble(doc.get("score").toString());
+            CandidateSentence candSent = new CandidateSentence(aJCas);
+            candSent.setSentence(annSentence);
+            candSent.setRelevanceScore(relScore);
+            candidateSentList4Answer.add(candSent);
+            System.out.println(relScore + "\t" + sentence);
+          }
+          FSList fsCandidateSentList = Utils.fromCollectionToFSList(aJCas, candidateSentList4Answer);
+          fsCandidateSentList.addToIndexes();
+          answer.setCandidateSentenceList(fsCandidateSentList);
+        } catch (SolrServerException e) {
+          e.printStackTrace();
+        }
+      }
       FSList fsQASet = Utils.fromCollectionToFSList(aJCas, qaSet);
       testDoc.setQaList(fsQASet);
 
       System.out.println("=========================================================");
     }
-
   }
 
-  public String formSolrQuery(Question question) {
+public String formSolrQuery(Question question) {
+    
     String solrQuery = "";
+
+    int weights[] = { 0, 1, 1, 0, 0 };
 
     ArrayList<NounPhrase> nounPhrases = Utils.fromFSListToCollection(question.getNounList(),
             NounPhrase.class);
+    
+    ArrayList<Token> tokens = Utils.fromFSListToCollection(question.getTokenList(),
+            Token.class);
 
+    for (int i = 0; i < tokens.size(); i++) {
+      solrQuery += "text:\"" + tokens.get(i).getText() + "\"" + "^" + weights[0] + " ";
+    }
+    
     for (int i = 0; i < nounPhrases.size(); i++) {
-      solrQuery += "nounphrases:\"" + nounPhrases.get(i).getText() + "\" ";
+      solrQuery += "nounphrases:\"" + nounPhrases.get(i).getText() + "\"" + "^" + weights[1] + " ";
     }
 
     ArrayList<NER> neList = Utils.fromFSListToCollection(question.getNerList(), NER.class);
     for (int i = 0; i < neList.size(); i++) {
-      solrQuery += "namedentities:\"" + neList.get(i).getText() + "\" ";
+      solrQuery += "namedentities:\"" + neList.get(i).getText() + "\"" + "^" + weights[2] + " ";
     }
 
     ArrayList<Token> tokenList = Utils.fromFSListToCollection(question.getTokenList(), Token.class);
     for (int i = 0; i < tokenList.size(); i++) {
-      solrQuery += "correference:\"" + tokenList.get(i).getText() + "\" ";
+      solrQuery += "correference:\"" + tokenList.get(i).getText() + "\"" + "^" + weights[3] + " ";
     }
 
     for (int i = 0; i < tokenList.size(); i++) {
-      solrQuery += "synonyms:\"" + tokenList.get(i).getText() + "\" ";
+      solrQuery += "synonyms:\"" + tokenList.get(i).getText() + "\"" + "^" + weights[4] + " ";
+    }
+
+    solrQuery = solrQuery.trim();
+
+    return solrQuery;
+  }
+
+  public String formSolrQuery4Answer(Question question, Answer answer) {
+    
+    String solrQuery = "";
+
+    int weights[] = { 0, 1, 1, 0, 0 };
+
+    ArrayList<NounPhrase> nounPhrases = Utils.fromFSListToCollection(answer.getNounPhraseList(),
+            NounPhrase.class);
+    
+    ArrayList<Token> tokens = Utils.fromFSListToCollection(answer.getTokenList(),
+            Token.class);
+
+    for (int i = 0; i < tokens.size(); i++) {
+      solrQuery += "text:\"" + tokens.get(i).getText() + "\"" + "^" + weights[0] + " ";
+    }
+    
+    for (int i = 0; i < nounPhrases.size(); i++) {
+      solrQuery += "nounphrases:\"" + nounPhrases.get(i).getText() + "\"" + "^" + weights[1] + " ";
+    }
+
+    ArrayList<NER> neList = Utils.fromFSListToCollection(answer.getNerList(), NER.class);
+    for (int i = 0; i < neList.size(); i++) {
+      solrQuery += "namedentities:\"" + neList.get(i).getText() + "\"" + "^" + weights[2] + " ";
+    }
+
+    ArrayList<Token> tokenList = Utils.fromFSListToCollection(answer.getTokenList(), Token.class);
+    for (int i = 0; i < tokenList.size(); i++) {
+      solrQuery += "correference:\"" + tokenList.get(i).getText() + "\"" + "^" + weights[3] + " ";
+    }
+
+    for (int i = 0; i < tokenList.size(); i++) {
+      solrQuery += "synonyms:\"" + tokenList.get(i).getText() + "\"" + "^" + weights[4] + " ";
     }
 
     solrQuery = solrQuery.trim();
