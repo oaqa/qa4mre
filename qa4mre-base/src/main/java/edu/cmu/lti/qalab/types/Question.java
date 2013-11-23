@@ -12,8 +12,8 @@ import org.apache.uima.jcas.tcas.Annotation;
 
 
 /** 
- * Updated by JCasGen Tue Nov 12 13:45:03 EST 2013
- * XML source: /Users/vvvemuri1/git/hw5-team10/qa4mre-base/src/main/resources/TypeSystemDescriptor.xml
+ * Updated by JCasGen Thu Nov 21 19:37:48 EST 2013
+ * XML source: /Users/troy/git/hw5-team10/qa4mre-base/src/main/resources/TypeSystemDescriptor.xml
  * @generated */
 public class Question extends Annotation {
   /** @generated
@@ -169,6 +169,26 @@ public class Question extends Annotation {
     if (Question_Type.featOkTst && ((Question_Type)jcasType).casFeat_tokenList == null)
       jcasType.jcas.throwFeatMissing("tokenList", "edu.cmu.lti.qalab.types.Question");
     jcasType.ll_cas.ll_setRefValue(addr, ((Question_Type)jcasType).casFeatCode_tokenList, jcasType.ll_cas.ll_getFSRef(v));}    
+   
+    
+  //*--------------*
+  //* Feature: questionType
+
+  /** getter for questionType - gets Question Type, the value is defined in QuestionTypeAnnotator
+
+   * @generated */
+  public int getQuestionType() {
+    if (Question_Type.featOkTst && ((Question_Type)jcasType).casFeat_questionType == null)
+      jcasType.jcas.throwFeatMissing("questionType", "edu.cmu.lti.qalab.types.Question");
+    return jcasType.ll_cas.ll_getIntValue(addr, ((Question_Type)jcasType).casFeatCode_questionType);}
+    
+  /** setter for questionType - sets Question Type, the value is defined in QuestionTypeAnnotator
+ 
+   * @generated */
+  public void setQuestionType(int v) {
+    if (Question_Type.featOkTst && ((Question_Type)jcasType).casFeat_questionType == null)
+      jcasType.jcas.throwFeatMissing("questionType", "edu.cmu.lti.qalab.types.Question");
+    jcasType.ll_cas.ll_setIntValue(addr, ((Question_Type)jcasType).casFeatCode_questionType, v);}    
   }
 
     

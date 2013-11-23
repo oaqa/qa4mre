@@ -24,6 +24,7 @@ import edu.cmu.lti.qalab.types.NounPhrase;
 import edu.cmu.lti.qalab.types.Question;
 import edu.cmu.lti.qalab.types.QuestionAnswerSet;
 import edu.cmu.lti.qalab.types.TestDocument;
+import edu.cmu.lti.qalab.types.Token;
 import edu.cmu.lti.qalab.utils.Utils;
 
 public class AnswerChoiceCandAnsPMIScorer extends AnswerScoreBaseClass {
@@ -41,8 +42,8 @@ public class AnswerChoiceCandAnsPMIScorer extends AnswerScoreBaseClass {
     K_CANDIDATES = (Integer) context.getConfigParameterValue("K_CANDIDATES");
 
     try {
+      System.out.println(serverUrl);
       this.solrWrapper = new SolrWrapper(serverUrl);
-      // loadStopWords(stopFile);
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -52,6 +53,7 @@ public class AnswerChoiceCandAnsPMIScorer extends AnswerScoreBaseClass {
   @Override
   public double computScore(Answer answer, CandidateSentence sentence) {
     double score1 = 0.0;
+    double score2 = 0.0;
     ArrayList<NounPhrase> candSentNouns = Utils.fromFSListToCollection(sentence.getSentence()
             .getPhraseList(), NounPhrase.class);
     ArrayList<NER> candSentNers = Utils.fromFSListToCollection(sentence.getSentence().getNerList(),
@@ -65,17 +67,25 @@ public class AnswerChoiceCandAnsPMIScorer extends AnswerScoreBaseClass {
         e.printStackTrace();
       }
     }
+    if (candSentNouns.size() != 0)
+      score1 = score1 / Math.sqrt(candSentNouns.size()); 
 
     for (int k = 0; k < candSentNers.size(); k++) {
       try {
-        score1 += scoreCoOccurInSameDoc(candSentNers.get(k).getText(), answer);
+        score2 += scoreCoOccurInSameDoc(candSentNers.get(k).getText(), answer);
       } catch (Exception e) {
         e.printStackTrace();
       }
     }
-
-    System.out.println(answer.getText() + "\t" + score1 + "\t" + ((score1)));
-    return score1;
+    
+    if (candSentNers.size() != 0)
+      score2 = score2 / Math.sqrt(candSentNers.size());
+    double score = 0.0;
+    if (candSentNers.size() == 0 || candSentNouns.size() == 0)
+      score = score1  + score2;
+    else
+      score = (score1 + score2) / 2;
+    return score;
   }
 
   @Override
@@ -84,95 +94,20 @@ public class AnswerChoiceCandAnsPMIScorer extends AnswerScoreBaseClass {
     candidateAnswer.setPMIScore(computScore(answer, sentence));
   }
 
-//  @Override
-//  public void process(JCas aJCas) throws AnalysisEngineProcessException {
-//
-//    TestDocument testDoc = Utils.getTestDocumentFromCAS(aJCas);
-//    // String testDocId = testDoc.getId();
-//    ArrayList<QuestionAnswerSet> qaSet = Utils.getQuestionAnswerSetFromTestDocCAS(aJCas);
-//
-//    for (int i = 0; i < qaSet.size(); i++) {
-//
-//      Question question = qaSet.get(i).getQuestion();
-//      System.out.println("Question: " + question.getText());
-//      ArrayList<Answer> choiceList = Utils.fromFSListToCollection(qaSet.get(i).getAnswerList(),
-//              Answer.class);
-//      ArrayList<CandidateSentence> candSentList = Utils.fromFSListToCollection(qaSet.get(i)
-//              .getCandidateSentenceList(), CandidateSentence.class);
-//
-//      int topK = Math.min(K_CANDIDATES, candSentList.size());
-//      for (int c = 0; c < topK; c++) {
-//
-//        CandidateSentence candSent = candSentList.get(c);
-//
-//        ArrayList<NounPhrase> candSentNouns = Utils.fromFSListToCollection(candSent.getSentence()
-//                .getPhraseList(), NounPhrase.class);
-//        ArrayList<NER> candSentNers = Utils.fromFSListToCollection(candSent.getSentence()
-//                .getNerList(), NER.class);
-//
-//        ArrayList<CandidateAnswer> candAnsList = new ArrayList<CandidateAnswer>();
-//        for (int j = 0; j < choiceList.size(); j++) {
-//          double score1 = 0.0;
-//          Answer answer = choiceList.get(j);
-//
-//          for (int k = 0; k < candSentNouns.size(); k++) {
-//            try {
-//              score1 += scoreCoOccurInSameDoc(candSentNouns.get(k).getText(), choiceList.get(j));
-//
-//            } catch (Exception e) {
-//              e.printStackTrace();
-//            }
-//          }
-//
-//          for (int k = 0; k < candSentNers.size(); k++) {
-//
-//            try {
-//              score1 += scoreCoOccurInSameDoc(candSentNers.get(k).getText(), choiceList.get(j));
-//            } catch (Exception e) {
-//              e.printStackTrace();
-//            }
-//
-//          }
-//
-//          System.out.println(choiceList.get(j).getText() + "\t" + score1 + "\t" + ((score1)));
-//
-//          CandidateAnswer candAnswer = null;
-//          if (candSent.getCandAnswerList() == null) {
-//            candAnswer = new CandidateAnswer(aJCas);
-//          } else {
-//            candAnswer = Utils.fromFSListToCollection(candSent.getCandAnswerList(),
-//                    CandidateAnswer.class).get(j);// new CandidateAnswer(aJCas);;
-//          }
-//          candAnswer.setText(answer.getText());
-//          candAnswer.setQId(answer.getQuestionId());
-//          candAnswer.setChoiceIndex(j);
-//          candAnswer.setPMIScore(score1);
-//          candAnsList.add(candAnswer);
-//        }
-//        FSList fsCandAnsList = Utils.fromCollectionToFSList(aJCas, candAnsList);
-//        candSent.setCandAnswerList(fsCandAnsList);
-//        candSentList.set(c, candSent);
-//      }
-//
-//      System.out.println("================================================");
-//      FSList fsCandSentList = Utils.fromCollectionToFSList(aJCas, candSentList);
-//      qaSet.get(i).setCandidateSentenceList(fsCandSentList);
-//
-//    }
-//    FSList fsQASet = Utils.fromCollectionToFSList(aJCas, qaSet);
-//    testDoc.setQaList(fsQASet);
-//
-//  }
-
   public double scoreCoOccurInSameDoc(String question, Answer choice) throws Exception {
-    // String choiceTokens[] = choice.split("[ ]");
     ArrayList<NounPhrase> choiceNounPhrases = Utils.fromFSListToCollection(
             choice.getNounPhraseList(), NounPhrase.class);
+    ArrayList<Token> choiceUnigram = Utils.fromFSListToCollection(choice.getTokenList(), Token.class);
     double score = 0.0;
-
-    for (int i = 0; i < choiceNounPhrases.size(); i++) {
-      // score1(choicei) = hits(problem AND choicei) / hits(choicei)
-      String choiceNounPhrase = choiceNounPhrases.get(i).getText();
+    ArrayList<String> answerTokens = new ArrayList<String>();
+    if (choiceNounPhrases.size() != 0){
+      for (NounPhrase np : choiceNounPhrases)
+        answerTokens.add(np.getText());
+    }else{
+      for (Token token : choiceUnigram)
+        answerTokens.add(token.getText());
+    }
+    for (String choiceNounPhrase : answerTokens) {
       if (question.split("[ ]").length > 1) {
         question = "\"" + question + "\"";
       }
@@ -181,7 +116,6 @@ public class AnswerChoiceCandAnsPMIScorer extends AnswerScoreBaseClass {
       }
 
       String query = question + " AND " + choiceNounPhrase;
-      // System.out.println(query);
       HashMap<String, String> params = new HashMap<String, String>();
       params.put("q", query);
       params.put("rows", "1");
@@ -192,13 +126,10 @@ public class AnswerChoiceCandAnsPMIScorer extends AnswerScoreBaseClass {
         rsp = solrWrapper.getServer().query(solrParams);
         combinedHits = rsp.getResults().getNumFound();
       } catch (Exception e) {
-        // System.out.println(e + "\t" + query);
+        System.out.println(e);
       }
 
-      // System.out.println(query+"\t"+combinedHits);
-
       query = choiceNounPhrase;
-      // System.out.println(query);
       params = new HashMap<String, String>();
       params.put("q", query);
       params.put("rows", "1");
@@ -209,25 +140,16 @@ public class AnswerChoiceCandAnsPMIScorer extends AnswerScoreBaseClass {
         rsp = solrWrapper.getServer().query(solrParams);
         nHits1 = rsp.getResults().getNumFound();
       } catch (Exception e) {
-        // System.out.println(e+"\t"+query);
+        System.out.println(e);
       }
-      // System.out.println(query+"\t"+nHits1);
 
-      /*
-       * query = question; // System.out.println(query); params = new HashMap<String, String>();
-       * params.put("q", query); params.put("rows", "1"); solrParams = new MapSolrParams(params);
-       * rsp = solrWrapper.getServer().query(solrParams); long nHits2 =
-       * rsp.getResults().getNumFound(); // System.out.println(query+"\t"+nHits2);
-       */
-
-      // score += myLog(combinedHits, nHits1, nHits2);
       if (nHits1 != 0) {
         score += (double) combinedHits / nHits1;
       }
     }
-    if (choiceNounPhrases.size() > 0) {
-      // score=score/choiceNounPhrases.size();
-    }
+//    if (choiceNounPhrases.size() == 0) {
+       score = score / answerTokens.size();
+//    }
     return score;
   }
 

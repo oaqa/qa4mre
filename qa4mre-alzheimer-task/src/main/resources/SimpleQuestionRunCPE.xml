@@ -33,6 +33,18 @@
     <delegateAnalysisEngine key="AnswerScoreBaseClass">
       <import name="annotators.AnswerScoreBaseClass"/>
     </delegateAnalysisEngine>
+  <delegateAnalysisEngine key="CandSentScoreBaseClass">
+      <import name="annotators.CandSentScoreBaseClass"/>
+    </delegateAnalysisEngine>
+  <delegateAnalysisEngine key="QuestionTypeAnnotator">
+      <import name="annotators.QuestionTypeAnnotator"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="AnswerTypeMatchScore">
+      <import name="annotators.AnswerTypeMatchScore"/>
+    </delegateAnalysisEngine>
+  <delegateAnalysisEngine key="QuestionAnswerPMI">
+      <import name="annotators.QuestionAnswerPMI"/>
+    </delegateAnalysisEngine>
   </delegateAnalysisEngineSpecifiers>
   <analysisEngineMetaData>
     <name>CpeQuestionDescriptor</name>
@@ -43,13 +55,16 @@
     <configurationParameterSettings/>
     <flowConstraints>
       <fixedFlow>
-        <node>CandSentFromQAPair</node>
+        <node>QuestionTypeAnnotator</node>
         <!-- <node>QuestionCandSentSynonymMatcher</node>-->
         <!-- <node>QuestionCandSentDependencyMatcher</node>-->
-        <node>AnswerScoreBaseClass</node>
+        <node>AnswerTypeMatchScore</node>
         <!-- <node>AnswerChoiceCandAnsSynonymScorer</node>-->
         <!--<node>AnswerChoiceCandAnsPMIScorer</node>-->
-        <node>AnswerSelectionByKCandVoting</node>
+        <node>CandSentScoreBaseClass</node>
+      <node>AnswerScoreBaseClass</node>
+        <node>QuestionAnswerPMI</node>
+      <node>AnswerSelectionByKCandVoting</node>
       </fixedFlow>
     </flowConstraints>
     <typePriorities/>

@@ -14,7 +14,7 @@ import org.apache.uima.cas.Feature;
 import org.apache.uima.jcas.tcas.Annotation_Type;
 
 /** 
- * Updated by JCasGen Tue Nov 12 13:45:03 EST 2013
+ * Updated by JCasGen Thu Nov 21 19:37:48 EST 2013
  * @generated */
 public class Question_Type extends Annotation_Type {
   /** @generated */
@@ -151,6 +151,24 @@ public class Question_Type extends Annotation_Type {
     ll_cas.ll_setRefValue(addr, casFeatCode_tokenList, v);}
     
   
+ 
+  /** @generated */
+  final Feature casFeat_questionType;
+  /** @generated */
+  final int     casFeatCode_questionType;
+  /** @generated */ 
+  public int getQuestionType(int addr) {
+        if (featOkTst && casFeat_questionType == null)
+      jcas.throwFeatMissing("questionType", "edu.cmu.lti.qalab.types.Question");
+    return ll_cas.ll_getIntValue(addr, casFeatCode_questionType);
+  }
+  /** @generated */    
+  public void setQuestionType(int addr, int v) {
+        if (featOkTst && casFeat_questionType == null)
+      jcas.throwFeatMissing("questionType", "edu.cmu.lti.qalab.types.Question");
+    ll_cas.ll_setIntValue(addr, casFeatCode_questionType, v);}
+    
+  
 
 
 
@@ -183,6 +201,10 @@ public class Question_Type extends Annotation_Type {
  
     casFeat_tokenList = jcas.getRequiredFeatureDE(casType, "tokenList", "uima.cas.FSList", featOkTst);
     casFeatCode_tokenList  = (null == casFeat_tokenList) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_tokenList).getCode();
+
+ 
+    casFeat_questionType = jcas.getRequiredFeatureDE(casType, "questionType", "uima.cas.Integer", featOkTst);
+    casFeatCode_questionType  = (null == casFeat_questionType) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_questionType).getCode();
 
   }
 }

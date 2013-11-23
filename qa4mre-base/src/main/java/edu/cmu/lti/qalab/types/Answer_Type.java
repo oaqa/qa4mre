@@ -14,7 +14,7 @@ import org.apache.uima.cas.Feature;
 import org.apache.uima.jcas.tcas.Annotation_Type;
 
 /** 
- * Updated by JCasGen Tue Nov 12 13:45:02 EST 2013
+ * Updated by JCasGen Thu Nov 21 19:37:48 EST 2013
  * @generated */
 public class Answer_Type extends Annotation_Type {
   /** @generated */
@@ -241,6 +241,60 @@ public class Answer_Type extends Annotation_Type {
     ll_cas.ll_setRefValue(addr, casFeatCode_dependencies, v);}
     
   
+ 
+  /** @generated */
+  final Feature casFeat_typeMatchScore;
+  /** @generated */
+  final int     casFeatCode_typeMatchScore;
+  /** @generated */ 
+  public double getTypeMatchScore(int addr) {
+        if (featOkTst && casFeat_typeMatchScore == null)
+      jcas.throwFeatMissing("typeMatchScore", "edu.cmu.lti.qalab.types.Answer");
+    return ll_cas.ll_getDoubleValue(addr, casFeatCode_typeMatchScore);
+  }
+  /** @generated */    
+  public void setTypeMatchScore(int addr, double v) {
+        if (featOkTst && casFeat_typeMatchScore == null)
+      jcas.throwFeatMissing("typeMatchScore", "edu.cmu.lti.qalab.types.Answer");
+    ll_cas.ll_setDoubleValue(addr, casFeatCode_typeMatchScore, v);}
+    
+  
+ 
+  /** @generated */
+  final Feature casFeat_localPMIScore;
+  /** @generated */
+  final int     casFeatCode_localPMIScore;
+  /** @generated */ 
+  public double getLocalPMIScore(int addr) {
+        if (featOkTst && casFeat_localPMIScore == null)
+      jcas.throwFeatMissing("localPMIScore", "edu.cmu.lti.qalab.types.Answer");
+    return ll_cas.ll_getDoubleValue(addr, casFeatCode_localPMIScore);
+  }
+  /** @generated */    
+  public void setLocalPMIScore(int addr, double v) {
+        if (featOkTst && casFeat_localPMIScore == null)
+      jcas.throwFeatMissing("localPMIScore", "edu.cmu.lti.qalab.types.Answer");
+    ll_cas.ll_setDoubleValue(addr, casFeatCode_localPMIScore, v);}
+    
+  
+ 
+  /** @generated */
+  final Feature casFeat_debugInfo;
+  /** @generated */
+  final int     casFeatCode_debugInfo;
+  /** @generated */ 
+  public String getDebugInfo(int addr) {
+        if (featOkTst && casFeat_debugInfo == null)
+      jcas.throwFeatMissing("debugInfo", "edu.cmu.lti.qalab.types.Answer");
+    return ll_cas.ll_getStringValue(addr, casFeatCode_debugInfo);
+  }
+  /** @generated */    
+  public void setDebugInfo(int addr, String v) {
+        if (featOkTst && casFeat_debugInfo == null)
+      jcas.throwFeatMissing("debugInfo", "edu.cmu.lti.qalab.types.Answer");
+    ll_cas.ll_setStringValue(addr, casFeatCode_debugInfo, v);}
+    
+  
 
 
 
@@ -293,6 +347,18 @@ public class Answer_Type extends Annotation_Type {
  
     casFeat_dependencies = jcas.getRequiredFeatureDE(casType, "dependencies", "uima.cas.FSList", featOkTst);
     casFeatCode_dependencies  = (null == casFeat_dependencies) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_dependencies).getCode();
+
+ 
+    casFeat_typeMatchScore = jcas.getRequiredFeatureDE(casType, "typeMatchScore", "uima.cas.Double", featOkTst);
+    casFeatCode_typeMatchScore  = (null == casFeat_typeMatchScore) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_typeMatchScore).getCode();
+
+ 
+    casFeat_localPMIScore = jcas.getRequiredFeatureDE(casType, "localPMIScore", "uima.cas.Double", featOkTst);
+    casFeatCode_localPMIScore  = (null == casFeat_localPMIScore) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_localPMIScore).getCode();
+
+ 
+    casFeat_debugInfo = jcas.getRequiredFeatureDE(casType, "debugInfo", "uima.cas.String", featOkTst);
+    casFeatCode_debugInfo  = (null == casFeat_debugInfo) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_debugInfo).getCode();
 
   }
 }
