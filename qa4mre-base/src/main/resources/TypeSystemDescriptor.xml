@@ -343,6 +343,12 @@
 "Entity" - question is looking for target entity that is a "thing" - not a quantity or date</description>
           <rangeTypeName>uima.cas.String</rangeTypeName>
         </featureDescription>
+      <featureDescription>
+          <name>target</name>
+          <description/>
+          <rangeTypeName>uima.cas.FSList</rangeTypeName>
+          <elementType>edu.cmu.lti.qalab.types.Synonym</elementType>
+        </featureDescription>
       </features>
     </typeDescription>
     <typeDescription>

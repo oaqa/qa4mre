@@ -21,6 +21,7 @@ import edu.cmu.lti.qalab.types.NounPhrase;
 import edu.cmu.lti.qalab.types.Question;
 import edu.cmu.lti.qalab.types.QuestionAnswerSet;
 import edu.cmu.lti.qalab.types.Sentence;
+import edu.cmu.lti.qalab.types.Synonym;
 import edu.cmu.lti.qalab.types.TestDocument;
 import edu.cmu.lti.qalab.types.Token;
 import edu.cmu.lti.qalab.utils.Utils;
@@ -63,6 +64,11 @@ public class QuestionCandSentSimilarityMatcher extends JCasAnnotator_ImplBase {
     for (int i = 0; i < qaSet.size(); i++) {
 
       Question question = qaSet.get(i).getQuestion();
+      ArrayList<Synonym> synt=Utils.fromFSListToCollection(question.getTarget(), Synonym.class);
+      //for(Synonym s:synt){
+       // System.out.print("Test:"+s.getText()+",");;
+      //}
+      //System.out.println();
       System.out.println("========================================================");
       System.out.println("Question: " + question.getText());
       String searchQuery = this.formSolrQuery(question);

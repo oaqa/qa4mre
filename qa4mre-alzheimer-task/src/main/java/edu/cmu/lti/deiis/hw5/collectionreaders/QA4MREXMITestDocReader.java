@@ -34,6 +34,7 @@ public class QA4MREXMITestDocReader extends CollectionReader_ImplBase {
 		
 		File inputDir = new File(
 				(String) getConfigParameterValue("INPUT_DIR"));
+		System.out.println(inputDir.getAbsolutePath());
 		documents = inputDir.listFiles();
 		System.out.println("Total files: "+documents.length);
 	}

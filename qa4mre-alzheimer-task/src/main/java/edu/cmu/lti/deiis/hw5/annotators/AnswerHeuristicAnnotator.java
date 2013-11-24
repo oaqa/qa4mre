@@ -3,9 +3,11 @@ package edu.cmu.lti.deiis.hw5.annotators;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.ListIterator;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -49,12 +51,24 @@ public class AnswerHeuristicAnnotator extends JCasAnnotator_ImplBase{
       // Determine Question entity type (Integer, Double, DateTime, or Entity)
       setEntityType(question);
       //System.out.println(question.getEntityType());
-
+      
       // Determine Question cardinality (1 - Singular, 2 - Plural, 3 - Unknown)
       setCardinality(question);
       //System.out.println(question.getCardinality());
 
-
+      Set<String> utarget = findTarget(question);
+      //for(String st:utarget){
+       // System.out.print(st+",");
+      //}
+      //System.out.println();
+      ArrayList<Synonym> synt= new ArrayList<Synonym>();
+      for (String tar:utarget){
+        Synonym s= new Synonym(jCas);
+        s.setText(tar);
+        synt.add(s);
+      }
+      FSList target = Utils.fromCollectionToFSList(jCas, synt);
+      question.setTarget(target);
       // Determine whether each answer matches the Question cardinality / entity type, or not
       ArrayList<Answer> answerList = Utils.fromFSListToCollection(qaSet.get(i).getAnswerList(), Answer.class);
       for (int k = 0; k < answerList.size(); k++) {
@@ -152,6 +166,7 @@ public class AnswerHeuristicAnnotator extends JCasAnnotator_ImplBase{
     
   }
 
+  
   private void setEntityType(Question question) {
     
     // Determine the entityType of the question:
@@ -178,6 +193,112 @@ public class AnswerHeuristicAnnotator extends JCasAnnotator_ImplBase{
         
   }
 
+  private Set<String> findTarget(Question question) {
+    //System.out.println(question.getText());
+    FSList Fdeplist= question.getDependencies();
+    ArrayList<Token> target=new ArrayList<Token>();
+    ArrayList<Token> govs= new ArrayList<Token>();
+    ArrayList<Token> tlist = Utils.fromFSListToCollection(question.getTokenList(), Token.class);
+    
+    //System.out.println();
+    ArrayList<Dependency> deplist = Utils.fromFSListToCollection(Fdeplist, Dependency.class);
+    HashMap<Token,Token> depmap= new HashMap<Token,Token>();
+    Token kind = null;
+    for(Dependency dep:deplist){
+      Token depd = dep.getDependent();
+      Token gov = dep.getGovernor();
+      govs.add(gov);
+      depmap.put(depd,gov);
+      
+      if (depd.getPos().startsWith("W")){
+        kind=depd;
+       // System.out.println(kind.getText());
+      }
+      //System.out.println(gov.getText()+"->"+depd.getText());
+    }
+    Token t=depmap.get(kind);
+    ArrayList<String> commonl= new ArrayList<String>();
+    ArrayList<String> keyl=new ArrayList<String>();
+    ArrayList<String> govl=new ArrayList<String>();
+    for (Token tok:tlist){
+      commonl.add(tok.getText());
+    }
+    for (Token tok:govs){
+      govl.add(tok.getText());
+    }
+    for (Token tok:depmap.keySet()){
+      keyl.add(tok.getText());
+    }
+    commonl.removeAll(keyl);
+    commonl.retainAll(govl);
+    //System.out.print("Uncommon ones: ");
+    //for (String tok:commonl){
+     // System.out.println(tok+",");
+    //}
+    if (commonl.size()!=1){
+      target.add(kind);
+    }
+    else{
+      String head = commonl.get(0);
+      target.add(kind);
+      for(Dependency dep:deplist){
+        Token depd = dep.getDependent();
+        Token gov = dep.getGovernor();
+        if (gov.getText().equals(head)==false){
+          //System.out.println("Head: "+head+"Anr: "+gov.getText());
+          target.add(gov);
+          target.add(depd);
+        }
+        else{
+          //target.add(gov);
+          break;
+        }
+        }
+    }
+    //for(Token key:depmap.keySet()){
+     // System.out.println(key.getText());
+    //}
+    ArrayList<String> tarl= new ArrayList<String>();
+    
+    //System.out.print("Targets are :");
+    if (target==null){
+      System.out.print("nothing");
+    }
+    else{
+      for (Token tk:target){
+        tarl.add(tk.getText());
+        //System.out.print(tk.getText()+",");
+      }
+    
+    }
+    Set<String> utarget = new HashSet<String>(tarl);
+    
+    
+    return utarget;
+  }
+  
+  private void dfs(HashMap<Token, Token> depmap,Token seed,ArrayList<Token> target)
+  {
+    //System.out.println(seed.getText());
+    System.out.println("Seed: "+seed.getText());
+    if (depmap.containsKey(seed)){
+      //System.out.println("No Seed: "+seed.getText());
+      //for (Token tkns:depmap.get(seed)){
+       // System.out.println(tkns);
+        
+        Token tkns = depmap.get(seed);
+        target.add(tkns);
+        //System.out.println("Seed: "+seed.getText()+" val: "+tkns.getText());
+        for(Token key:depmap.keySet()){
+          if(key.getText().equals(tkns.getText())){
+            tkns=key;
+            break;
+          }
+        }
+        dfs(depmap,tkns,target);
+      //}
+    }
+  }
   private void setCardinality(Question question) {
     
     // Determine cardinality of the question:
