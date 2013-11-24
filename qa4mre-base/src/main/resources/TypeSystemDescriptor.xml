@@ -488,6 +488,11 @@
           <description/>
           <rangeTypeName>uima.cas.Double</rangeTypeName>
         </featureDescription>
+      <featureDescription>
+          <name>FinalScore</name>
+          <description>The final score of each sentence</description>
+          <rangeTypeName>uima.cas.Double</rangeTypeName>
+        </featureDescription>
       </features>
     </typeDescription>
   <typeDescription>
