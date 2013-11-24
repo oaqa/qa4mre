@@ -7,10 +7,10 @@ PLoS ONE: Genetics of Clusterin Isoform Expression and Alzheimer's Disease RiskO
 			</doc>
 				<q  q_id="1" >
 					<q_str>Which technique was used to determine the cellular locations of the CLU1 and CLU2 gene products?</q_str>
-					<answer a_id='1' >intracellular and secreted</answer>
+			 		<answer a_id='1' >intracellular and secreted</answer>
 					<answer a_id='2' >ER</answer>
 					<answer a_id='3' >intracellular localization</answer>
-					<answer a_id='4' >Golgi apparatus</answer>
+					<answer a_id='4' >Golgi apparatus</answer> 
 					<answer a_id='5'  correct="Yes">immunofluorescence experiments</answer>
 				</q>
 				<q  q_id="2" >

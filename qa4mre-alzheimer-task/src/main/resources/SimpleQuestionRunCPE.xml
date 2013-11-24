@@ -27,6 +27,12 @@
     <delegateAnalysisEngine key="AnswerChoiceCandAnsNPMIScorer">
       <import name="annotators.AnswerChoiceCandAnsNPMIScorer"/>
     </delegateAnalysisEngine>
+  <delegateAnalysisEngine key="AnswerChoiceCandAnsPMIScorer">
+      <import name="annotators.AnswerChoiceCandAnsPMIScorer"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="QuestionCandSentAnswerMatcher">
+      <import name="annotators.QuestionCandSentAnswerMatcher"/>
+    </delegateAnalysisEngine>
   </delegateAnalysisEngineSpecifiers>
   <analysisEngineMetaData>
     <name>CpeQuestionDescriptor</name>
@@ -37,14 +43,13 @@
     <configurationParameterSettings/>
     <flowConstraints>
       <fixedFlow>
-        <node>QuestionCandSentSimilarityMatcher</node>
+        <node>QuestionCandSentAnswerMatcher</node>
         <!-- <node>QuestionCandSentSynonymMatcher</node>-->
         <!-- <node>QuestionCandSentDependencyMatcher</node>-->
-        <node>AnswerChoiceCandAnsSimilarityScorer</node>
+        <node>AnswerChoiceCandAnsPMIScorer</node>
         <!-- <node>AnswerChoiceCandAnsSynonymScorer</node>-->
         <!--<node>AnswerChoiceCandAnsPMIScorer</node>-->
-        <node>AnswerChoiceCandAnsNPMIScorer</node>
-      <node>AnswerSelectionByKCandVoting</node>
+        <node>AnswerSelectionByKCandVoting</node>
       </fixedFlow>
     </flowConstraints>
     <typePriorities/>

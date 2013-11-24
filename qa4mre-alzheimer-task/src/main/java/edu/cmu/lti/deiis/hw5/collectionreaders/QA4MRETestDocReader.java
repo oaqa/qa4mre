@@ -116,7 +116,10 @@ public class QA4MRETestDocReader extends CollectionReader_ImplBase {
 				String isCorrect = ansEle.getAttribute("correct");// <answer
 																	// a_id="2"
 																	// correct="Yes">aromatase</answer>
-
+        String isDiscard = ansEle.getAttribute("discard");// <answer
+        if(isDiscard!=null){
+          continue;
+        }
 				String answer = answerNodeList.item(j).getTextContent();
 				Answer ans = new Answer(jcas);
 
