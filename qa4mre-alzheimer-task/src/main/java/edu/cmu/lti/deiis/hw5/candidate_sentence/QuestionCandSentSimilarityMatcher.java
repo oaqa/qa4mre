@@ -64,7 +64,10 @@ public class QuestionCandSentSimilarityMatcher extends JCasAnnotator_ImplBase {
     for (int i = 0; i < qaSet.size(); i++) {
 
       Question question = qaSet.get(i).getQuestion();
-      ArrayList<Synonym> synt=Utils.fromFSListToCollection(question.getTarget(), Synonym.class);
+      ArrayList<Synonym> synt = null;
+      if(question.getTarget() != null){
+        synt = Utils.fromFSListToCollection(question.getTarget(), Synonym.class);
+      }
       //for(Synonym s:synt){
        // System.out.print("Test:"+s.getText()+",");;
       //}
