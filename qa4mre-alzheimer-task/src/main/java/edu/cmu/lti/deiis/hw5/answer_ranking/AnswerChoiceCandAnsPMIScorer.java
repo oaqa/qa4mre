@@ -249,67 +249,67 @@ public class AnswerChoiceCandAnsPMIScorer extends JCasAnnotator_ImplBase {
 		if (choiceNounPhrases.size() > 0) {
 			// score=score/choiceNounPhrases.size();
 		}
-		if (choiceNounPhrases.size() == 0)
-		{
-		  ArrayList<Token> choiceTokens = Utils.fromFSListToCollection(
-	        choice.getTokenList(), Token.class);
-		  for (int i = 0; i < choiceTokens.size(); i++) {
-	      String choiceToken = choiceTokens.get(i).getText();
-	      if (question.split("[ ]").length > 1) {
-	        question = "\"" + question + "\"";
-	      }
-	      if (choiceToken.split("[ ]").length > 1) {
-	        choiceToken = "\"" + choiceToken + "\"";
-	      }
-
-	      String query = question + " AND " + choiceToken;
-	      // System.out.println(query);
-	      HashMap<String, String> params = new HashMap<String, String>();
-	      params.put("q", query);
-	      params.put("rows", "1");
-	      SolrParams solrParams = new MapSolrParams(params);
-	      QueryResponse rsp = null;
-	      long combinedHits = 0;
-	      try {
-	        rsp = solrWrapper.getServer().query(solrParams);
-	        combinedHits = rsp.getResults().getNumFound();
-	      } catch (Exception e) {
-	        // System.out.println(e + "\t" + query);
-	      }
-
-	      // System.out.println(query+"\t"+combinedHits);
-
-	      query = choiceToken;
-	      // System.out.println(query);
-	      params = new HashMap<String, String>();
-	      params.put("q", query);
-	      params.put("rows", "1");
-	      solrParams = new MapSolrParams(params);
-
-	      long nHits1 = 0;
-	      try {
-	        rsp = solrWrapper.getServer().query(solrParams);
-	        nHits1 = rsp.getResults().getNumFound();
-	      } catch (Exception e) {
-	        // System.out.println(e+"\t"+query);
-	      }
-	      // System.out.println(query+"\t"+nHits1);
-
-	      /*
-	       * query = question; // System.out.println(query); params = new
-	       * HashMap<String, String>(); params.put("q", query);
-	       * params.put("rows", "1"); solrParams = new MapSolrParams(params);
-	       * rsp = solrWrapper.getServer().query(solrParams); long nHits2 =
-	       * rsp.getResults().getNumFound(); //
-	       * System.out.println(query+"\t"+nHits2);
-	       */
-
-	      // score += myLog(combinedHits, nHits1, nHits2);
-	      if (nHits1 != 0) {
-	        score += (double) combinedHits / nHits1;
-	      }
-	    }
-		}
+//		if (choiceNounPhrases.size() == 0)
+//		{
+//		  ArrayList<Token> choiceTokens = Utils.fromFSListToCollection(
+//	        choice.getTokenList(), Token.class);
+//		  for (int i = 0; i < choiceTokens.size(); i++) {
+//	      String choiceToken = choiceTokens.get(i).getText();
+//	      if (question.split("[ ]").length > 1) {
+//	        question = "\"" + question + "\"";
+//	      }
+//	      if (choiceToken.split("[ ]").length > 1) {
+//	        choiceToken = "\"" + choiceToken + "\"";
+//	      }
+//
+//	      String query = question + " AND " + choiceToken;
+//	      // System.out.println(query);
+//	      HashMap<String, String> params = new HashMap<String, String>();
+//	      params.put("q", query);
+//	      params.put("rows", "1");
+//	      SolrParams solrParams = new MapSolrParams(params);
+//	      QueryResponse rsp = null;
+//	      long combinedHits = 0;
+//	      try {
+//	        rsp = solrWrapper.getServer().query(solrParams);
+//	        combinedHits = rsp.getResults().getNumFound();
+//	      } catch (Exception e) {
+//	        // System.out.println(e + "\t" + query);
+//	      }
+//
+//	      // System.out.println(query+"\t"+combinedHits);
+//
+//	      query = choiceToken;
+//	      // System.out.println(query);
+//	      params = new HashMap<String, String>();
+//	      params.put("q", query);
+//	      params.put("rows", "1");
+//	      solrParams = new MapSolrParams(params);
+//
+//	      long nHits1 = 0;
+//	      try {
+//	        rsp = solrWrapper.getServer().query(solrParams);
+//	        nHits1 = rsp.getResults().getNumFound();
+//	      } catch (Exception e) {
+//	        // System.out.println(e+"\t"+query);
+//	      }
+//	      // System.out.println(query+"\t"+nHits1);
+//
+//	      /*
+//	       * query = question; // System.out.println(query); params = new
+//	       * HashMap<String, String>(); params.put("q", query);
+//	       * params.put("rows", "1"); solrParams = new MapSolrParams(params);
+//	       * rsp = solrWrapper.getServer().query(solrParams); long nHits2 =
+//	       * rsp.getResults().getNumFound(); //
+//	       * System.out.println(query+"\t"+nHits2);
+//	       */
+//
+//	      // score += myLog(combinedHits, nHits1, nHits2);
+//	      if (nHits1 != 0) {
+//	        score += (double) combinedHits / nHits1;
+//	      }
+//	    }
+//		}
 		return score;
 	}
 
