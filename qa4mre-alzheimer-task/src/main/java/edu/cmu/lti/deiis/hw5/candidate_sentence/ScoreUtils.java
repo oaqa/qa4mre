@@ -11,6 +11,7 @@ import edu.cmu.lti.qalab.types.Question;
 import edu.cmu.lti.qalab.types.Sentence;
 import edu.cmu.lti.qalab.types.Token;
 import edu.cmu.lti.qalab.utils.Utils;
+import edu.cmu.lti.qalab.types.NER;
 
 public class ScoreUtils {
   public static final int UNIGRAM = 0;
@@ -34,6 +35,8 @@ public class ScoreUtils {
   public static final int MATCH = 9;
   
   public static final int MATCH_COUNT = 10;
+  
+  public static final int NER = 11;
 
   protected static Map<String, Double> FormExpression(Answer RawString, int sExpType) {
     Map<String, Double> hFeature = new HashMap<String, Double>();
@@ -52,6 +55,9 @@ public class ScoreUtils {
     }
     if (sExpType == DEPENDENCY_LEAF) {
       vTerm = GetDependencyLeaf(RawString);
+    }
+    if (sExpType == NER){
+      vTerm = GetNER(RawString);
     }
 
     hFeature = TfCounter(vTerm);
@@ -76,6 +82,9 @@ public class ScoreUtils {
     if (sExpType == DEPENDENCY_LEAF) {
       vTerm = GetDependencyLeaf(RawString);
     }
+    if (sExpType == NER){
+      vTerm = GetNER(RawString);
+    }
 
     hFeature = TfCounter(vTerm);
     return hFeature;
@@ -98,6 +107,9 @@ public class ScoreUtils {
     }
     if (sExpType == DEPENDENCY_LEAF) {
       vTerm = GetDependencyLeaf(sentence);
+    }
+    if (sExpType == NER){
+      vTerm = GetNER(sentence);
     }
 
     hFeature = TfCounter(vTerm);
@@ -139,7 +151,37 @@ public class ScoreUtils {
       results.add(token.getText());
     return results;
   }
+  
+  protected static ArrayList<String> GetNER(Question question){
+    ArrayList<NER> nerList = Utils.fromFSListToCollection(
+            question.getNerList(), NER.class);
+    ArrayList<String> results = new ArrayList<String>();
+    for (NER ner : nerList)
+      results.add(ner.getText());
+    return results;
+  }
 
+  protected static ArrayList<String> GetNER(Answer answer){
+    ArrayList<NER> nerList = Utils.fromFSListToCollection(
+            answer.getNerList(), NER.class);
+    ArrayList<String> results = new ArrayList<String>();
+    for (NER ner : nerList)
+      results.add(ner.getText());
+    return results;
+  }
+
+  
+  protected static ArrayList<String> GetNER(Sentence sentence){
+    ArrayList<NER> nerList = Utils.fromFSListToCollection(
+            sentence.getNerList(), NER.class);
+    ArrayList<String> results = new ArrayList<String>();
+    for (NER ner : nerList)
+      results.add(ner.getText());
+    return results;
+  }
+
+  
+  
   // TODO
   protected static ArrayList<String> GetBigram(Answer RawString) {
     ArrayList<String> vTerm = new ArrayList<String>();
@@ -296,6 +338,8 @@ public class ScoreUtils {
 
   protected static Double Cosine(Map<String, Double> hFeatureA, Map<String, Double> hFeatureB) {
     Double score = 0.0;
+    if (hFeatureA.size() == 0 || hFeatureB.size() == 0)
+      return 0.0;
     score = DotProduct(hFeatureA, hFeatureB) / (SetNorm(hFeatureA, 2) * SetNorm(hFeatureB, 2));
     return score;
   }

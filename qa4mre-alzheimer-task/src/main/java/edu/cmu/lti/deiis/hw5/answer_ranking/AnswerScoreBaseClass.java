@@ -119,7 +119,10 @@ public class AnswerScoreBaseClass extends JCasAnnotator_ImplBase {
     // score = (double)unigramScore > 0.5 ? 1.0 : 0.0;
     // else
     // score = (double) nnMatch;// / non_zero;
+//    if (nnMatch > 0.001)
     return nnMatch * sentence.getRelevanceScore();
+//    else
+//      return sentence.getRelevanceScore();
     // return score * sentence.getRelevanceScore();
   }
 

@@ -27,7 +27,8 @@ public class QuestionAnswerPMI extends JCasAnnotator_ImplBase {
   @Override
   public void initialize(UimaContext context) throws ResourceInitializationException {
     super.initialize(context);
-    String serverUrl = "http://127.0.0.1:8983/solr/";
+//    String serverUrl = "http://127.0.0.1:8983/solr/";
+    String serverUrl = "http://peace.isri.cs.cmu.edu:9080/solr/genomics-simple/";
 
     try {
       System.out.println(serverUrl);
@@ -40,12 +41,16 @@ public class QuestionAnswerPMI extends JCasAnnotator_ImplBase {
   public double scoreCoOccurInSameDoc(String question, Answer choice) throws Exception {
     ArrayList<NounPhrase> choiceNounPhrases = Utils.fromFSListToCollection(
             choice.getNounPhraseList(), NounPhrase.class);
+    ArrayList<NER> choiceNER = Utils.fromFSListToCollection(
+            choice.getNerList(), NER.class);
     ArrayList<Token> choiceUnigram = Utils.fromFSListToCollection(choice.getTokenList(),
             Token.class);
     double score = 0.0;
     ArrayList<String> answerTokens = new ArrayList<String>();
-    if (choiceNounPhrases.size() != 0) {
+    if (choiceNounPhrases.size() != 0 || choiceNER.size() != 0) {
       for (NounPhrase np : choiceNounPhrases)
+        answerTokens.add(np.getText());
+      for (NER np : choiceNER)
         answerTokens.add(np.getText());
     } else {
       for (Token token : choiceUnigram)
@@ -135,6 +140,8 @@ public class QuestionAnswerPMI extends JCasAnnotator_ImplBase {
           score = score1 + score2;
         else
           score = (score1 + score2) / 2;
+//        score = score * 2;
+//        score = score2;
         answer.setLocalPMIScore(score);
       }
     }

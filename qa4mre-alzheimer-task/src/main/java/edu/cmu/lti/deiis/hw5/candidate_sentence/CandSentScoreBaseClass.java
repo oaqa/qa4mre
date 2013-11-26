@@ -42,7 +42,9 @@ public class CandSentScoreBaseClass extends JCasAnnotator_ImplBase {
             ScoreUtils.MATCH);
     double[] s3 = ScoreUtils.CalcScore(sentence, question, answer, ScoreUtils.UNIGRAM,
             ScoreUtils.COSINE);
-    double[] s2 = ScoreUtils.CalcScore(sentence, question, answer, ScoreUtils.NOUN_PHRASE,
+    double[] s2 = ScoreUtils.CalcScore(sentence, question, answer, ScoreUtils.NER,
+            ScoreUtils.COSINE);
+    double[] s4 = ScoreUtils.CalcScore(sentence, question, answer, ScoreUtils.NOUN_PHRASE,
             ScoreUtils.COSINE);
     // Writing log for debug
     StringBuilder sb = new StringBuilder();
@@ -56,11 +58,15 @@ public class CandSentScoreBaseClass extends JCasAnnotator_ImplBase {
     sb.append(s2[1] + "\n");
     logTable.put(sentence, sb.toString());
     
+    double score =  s4[0] + s4[1];
     
-    if (s1[1] == 0.0)
-      return 0.0;
-    else
-      return s2[0] + s2[1];
+//    if (s1[1] == 0.0)
+//      return 0.0;
+//    else{
+//      if (score < 0.001)
+//        return 1.0;//s1[1] / Math.sqrt(Utils.fromFSListToCollection(sentence.getTokenList(), Token.class).size());
+      return score;
+//    }
 //    double score = s2[0]; // + s2[1];
 //    if (score == 0.0)
 //      score = s3[0];// + s3[1];

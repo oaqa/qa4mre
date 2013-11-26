@@ -14,6 +14,8 @@ import edu.cmu.lti.qalab.types.Answer;
 import edu.cmu.lti.qalab.types.CandidateAnswer;
 import edu.cmu.lti.qalab.types.CandidateSentence;
 import edu.cmu.lti.qalab.types.CandidateSentenceAnswerSet;
+import edu.cmu.lti.qalab.types.NER;
+import edu.cmu.lti.qalab.types.NounPhrase;
 import edu.cmu.lti.qalab.types.Question;
 import edu.cmu.lti.qalab.types.QuestionAnswerSet;
 import edu.cmu.lti.qalab.types.TestDocument;
@@ -23,7 +25,7 @@ public class AnswerSelectionByKCandVoting extends JCasAnnotator_ImplBase {
 
   int K_CANDIDATES = 5;
 
-  boolean showInfo = true;
+  boolean showInfo = false;
 
   @Override
   public void initialize(UimaContext context) throws ResourceInitializationException {
@@ -36,11 +38,15 @@ public class AnswerSelectionByKCandVoting extends JCasAnnotator_ImplBase {
     double bestSimilarityScore = 0.0;
     double bestPMIScore = 0.0;
     CandidateSentence bestCandSent = null;
+    if (sents.size() == 0){
+      System.out.println("!!!" + answer.getText());
+      System.exit(0);
+    }
     for (CandidateSentence sent : sents) {
       CandidateAnswer candAns = sent.getCandAnswer();
       double totalScore = candAns.getSimilarityScore() + candAns.getSynonymScore()
               + candAns.getPMIScore();
-      if (totalScore > bestScore) {
+      if (totalScore > bestScore || bestCandSent == null) {
         bestScore = totalScore;
         bestSimilarityScore = candAns.getSimilarityScore();
         bestPMIScore = candAns.getPMIScore();
@@ -50,8 +56,18 @@ public class AnswerSelectionByKCandVoting extends JCasAnnotator_ImplBase {
     if (answer.getDebugInfo() == null) {
       answer.setDebugInfo("");
     }
+    
+    if (bestCandSent == null){
+      System.out.println(answer.getText());
+      System.out.println(sents.size());
+      System.out.println(sents.get(0).getSentence().getText());
+      System.exit(0);
+    }
+    
     answer.setDebugInfo(answer.getDebugInfo() + "Best Candidate Sent: "
-            + bestCandSent.getSentence().getText() + "\nSimilarityScore: " + bestSimilarityScore
+            + bestCandSent
+            .getSentence()
+            .getText() + "\nSimilarityScore: " + bestSimilarityScore
            );//) + "\nPMI Score: " + bestPMIScore);
     return bestScore;
   }
@@ -94,7 +110,8 @@ public class AnswerSelectionByKCandVoting extends JCasAnnotator_ImplBase {
           System.out.println(answer.getText() + " " + answer.getIsCorrect() + "\n"
                   + answer.getDebugInfo());
           System.out.println("PMI score with question: " + answer.getLocalPMIScore() + "\n");
-          
+          System.out.println("Answer NER number: " + Utils.fromFSListToCollection(answer.getNerList(), NER.class).size());
+          System.out.println("Answer NP number: " + Utils.fromFSListToCollection(answer.getNounPhraseList(), NounPhrase.class).size());
         }
         
       }
