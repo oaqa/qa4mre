@@ -61,6 +61,9 @@
     <delegateAnalysisEngine key="AcronymAnnotator">
       <import name="annotators.AcronymAnnotator"/>
     </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="AnswerHeuristicAnnotator">
+      <import name="annotators.AnswerHeuristicAnnotator"/>
+    </delegateAnalysisEngine>
     <!--<delegateAnalysisEngine key="AnswerSelectionByKCandAggregation"> <import 
 			location="annotators/AnswerSelectionByKCandAggregation.xml"/> </delegateAnalysisEngine> -->
 
@@ -86,14 +89,15 @@
 				<!-- <node>SynonymAnnotator</node> -->
 				<!-- <node>QASynonymAnnotator</node> -->
 				<node>SymbolAnnotator</node>
-				<node>SolrIndexer</node>
+				<node>AnswerHeuristicAnnotator</node>
 				<!-- <node>QuestionCandSentSynonymMatcher</node> -->
 				<!-- <node>QuestionCandSentDependencyMatcher</node> -->
-				<node>QuestionCandSentSimilarityMatcher</node>
+				<node>SolrIndexer</node>
 				<!--<node>AnswerChoiceCandAnsSynonymScorer</node> -->
 				<!--<node>AnswerChoiceCandAnsPMIScorer</node> -->
+				<node>QuestionCandSentSimilarityMatcher</node>
 				<node>AnswerChoiceCandAnsSimilarityScorer</node>
-				<node>AnswerSelectionByKCandVoting</node>
+        <node>AnswerSelectionByKCandVoting</node>
         <!--<node>AnswerSelectionByKCandVoting</node> -->
 			</fixedFlow>
 		</flowConstraints>
