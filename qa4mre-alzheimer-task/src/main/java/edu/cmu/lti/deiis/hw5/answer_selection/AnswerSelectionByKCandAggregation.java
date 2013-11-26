@@ -76,8 +76,9 @@ public class AnswerSelectionByKCandAggregation extends JCasAnnotator_ImplBase {
 
 					CandidateAnswer candAns = candAnswerList.get(j);
 					String answer = candAns.getText();
-					double totalScore = candAns.getSimilarityScore()
-							+ candAns.getSynonymScore() + candAns.getPMIScore();
+					double totalScore = candAns.getSimilarityScore() + candAns.getSynonymScore()
+          + candAns.getPMIScore() + candAns.getFinalScore();
+
 
 					Double existingVal=hshAnswer.get(answer);
 					if(existingVal==null){

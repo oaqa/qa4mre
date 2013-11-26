@@ -12,8 +12,8 @@ import org.apache.uima.jcas.tcas.Annotation;
 
 
 /** 
- * Updated by JCasGen Thu Nov 21 21:50:12 EST 2013
- * XML source: C:/Users/Lars/git/hw5-team08/qa4mre-base/src/main/resources/TypeSystemDescriptor.xml
+ * Updated by JCasGen Sun Nov 24 14:42:38 EST 2013
+ * XML source: /Users/wanghaoyu/git/hw5-team08/qa4mre-base/src/main/resources/TypeSystemDescriptor.xml
  * @generated */
 public class Question extends Annotation {
   /** @generated
@@ -213,6 +213,24 @@ public class Question extends Annotation {
     if (Question_Type.featOkTst && ((Question_Type)jcasType).casFeat_entityType == null)
       jcasType.jcas.throwFeatMissing("entityType", "edu.cmu.lti.qalab.types.Question");
     jcasType.ll_cas.ll_setStringValue(addr, ((Question_Type)jcasType).casFeatCode_entityType, v);}    
+   
+    
+  //*--------------*
+  //* Feature: target
+
+  /** getter for target - gets 
+   * @generated */
+  public FSList getTarget() {
+    if (Question_Type.featOkTst && ((Question_Type)jcasType).casFeat_target == null)
+      jcasType.jcas.throwFeatMissing("target", "edu.cmu.lti.qalab.types.Question");
+    return (FSList)(jcasType.ll_cas.ll_getFSForRef(jcasType.ll_cas.ll_getRefValue(addr, ((Question_Type)jcasType).casFeatCode_target)));}
+    
+  /** setter for target - sets  
+   * @generated */
+  public void setTarget(FSList v) {
+    if (Question_Type.featOkTst && ((Question_Type)jcasType).casFeat_target == null)
+      jcasType.jcas.throwFeatMissing("target", "edu.cmu.lti.qalab.types.Question");
+    jcasType.ll_cas.ll_setRefValue(addr, ((Question_Type)jcasType).casFeatCode_target, jcasType.ll_cas.ll_getFSRef(v));}    
   }
 
     

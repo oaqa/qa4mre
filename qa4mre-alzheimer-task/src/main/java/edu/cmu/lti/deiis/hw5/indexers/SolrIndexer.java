@@ -3,6 +3,7 @@ package edu.cmu.lti.deiis.hw5.indexers;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 
 import org.apache.solr.common.SolrInputDocument;
@@ -129,7 +130,12 @@ public class SolrIndexer extends JCasAnnotator_ImplBase {
               pList.add(coref.get(k).getText());
             }
           }
+          HashSet<String> pSet = new HashSet<String>();
+          pSet.addAll(pList);
+          pList.clear();
+          pList.addAll(pSet);
           indexMap.put("correference", pList);
+          System.out.println("coreference:" + "\t" + pList.toString());
         }
 
         FSList fsDependencies = sent.getDependencyList();

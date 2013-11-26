@@ -12,8 +12,8 @@ import org.apache.uima.jcas.tcas.Annotation;
 
 
 /** 
- * Updated by JCasGen Thu Nov 21 21:50:12 EST 2013
- * XML source: C:/Users/Lars/git/hw5-team08/qa4mre-base/src/main/resources/TypeSystemDescriptor.xml
+ * Updated by JCasGen Sun Nov 24 14:42:38 EST 2013
+ * XML source: /Users/wanghaoyu/git/hw5-team08/qa4mre-base/src/main/resources/TypeSystemDescriptor.xml
  * @generated */
 public class Answer extends Annotation {
   /** @generated
@@ -295,6 +295,24 @@ public class Answer extends Annotation {
     if (Answer_Type.featOkTst && ((Answer_Type)jcasType).casFeat_matchesQuestionEntityType == null)
       jcasType.jcas.throwFeatMissing("matchesQuestionEntityType", "edu.cmu.lti.qalab.types.Answer");
     jcasType.ll_cas.ll_setBooleanValue(addr, ((Answer_Type)jcasType).casFeatCode_matchesQuestionEntityType, v);}    
+   
+    
+  //*--------------*
+  //* Feature: candidateSentenceList
+
+  /** getter for candidateSentenceList - gets 
+   * @generated */
+  public FSList getCandidateSentenceList() {
+    if (Answer_Type.featOkTst && ((Answer_Type)jcasType).casFeat_candidateSentenceList == null)
+      jcasType.jcas.throwFeatMissing("candidateSentenceList", "edu.cmu.lti.qalab.types.Answer");
+    return (FSList)(jcasType.ll_cas.ll_getFSForRef(jcasType.ll_cas.ll_getRefValue(addr, ((Answer_Type)jcasType).casFeatCode_candidateSentenceList)));}
+    
+  /** setter for candidateSentenceList - sets  
+   * @generated */
+  public void setCandidateSentenceList(FSList v) {
+    if (Answer_Type.featOkTst && ((Answer_Type)jcasType).casFeat_candidateSentenceList == null)
+      jcasType.jcas.throwFeatMissing("candidateSentenceList", "edu.cmu.lti.qalab.types.Answer");
+    jcasType.ll_cas.ll_setRefValue(addr, ((Answer_Type)jcasType).casFeatCode_candidateSentenceList, jcasType.ll_cas.ll_getFSRef(v));}    
   }
 
     

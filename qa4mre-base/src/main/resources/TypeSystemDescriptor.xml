@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <typeSystemDescription xmlns="http://uima.apache.org/resourceSpecifier">
   <name>typeSystemDescriptor</name>
   <description/>
@@ -281,6 +282,12 @@
           <description/>
           <rangeTypeName>uima.cas.Boolean</rangeTypeName>
         </featureDescription>
+      <featureDescription>
+          <name>candidateSentenceList</name>
+          <description/>
+          <rangeTypeName>uima.cas.FSList</rangeTypeName>
+          <elementType>edu.cmu.lti.qalab.types.CandidateSentence</elementType>
+        </featureDescription>
       </features>
     </typeDescription>
     <typeDescription>
@@ -335,6 +342,12 @@
 "DateTime" - question is looking for target entity that contains date or time information (date, event, relative time, etc)
 "Entity" - question is looking for target entity that is a "thing" - not a quantity or date</description>
           <rangeTypeName>uima.cas.String</rangeTypeName>
+        </featureDescription>
+      <featureDescription>
+          <name>target</name>
+          <description/>
+          <rangeTypeName>uima.cas.FSList</rangeTypeName>
+          <elementType>edu.cmu.lti.qalab.types.Synonym</elementType>
         </featureDescription>
       </features>
     </typeDescription>
@@ -473,6 +486,11 @@
         <featureDescription>
           <name>synonymScore</name>
           <description/>
+          <rangeTypeName>uima.cas.Double</rangeTypeName>
+        </featureDescription>
+      <featureDescription>
+          <name>FinalScore</name>
+          <description>The final score of each sentence</description>
           <rangeTypeName>uima.cas.Double</rangeTypeName>
         </featureDescription>
       </features>
