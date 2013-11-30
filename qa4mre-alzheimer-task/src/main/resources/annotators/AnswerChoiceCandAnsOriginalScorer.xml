@@ -24,15 +24,15 @@
     </configurationParameters>
     <configurationParameterSettings>
       <nameValuePair>
-        <name>SOLR_SERVER_URL</name>
-        <value>
-          <string>http://localhost:8983/solr</string>
-        </value>
-      </nameValuePair>
-      <nameValuePair>
         <name>K_CANDIDATES</name>
         <value>
           <integer>5</integer>
+        </value>
+      </nameValuePair>
+    <nameValuePair>
+        <name>SOLR_SERVER_URL</name>
+        <value>
+          <string>http://localhost:8983/solr</string>
         </value>
       </nameValuePair>
     </configurationParameterSettings>

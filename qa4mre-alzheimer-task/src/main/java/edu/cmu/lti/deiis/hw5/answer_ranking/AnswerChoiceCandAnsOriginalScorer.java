@@ -45,6 +45,7 @@ public class AnswerChoiceCandAnsOriginalScorer extends JCasAnnotator_ImplBase {
 
   private SolrWrapper solrWrapper;
   int K_CANDIDATES = 5;
+  int K_CAND_ANS = 3;
 
   public void initialize(UimaContext context)
       throws ResourceInitializationException {
@@ -118,74 +119,167 @@ public class AnswerChoiceCandAnsOriginalScorer extends JCasAnnotator_ImplBase {
 
         ArrayList<CandidateAnswer> candAnsList = new ArrayList<CandidateAnswer>();
         ArrayList<ArrayList<ScoreWeightPair>> scores = new ArrayList<ArrayList<ScoreWeightPair>>();
-        
+
         for (int j = 0; j < choiceList.size(); j++) {
           ArrayList<ScoreWeightPair> scoreList = new ArrayList<ScoreWeightPair>();
           scores.add(scoreList);
           Answer answer = choiceList.get(j);
+          System.out.println("Calculating the "+j+"th answer scores.");
+          double partialScore = 0.0;
 
           // PMI Score for QC+A(NP)
-          double partialScore = 0.0;
-          for (int k = 0; k < candSentNouns.size(); k++) {
-            try {
-              partialScore += scoreCoOccurInSameDoc(candSentNouns.get(k)
-                  .getText(), choiceList.get(j));
+          {
+            partialScore = 0.0;
+            for (int k = 0; k < candSentNouns.size(); k++) {
+              try {
+                partialScore += scoreCoOccurInSameDoc(candSentNouns.get(k)
+                    .getText(), choiceList.get(j));
 
-            } catch (Exception e) {
-              e.printStackTrace();
+              } catch (Exception e) {
+                e.printStackTrace();
+              }
             }
+            scoreList.add(new ScoreWeightPair(partialScore, 1.0));
           }
-          scoreList.add(new ScoreWeightPair(partialScore, 1.0));
 
           // PMI Score for QC+A(NER)
-          partialScore = 0.0;
-          for (int k = 0; k < candSentNers.size(); k++) {
-
-            try {
-              partialScore += scoreCoOccurInSameDoc(candSentNers.get(k)
-                  .getText(), choiceList.get(j));
-            } catch (Exception e) {
-              e.printStackTrace();
-            }
-          }
-          scoreList.add(new ScoreWeightPair(partialScore, 1.0));
-
-          // PMI Score for QC+A(Co-ref)
-          partialScore = 0.0;
-          if (candSentCoref != null) {
-            for (int k = 0; k < candSentCoref.size(); k++) {
+          {
+            partialScore = 0.0;
+            for (int k = 0; k < candSentNers.size(); k++) {
 
               try {
-                partialScore += scoreCoOccurInSameDoc(candSentCoref.get(k)
+                partialScore += scoreCoOccurInSameDoc(candSentNers.get(k)
                     .getText(), choiceList.get(j));
               } catch (Exception e) {
                 e.printStackTrace();
               }
             }
+            scoreList.add(new ScoreWeightPair(partialScore, 1.0));
           }
-          scoreList.add(new ScoreWeightPair(partialScore, 1.0));
+
+          // PMI Score for QC+A(Co-ref)
+          {
+            partialScore = 0.0;
+            if (candSentCoref != null) {
+              for (int k = 0; k < candSentCoref.size(); k++) {
+
+                try {
+                  partialScore += scoreCoOccurInSameDoc(candSentCoref.get(k)
+                      .getText(), choiceList.get(j));
+                } catch (Exception e) {
+                  e.printStackTrace();
+                }
+              }
+            }
+            scoreList.add(new ScoreWeightPair(partialScore, 1.0));
+          }
+
+          // NP & NE Overlap
+          {
+            int nnMatch = 0;
+            ArrayList<NounPhrase> choiceNouns = Utils.fromFSListToCollection(
+                answer.getNounPhraseList(), NounPhrase.class);
+            ArrayList<NER> choiceNERs = Utils.fromFSListToCollection(
+                answer.getNerList(), NER.class);
+            for (int k = 0; k < candSentNouns.size(); k++) {
+              for (int l = 0; l < choiceNERs.size(); l++) {
+                if (candSentNouns.get(k).getText()
+                    .contains(choiceNERs.get(l).getText())) {
+                  nnMatch++;
+                }
+              }
+              for (int l = 0; l < choiceNouns.size(); l++) {
+                if (candSentNouns.get(k).getText()
+                    .contains(choiceNouns.get(l).getText())) {
+                  nnMatch++;
+                }
+              }
+            }
+            for (int k = 0; k < candSentNers.size(); k++) {
+              for (int l = 0; l < choiceNERs.size(); l++) {
+                if (candSentNers.get(k).getText()
+                    .contains(choiceNERs.get(l).getText())) {
+                  nnMatch++;
+                }
+              }
+              for (int l = 0; l < choiceNouns.size(); l++) {
+                if (candSentNers.get(k).getText()
+                    .contains(choiceNouns.get(l).getText())) {
+                  nnMatch++;
+                }
+              }
+            }
+            scoreList.add(new ScoreWeightPair(partialScore, 1.0));
+          }
+
+          // PMI QC+QAC(NP)
+          {
+            partialScore = 0.0;
+            for (int k = 0; k < candSentNers.size(); k++) {
+
+              try {
+                partialScore += scoreCoOccurCandCandNP(candSentNers.get(k)
+                    .getText(), choiceList.get(j));
+              } catch (Exception e) {
+                e.printStackTrace();
+              }
+            }
+            scoreList.add(new ScoreWeightPair(partialScore, 1.0));
+          }
+          
+          // PMI Score for QC+QAC(NER)
+          {
+            partialScore = 0.0;
+            for (int k = 0; k < candSentNers.size(); k++) {
+
+              try {
+                partialScore += scoreCoOccurCandCandNER(candSentNers.get(k)
+                    .getText(), choiceList.get(j));
+              } catch (Exception e) {
+                e.printStackTrace();
+              }
+            }
+            scoreList.add(new ScoreWeightPair(partialScore, 1.0));
+          }
+
+          // PMI Score for QC+QAC(Co-ref)
+          {
+            partialScore = 0.0;
+            if (candSentCoref != null) {
+              for (int k = 0; k < candSentCoref.size(); k++) {
+
+                try {
+                  partialScore += scoreCoOccurCandCandCoref(candSentCoref.get(k)
+                      .getText(), choiceList.get(j), clusterHashMap);
+                } catch (Exception e) {
+                  e.printStackTrace();
+                }
+              }
+            }
+            scoreList.add(new ScoreWeightPair(partialScore, 1.0));
+          }
         }
-        
+
         // Re-scale the score to range(0,1)
-        for (int j = 0; j < scores.get(0).size(); j++)
-        {
+        for (int j = 0; j < scores.get(0).size(); j++) {
           double max = Double.MIN_VALUE;
           double min = Double.MAX_VALUE;
-          for (int k = 0; k < choiceList.size(); k++)
-          {
+          for (int k = 0; k < choiceList.size(); k++) {
             double tempScore = scores.get(k).get(j).score;
-            if (tempScore > max) max = tempScore;
-            if (tempScore < min) min = tempScore;
+            if (tempScore > max)
+              max = tempScore;
+            if (tempScore < min)
+              min = tempScore;
           }
           double range = max - min;
-          if (range == 0) range = 1;
-          for (int k = 0; k < choiceList.size(); k++)
-          {
+          if (range == 0)
+            range = 1;
+          for (int k = 0; k < choiceList.size(); k++) {
             double tempScore = scores.get(k).get(j).score;
-            scores.get(k).get(j).score = (tempScore - min)/range;
+            scores.get(k).get(j).score = (tempScore - min) / range;
           }
         }
-        
+
         for (int j = 0; j < choiceList.size(); j++) {
           double score1 = calculateFinalScore(scores.get(j));
           Answer answer = choiceList.get(j);
@@ -197,9 +291,9 @@ public class AnswerChoiceCandAnsOriginalScorer extends JCasAnnotator_ImplBase {
             score1 *= 1.0;
           if (!entityType)
             score1 *= 0.5;
-  
+
           System.out.println(choiceList.get(j).getText() + " " + score1);
-  
+
           CandidateAnswer candAnswer = null;
           if (candSent.getCandAnswerList() == null) {
             candAnswer = new CandidateAnswer(aJCas);
@@ -214,9 +308,7 @@ public class AnswerChoiceCandAnsOriginalScorer extends JCasAnnotator_ImplBase {
           candAnswer.setFinalScore(score1);
           candAnsList.add(candAnswer);
         }
-        
-        
-        
+
         FSList fsCandAnsList = Utils.fromCollectionToFSList(aJCas, candAnsList);
         candSent.setCandAnswerList(fsCandAnsList);
         candSentList.set(c, candSent);
@@ -234,132 +326,139 @@ public class AnswerChoiceCandAnsOriginalScorer extends JCasAnnotator_ImplBase {
 
   public double scoreCoOccurInSameDoc(String question, Answer choice)
       throws Exception {
-    // String choiceTokens[] = choice.split("[ ]");
     ArrayList<NounPhrase> choiceNounPhrases = Utils.fromFSListToCollection(
         choice.getNounPhraseList(), NounPhrase.class);
     double score = 0.0;
 
     for (int i = 0; i < choiceNounPhrases.size(); i++) {
-      // score1(choicei) = hits(problem AND choicei) / hits(choicei)
       String choiceNounPhrase = choiceNounPhrases.get(i).getText();
-      if (question.split("[ ]").length > 1) {
-        question = "\"" + question + "\"";
-      }
-      if (choiceNounPhrase.split("[ ]").length > 1) {
-        choiceNounPhrase = "\"" + choiceNounPhrase + "\"";
-      }
-
-      String query = question + " AND " + choiceNounPhrase;
-      // System.out.println(query);
-      HashMap<String, String> params = new HashMap<String, String>();
-      params.put("q", query);
-      params.put("rows", "1");
-      SolrParams solrParams = new MapSolrParams(params);
-      QueryResponse rsp = null;
-      long combinedHits = 0;
-      try {
-        rsp = solrWrapper.getServer().query(solrParams);
-        combinedHits = rsp.getResults().getNumFound();
-      } catch (Exception e) {
-        // System.out.println(e + "\t" + query);
-      }
-
-      // System.out.println(query+"\t"+combinedHits);
-
-      query = choiceNounPhrase;
-      // System.out.println(query);
-      params = new HashMap<String, String>();
-      params.put("q", query);
-      params.put("rows", "1");
-      solrParams = new MapSolrParams(params);
-
-      long nHits1 = 0;
-      try {
-        rsp = solrWrapper.getServer().query(solrParams);
-        nHits1 = rsp.getResults().getNumFound();
-      } catch (Exception e) {
-        // System.out.println(e+"\t"+query);
-      }
-      // System.out.println(query+"\t"+nHits1);
-
-      /*
-       * query = question; // System.out.println(query); params = new
-       * HashMap<String, String>(); params.put("q", query); params.put("rows",
-       * "1"); solrParams = new MapSolrParams(params); rsp =
-       * solrWrapper.getServer().query(solrParams); long nHits2 =
-       * rsp.getResults().getNumFound(); //
-       * System.out.println(query+"\t"+nHits2);
-       */
-
-      // score += myLog(combinedHits, nHits1, nHits2);
-      if (nHits1 != 0) {
-        score += (double) combinedHits / nHits1;
+      score += getCoOccur(question, choiceNounPhrase);
+    }
+    return score;
+  }
+  
+  public double scoreCoOccurCandCandNP(String question, Answer choice)
+      throws Exception {
+    
+    double score = 0.0;
+    ArrayList<CandidateSentence> candSentList = Utils.fromFSListToCollection(
+        choice.getCandidateSentenceList(), CandidateSentence.class);
+    int topK = Math.min(K_CANDIDATES, candSentList.size());
+    for (int j = 0; j < topK; j++)
+    {
+      Sentence sent = candSentList.get(j).getSentence();
+      
+      // NP
+      ArrayList<NounPhrase> choiceNounPhrases = Utils.fromFSListToCollection(
+          sent.getPhraseList(), NounPhrase.class);
+      for (int i = 0; i < choiceNounPhrases.size(); i++) {
+        String choiceNounPhrase = choiceNounPhrases.get(i).getText();
+        score += getCoOccur(question, choiceNounPhrase);
       }
     }
-    if (choiceNounPhrases.size() > 0) {
-      // score=score/choiceNounPhrases.size();
+    return score;
+  }
+  
+  public double scoreCoOccurCandCandNER(String question, Answer choice)
+      throws Exception {
+    
+    double score = 0.0;
+    ArrayList<CandidateSentence> candSentList = Utils.fromFSListToCollection(
+        choice.getCandidateSentenceList(), CandidateSentence.class);
+    int topK = Math.min(K_CANDIDATES, candSentList.size());
+    for (int j = 0; j < topK; j++)
+    {
+      Sentence sent = candSentList.get(j).getSentence();
+      
+      // NER
+      ArrayList<NounPhrase> choiceNER = Utils.fromFSListToCollection(
+          sent.getNerList(), NounPhrase.class);
+      for (int i = 0; i < choiceNER.size(); i++) {
+        String choiceNounPhrase = choiceNER.get(i).getText();
+        score += getCoOccur(question, choiceNounPhrase);
+      }
     }
-    if (choiceNounPhrases.size() == 0) {
-      ArrayList<Token> choiceTokens = Utils.fromFSListToCollection(
-          choice.getTokenList(), Token.class);
-      for (int i = 0; i < choiceTokens.size(); i++) {
-        String choiceToken = choiceTokens.get(i).getText();
-        if (question.split("[ ]").length > 1) {
-          question = "\"" + question + "\"";
+    return score;
+  }
+  
+  public double scoreCoOccurCandCandCoref(String question, Answer choice, HashMap<Integer, Corefcluster> clusterHashMap)
+      throws Exception {
+    
+    double score = 0.0;
+    ArrayList<CandidateSentence> candSentList = Utils.fromFSListToCollection(
+        choice.getCandidateSentenceList(), CandidateSentence.class);
+    int topK = Math.min(K_CAND_ANS, candSentList.size());
+    for (int k = 0; k < topK; k++)
+    {
+      Sentence sent = candSentList.get(k).getSentence();
+      ArrayList<Phrase> candSentCoref = null;
+      if (sent.getGenPhraseList() != null) {
+        FSList fsPList = sent.getGenPhraseList();
+        ArrayList<Phrase> phrases = Utils.fromFSListToCollection(fsPList,
+            Phrase.class);
+        for (int j = 0; j < phrases.size(); j++) {
+          Phrase phrase = (Phrase) phrases.get(j);
+          int clusterID = phrase.getCluster();
+          Corefcluster corefcluster = clusterHashMap.get(clusterID);
+          if (corefcluster.getChain() == null) {
+            continue;
+          }
+          candSentCoref = Utils.fromFSListToCollection(
+              corefcluster.getChain(), Phrase.class);
         }
-        if (choiceToken.split("[ ]").length > 1) {
-          choiceToken = "\"" + choiceToken + "\"";
-        }
-
-        String query = question + " AND " + choiceToken;
-        // System.out.println(query);
-        HashMap<String, String> params = new HashMap<String, String>();
-        params.put("q", query);
-        params.put("rows", "1");
-        SolrParams solrParams = new MapSolrParams(params);
-        QueryResponse rsp = null;
-        long combinedHits = 0;
-        try {
-          rsp = solrWrapper.getServer().query(solrParams);
-          combinedHits = rsp.getResults().getNumFound();
-        } catch (Exception e) {
-          // System.out.println(e + "\t" + query);
-        }
-
-        // System.out.println(query+"\t"+combinedHits);
-
-        query = choiceToken;
-        // System.out.println(query);
-        params = new HashMap<String, String>();
-        params.put("q", query);
-        params.put("rows", "1");
-        solrParams = new MapSolrParams(params);
-
-        long nHits1 = 0;
-        try {
-          rsp = solrWrapper.getServer().query(solrParams);
-          nHits1 = rsp.getResults().getNumFound();
-        } catch (Exception e) {
-          // System.out.println(e+"\t"+query);
-        }
-        // System.out.println(query+"\t"+nHits1);
-
-        /*
-         * query = question; // System.out.println(query); params = new
-         * HashMap<String, String>(); params.put("q", query); params.put("rows",
-         * "1"); solrParams = new MapSolrParams(params); rsp =
-         * solrWrapper.getServer().query(solrParams); long nHits2 =
-         * rsp.getResults().getNumFound(); //
-         * System.out.println(query+"\t"+nHits2);
-         */
-
-        // score += myLog(combinedHits, nHits1, nHits2);
-        if (nHits1 != 0) {
-          score += (double) combinedHits / nHits1;
+      }
+      if (candSentCoref != null)
+      {
+        for (int i = 0; i < candSentCoref.size(); i++) {
+          String choiceNounPhrase = candSentCoref.get(i).getText();
+          score += getCoOccur(question, choiceNounPhrase);
         }
       }
     }
     return score;
+  }
+  
+  double getCoOccur(String t1, String t2)
+  {
+    double ret = 0.0;
+    if (t1.split("[ ]").length > 1) {
+      t1 = "\"" + t1 + "\"";
+    }
+    if (t2.split("[ ]").length > 1) {
+      t2 = "\"" + t2 + "\"";
+    }
+
+    String query = t1 + " AND " + t2;
+    HashMap<String, String> params = new HashMap<String, String>();
+    params.put("q", query);
+    params.put("rows", "1");
+    SolrParams solrParams = new MapSolrParams(params);
+    QueryResponse rsp = null;
+    long combinedHits = 0;
+    try {
+      rsp = solrWrapper.getServer().query(solrParams);
+      combinedHits = rsp.getResults().getNumFound();
+    } catch (Exception e) {
+      // System.out.println(e + "\t" + query);
+    }
+
+    query = t2;
+    params = new HashMap<String, String>();
+    params.put("q", query);
+    params.put("rows", "1");
+    solrParams = new MapSolrParams(params);
+
+    long nHits1 = 0;
+    try {
+      rsp = solrWrapper.getServer().query(solrParams);
+      nHits1 = rsp.getResults().getNumFound();
+    } catch (Exception e) {
+      // System.out.println(e+"\t"+query);
+    }
+    if (nHits1 != 0) {
+      ret += (double) combinedHits / nHits1;
+    }
+    return ret;
   }
 
   private double calculateFinalScore(ArrayList<ScoreWeightPair> scoreList) {
