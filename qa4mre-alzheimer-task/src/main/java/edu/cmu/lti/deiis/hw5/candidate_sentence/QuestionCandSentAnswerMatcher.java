@@ -68,6 +68,7 @@ public class QuestionCandSentAnswerMatcher extends JCasAnnotator_ImplBase {
   public void process(JCas aJCas) throws AnalysisEngineProcessException {
     TestDocument testDoc = Utils.getTestDocumentFromCAS(aJCas);
     String testDocId = testDoc.getId();
+    System.out.println(testDocId);
     ArrayList<Sentence> sentenceList = Utils.getSentenceListFromTestDocCAS(aJCas);
     ArrayList<QuestionAnswerSet> qaSet = Utils.getQuestionAnswerSetFromTestDocCAS(aJCas);
 
