@@ -107,7 +107,7 @@ public class QA4MRETestDocReader extends CollectionReader_ImplBase {
 			String questionStr = questionNode.item(0).getTextContent();
 			NodeList answerNodeList = questionEle
 					.getElementsByTagName("answer");
-
+			
 			Question question = new Question(jcas);
 			question.setText(questionStr);
 			ArrayList<Answer> answerCollection = new ArrayList<Answer>();
@@ -117,9 +117,9 @@ public class QA4MRETestDocReader extends CollectionReader_ImplBase {
 																	// a_id="2"
 																	// correct="Yes">aromatase</answer>
         String isDiscard = ansEle.getAttribute("discard");// <answer
-        if(isDiscard!=null){
-          continue;
-        }
+//        if(isDiscard!=null){
+//          continue;
+//        }
 				String answer = answerNodeList.item(j).getTextContent();
 				Answer ans = new Answer(jcas);
 

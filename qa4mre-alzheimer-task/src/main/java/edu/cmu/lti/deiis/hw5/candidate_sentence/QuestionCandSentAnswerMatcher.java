@@ -77,8 +77,10 @@ public class QuestionCandSentAnswerMatcher extends JCasAnnotator_ImplBase {
       System.out.println("========================================================");
       System.out.println("Question: " + question.getText());
       for (Answer answer : FSCollectionFactory.create(qaSet.get(i).getAnswerList(), Answer.class)) {
-        String searchQuery = this.formSolrQuery(question, answer);
+         System.out.println("Answer is " + answer.getText());
+    	  String searchQuery = this.formSolrQuery(question, answer);
         if (searchQuery.trim().equals("")) {
+        	System.out.println("None!");
           continue;
         }
         ArrayList<CandidateSentence> candidateSentList = new ArrayList<CandidateSentence>();
@@ -94,7 +96,9 @@ public class QuestionCandSentAnswerMatcher extends JCasAnnotator_ImplBase {
             String sentId = doc.get("id").toString();
             String docId = doc.get("docid").toString();
             if (!testDocId.equals(docId)) {
-              continue;
+            	System.out.println("No equal!");
+            	continue;
+              
             }
             String sentIdx = sentId.replace(docId, "").replace("_", "").trim();
             int idx = Integer.parseInt(sentIdx);
@@ -128,10 +132,11 @@ public class QuestionCandSentAnswerMatcher extends JCasAnnotator_ImplBase {
 
   public String formSolrQuery(Question question, Answer answer) {
     String query = "";
-    query += deleteStopWords(question.getText());
-    query += " " + addSyno(question.getText()) + " ";
-    query += deleteStopWords(answer.getText());
-    query += " " + addSyno(answer.getText());
+//    query += deleteStopWords(question.getText());
+//    query += " " + addSyno(question.getText()) + " ";
+//    query += deleteStopWords(answer.getText());
+//    query += " " + addSyno(answer.getText());
+    query = "nounphrases: mice";
     System.out.println("Answer-Question Query: " + query);
     return query;
   }
