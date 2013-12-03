@@ -176,7 +176,7 @@ public class QuestionCandSentAnswerMatcher extends JCasAnnotator_ImplBase {
     while ((line = reader.readLine()) != null) {
       String[] s = line.split(":");
       word.add(s[0].toLowerCase().trim());
-      syno.add(s[1].toLowerCase().trim());
+      syno.add(s[1].toLowerCase().substring(0, s[1].indexOf('(')));
     }
     reader.close();
   }
