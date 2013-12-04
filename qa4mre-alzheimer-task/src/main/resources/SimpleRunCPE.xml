@@ -82,13 +82,6 @@
         <node>QuestionPhraseAnnotator</node>
         <node>NEAnnotator</node>
         <node>QuestionNEAnnotator</node>
-        <!-- <node>SynonymAnnotator</node>-->
-        <!-- <node>QASynonymAnnotator</node>-->
-        <node>QuestionCandSentSimilarityMatcher</node>
-        <node>AnswerChoiceCandAnsSimilarityScorer</node>
-        <!-- <node>QuestionCandSentSynonymMatcher</node> -->        
-        <!-- <node>QuestionCandSentDependencyMatcher</node>-->
-        <node>AnswerSelectionByKCandVoting</node>
         <!--<node>AnswerSelectionByKCandVoting</node>-->
       </fixedFlow>
     </flowConstraints>
