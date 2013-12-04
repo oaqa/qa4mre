@@ -27,7 +27,12 @@ import edu.cmu.lti.qalab.types.QuestionAnswerSet;
 import edu.cmu.lti.qalab.types.Sentence;
 import edu.cmu.lti.qalab.types.TestDocument;
 import edu.cmu.lti.qalab.utils.Utils;
-
+/**
+ * 
+ * @author Ran Chen
+ * 
+ *
+ */
 public class QuestionCandSentAnswerMatcher extends JCasAnnotator_ImplBase {
 
   SolrWrapper solrWrapper = null;
