@@ -68,6 +68,7 @@ public class QuestionCandSentAnswerMatcher extends JCasAnnotator_ImplBase {
   public void process(JCas aJCas) throws AnalysisEngineProcessException {
     TestDocument testDoc = Utils.getTestDocumentFromCAS(aJCas);
     String testDocId = testDoc.getId();
+    testDocId = testDocId.substring(0,6)+"-"+testDocId.substring(6);
     System.out.println(testDocId);
     ArrayList<Sentence> sentenceList = Utils.getSentenceListFromTestDocCAS(aJCas);
     ArrayList<QuestionAnswerSet> qaSet = Utils.getQuestionAnswerSetFromTestDocCAS(aJCas);
@@ -81,8 +82,7 @@ public class QuestionCandSentAnswerMatcher extends JCasAnnotator_ImplBase {
          System.out.println("Answer is " + answer.getText());
     	  String searchQuery = this.formSolrQuery(question, answer);
         if (searchQuery.trim().equals("")) {
-        	System.out.println("None!");
-          continue;
+        	 continue;
         }
         ArrayList<CandidateSentence> candidateSentList = new ArrayList<CandidateSentence>();
         SolrQuery solrQuery = new SolrQuery();
@@ -133,11 +133,11 @@ public class QuestionCandSentAnswerMatcher extends JCasAnnotator_ImplBase {
 
   public String formSolrQuery(Question question, Answer answer) {
     String query = "";
-//    query += deleteStopWords(question.getText());
-//    query += " " + addSyno(question.getText()) + " ";
-//    query += deleteStopWords(answer.getText());
-//    query += " " + addSyno(answer.getText());
-    query = "nounphrases: mice";
+    query += deleteStopWords(question.getText());
+    query += " " + addSyno(question.getText()) + " ";
+    query += deleteStopWords(answer.getText());
+    query += " " + addSyno(answer.getText());
+    //query = "nounphrases: mice";
     System.out.println("Answer-Question Query: " + query);
     return query;
   }
