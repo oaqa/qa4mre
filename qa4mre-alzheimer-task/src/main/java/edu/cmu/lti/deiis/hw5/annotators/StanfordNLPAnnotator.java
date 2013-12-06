@@ -92,7 +92,11 @@ public class StanfordNLPAnnotator extends JCasAnnotator_ImplBase {
       // Each chain stores a set of mentions that link to each other,
       // along with a method for getting the most representative mention
       // Both sentence and token offsets start at 1!
+			//These will annotate 'Phrase' field where phrases are relevant to coreference.
+			//This will annotate the cluster(coref chains) too. 
+			//Their are pointers between sentences, phrases and clusters, so that everything is interconnected.
       Map<Integer, CorefChain> graph = document.get(CorefChainAnnotation.class);
+      //sentPhrase maps all the sentences to the phrases they contain. These phrases are relevant from coreference point of view and hence also contain 'it','He' etc.
       HashMap<Integer,ArrayList<Phrase>> sentPhrase= new HashMap<Integer,ArrayList<Phrase>>();
       for(Entry<Integer, CorefChain> set:graph.entrySet()){
         Corefcluster anncoref=new Corefcluster(jCas);

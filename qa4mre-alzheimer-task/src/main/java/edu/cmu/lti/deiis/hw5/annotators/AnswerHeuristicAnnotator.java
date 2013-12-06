@@ -205,6 +205,12 @@ public class AnswerHeuristicAnnotator extends JCasAnnotator_ImplBase {
 
   }
 
+  /**
+   * Finds the thing that is being asked for in the question. 
+   * Should be thrown out while constructing queries for question and candidate answer together.
+   * @param question
+   * @return
+   */
   private Set<String> findTarget(Question question) {
     // System.out.println(question.getText());
     FSList Fdeplist = question.getDependencies();
@@ -222,7 +228,7 @@ public class AnswerHeuristicAnnotator extends JCasAnnotator_ImplBase {
       govs.add(gov);
       depmap.put(depd, gov);
 
-      if (depd.getPos().startsWith("W")) {
+      if (depd.getPos().startsWith("W")) { // Identify the question
         kind = depd;
       }
     }
@@ -230,6 +236,7 @@ public class AnswerHeuristicAnnotator extends JCasAnnotator_ImplBase {
     ArrayList<String> commonl = new ArrayList<String>();
     ArrayList<String> keyl = new ArrayList<String>();
     ArrayList<String> govl = new ArrayList<String>();
+    // Make hashmaps for tokens and governers
     for (Token tok : tlist) {
       commonl.add(tok.getText());
     }
@@ -239,8 +246,10 @@ public class AnswerHeuristicAnnotator extends JCasAnnotator_ImplBase {
     for (Token tok : depmap.keySet()) {
       keyl.add(tok.getText());
     }
+    //Find a governer that is not anyone's dependent (i.e. find the root of the sentence)
     commonl.removeAll(keyl);
     commonl.retainAll(govl);
+    //identify everything between the question word and the head to find target
     if (commonl.size() != 1) {
       target.add(kind);
     } else {
@@ -269,7 +278,12 @@ public class AnswerHeuristicAnnotator extends JCasAnnotator_ImplBase {
 
     return utarget;
   }
-
+  /**
+   * deprecated
+   * @param depmap
+   * @param seed
+   * @param target
+   */
   private void dfs(HashMap<Token, Token> depmap, Token seed, ArrayList<Token> target) {
     // System.out.println(seed.getText());
     System.out.println("Seed: " + seed.getText());
