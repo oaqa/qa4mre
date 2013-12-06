@@ -14,7 +14,7 @@ import org.apache.uima.cas.Feature;
 import org.apache.uima.jcas.tcas.Annotation_Type;
 
 /** 
- * Updated by JCasGen Thu Nov 21 19:37:48 EST 2013
+ * Updated by JCasGen Thu Dec 05 14:35:26 EST 2013
  * @generated */
 public class Question_Type extends Annotation_Type {
   /** @generated */
@@ -169,6 +169,42 @@ public class Question_Type extends Annotation_Type {
     ll_cas.ll_setIntValue(addr, casFeatCode_questionType, v);}
     
   
+ 
+  /** @generated */
+  final Feature casFeat_hasNoneOfTheAbove;
+  /** @generated */
+  final int     casFeatCode_hasNoneOfTheAbove;
+  /** @generated */ 
+  public boolean getHasNoneOfTheAbove(int addr) {
+        if (featOkTst && casFeat_hasNoneOfTheAbove == null)
+      jcas.throwFeatMissing("hasNoneOfTheAbove", "edu.cmu.lti.qalab.types.Question");
+    return ll_cas.ll_getBooleanValue(addr, casFeatCode_hasNoneOfTheAbove);
+  }
+  /** @generated */    
+  public void setHasNoneOfTheAbove(int addr, boolean v) {
+        if (featOkTst && casFeat_hasNoneOfTheAbove == null)
+      jcas.throwFeatMissing("hasNoneOfTheAbove", "edu.cmu.lti.qalab.types.Question");
+    ll_cas.ll_setBooleanValue(addr, casFeatCode_hasNoneOfTheAbove, v);}
+    
+  
+ 
+  /** @generated */
+  final Feature casFeat_answerClass;
+  /** @generated */
+  final int     casFeatCode_answerClass;
+  /** @generated */ 
+  public String getAnswerClass(int addr) {
+        if (featOkTst && casFeat_answerClass == null)
+      jcas.throwFeatMissing("answerClass", "edu.cmu.lti.qalab.types.Question");
+    return ll_cas.ll_getStringValue(addr, casFeatCode_answerClass);
+  }
+  /** @generated */    
+  public void setAnswerClass(int addr, String v) {
+        if (featOkTst && casFeat_answerClass == null)
+      jcas.throwFeatMissing("answerClass", "edu.cmu.lti.qalab.types.Question");
+    ll_cas.ll_setStringValue(addr, casFeatCode_answerClass, v);}
+    
+  
 
 
 
@@ -205,6 +241,14 @@ public class Question_Type extends Annotation_Type {
  
     casFeat_questionType = jcas.getRequiredFeatureDE(casType, "questionType", "uima.cas.Integer", featOkTst);
     casFeatCode_questionType  = (null == casFeat_questionType) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_questionType).getCode();
+
+ 
+    casFeat_hasNoneOfTheAbove = jcas.getRequiredFeatureDE(casType, "hasNoneOfTheAbove", "uima.cas.Boolean", featOkTst);
+    casFeatCode_hasNoneOfTheAbove  = (null == casFeat_hasNoneOfTheAbove) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_hasNoneOfTheAbove).getCode();
+
+ 
+    casFeat_answerClass = jcas.getRequiredFeatureDE(casType, "answerClass", "uima.cas.String", featOkTst);
+    casFeatCode_answerClass  = (null == casFeat_answerClass) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_answerClass).getCode();
 
   }
 }

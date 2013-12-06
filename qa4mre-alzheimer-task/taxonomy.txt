@@ -1,0 +1,34 @@
+experimental
+ChIP
+promoter deletion experiments
+electrophoretic mobility shift assay
+immunostaining
+
+software
+MatInspector
+
+organism
+mouse
+
+human body
+head
+
+target gene
+Seladin-1,APP
+
+gene symbol
+BACE
+microtubule-associated protein tau
+APOE
+
+long name
+selective AD indicator 1
+
+method
+ChIP
+
+program
+WebPrank
+
+specific protein forms
+APC

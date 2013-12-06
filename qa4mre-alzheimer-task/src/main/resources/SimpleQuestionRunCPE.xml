@@ -45,6 +45,9 @@
   <delegateAnalysisEngine key="QuestionAnswerPMI">
       <import name="annotators.QuestionAnswerPMI"/>
     </delegateAnalysisEngine>
+  <delegateAnalysisEngine key="NoneOfTheAbove">
+      <import name="annotators.NoneOfTheAbove"/>
+    </delegateAnalysisEngine>
   </delegateAnalysisEngineSpecifiers>
   <analysisEngineMetaData>
     <name>CpeQuestionDescriptor</name>
@@ -63,8 +66,7 @@
         <!--<node>AnswerChoiceCandAnsPMIScorer</node>-->
         <node>CandSentScoreBaseClass</node>
       <node>AnswerScoreBaseClass</node>
-        <node>QuestionAnswerPMI</node>
-      <node>AnswerSelectionByKCandVoting</node>
+        <node>AnswerSelectionByKCandVoting</node>
       </fixedFlow>
     </flowConstraints>
     <typePriorities/>

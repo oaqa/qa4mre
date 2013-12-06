@@ -59,6 +59,7 @@ public class CandSentScoreBaseClass extends JCasAnnotator_ImplBase {
     logTable.put(sentence, sb.toString());
     
     double score =  s4[0] + s4[1];
+//    double score = s4[1];
     
 //    if (s1[1] == 0.0)
 //      return 0.0;

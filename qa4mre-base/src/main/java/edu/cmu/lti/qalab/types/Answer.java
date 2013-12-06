@@ -13,7 +13,7 @@ import org.apache.uima.jcas.tcas.Annotation;
 
 
 /** 
- * Updated by JCasGen Thu Nov 21 19:37:48 EST 2013
+ * Updated by JCasGen Thu Dec 05 14:35:25 EST 2013
  * XML source: /Users/troy/git/hw5-team10/qa4mre-base/src/main/resources/TypeSystemDescriptor.xml
  * @generated */
 public class Answer extends Annotation {
@@ -314,6 +314,24 @@ public class Answer extends Annotation {
     if (Answer_Type.featOkTst && ((Answer_Type)jcasType).casFeat_debugInfo == null)
       jcasType.jcas.throwFeatMissing("debugInfo", "edu.cmu.lti.qalab.types.Answer");
     jcasType.ll_cas.ll_setStringValue(addr, ((Answer_Type)jcasType).casFeatCode_debugInfo, v);}    
+   
+    
+  //*--------------*
+  //* Feature: isNoneOfTheAbove
+
+  /** getter for isNoneOfTheAbove - gets 
+   * @generated */
+  public boolean getIsNoneOfTheAbove() {
+    if (Answer_Type.featOkTst && ((Answer_Type)jcasType).casFeat_isNoneOfTheAbove == null)
+      jcasType.jcas.throwFeatMissing("isNoneOfTheAbove", "edu.cmu.lti.qalab.types.Answer");
+    return jcasType.ll_cas.ll_getBooleanValue(addr, ((Answer_Type)jcasType).casFeatCode_isNoneOfTheAbove);}
+    
+  /** setter for isNoneOfTheAbove - sets  
+   * @generated */
+  public void setIsNoneOfTheAbove(boolean v) {
+    if (Answer_Type.featOkTst && ((Answer_Type)jcasType).casFeat_isNoneOfTheAbove == null)
+      jcasType.jcas.throwFeatMissing("isNoneOfTheAbove", "edu.cmu.lti.qalab.types.Answer");
+    jcasType.ll_cas.ll_setBooleanValue(addr, ((Answer_Type)jcasType).casFeatCode_isNoneOfTheAbove, v);}    
   }
 
     

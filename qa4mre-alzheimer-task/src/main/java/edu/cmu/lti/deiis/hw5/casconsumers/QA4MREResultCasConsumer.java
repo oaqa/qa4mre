@@ -20,72 +20,88 @@ import edu.cmu.lti.qalab.utils.Utils;
 
 public class QA4MREResultCasConsumer extends CasConsumer_ImplBase {
 
-	int mDocNum;
-	File mOutputDir = null;
+  int mDocNum;
 
-	double THRESHOLD = 4.0;
+  double c1Sum;
 
-	@Override
-	public void initialize() {
+  StringBuilder sb;
 
-		mDocNum = 0;
-		try {
-			mOutputDir = new File(
-					(String) getConfigParameterValue("OUTPUT_DIR"));
+  File mOutputDir = null;
 
-			THRESHOLD = Double
-					.parseDouble((String) getConfigParameterValue("THRESHOLD"));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+  double THRESHOLD = 4.0;
 
-	}
+  @Override
+  public void initialize() {
 
-	@Override
-	public void processCas(CAS aCAS) throws ResourceProcessException {
+    mDocNum = 0;
+    c1Sum = 0.0;
+    sb = new StringBuilder();
+    try {
+      mOutputDir = new File((String) getConfigParameterValue("OUTPUT_DIR"));
 
-		JCas jCas;
-		try {
-			jCas = aCAS.getJCas();
-		} catch (CASException e) {
-			throw new ResourceProcessException(e);
-		}
+      THRESHOLD = Double.parseDouble((String) getConfigParameterValue("THRESHOLD"));
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
 
-		TestDocument srcDoc = Utils.getTestDocumentFromCAS(jCas);
-		
-		String docId = srcDoc.getId();
-		String outFileName = mOutputDir + "/" + docId + ".xmi";
-		try {
-			File outFile = new File(outFileName);
-			this.writeXmi(aCAS, outFile);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+  }
 
-	private void writeXmi(CAS aCas, File outFile) throws IOException,
-			SAXException {
-		FileOutputStream out = null;
+  @Override
+  public void processCas(CAS aCAS) throws ResourceProcessException {
 
-		try {
-			// write XMI
-			out = new FileOutputStream(outFile);
-			XmiCasSerializer ser = new XmiCasSerializer(aCas.getTypeSystem());
-			XMLSerializer xmlSer = new XMLSerializer(out, false);
-			ser.serialize(aCas, xmlSer.getContentHandler());
-		} finally {
-			if (out != null) {
-				out.close();
-			}
-		}
-	}
+    JCas jCas;
+    try {
+      jCas = aCAS.getJCas();
+    } catch (CASException e) {
+      throw new ResourceProcessException(e);
+    }
 
-	/**
-	 * Closes the file and other resources initialized during the process
-	 * 
-	 */
-	@Override
-	public void destroy() {
+    FSIterator it = jCas.getAnnotationIndex(TestDocument.type).iterator();
+    TestDocument srcDoc = null;
 
-	}
+    if (it.hasNext()) {
+      srcDoc = (TestDocument) it.next();
+      double c1 = srcDoc.getC1score();
+      c1Sum += c1;
+      mDocNum++;
+      sb.append("C1 score: " + c1 + ", " + srcDoc.getCorrectAnswered() + "/" + srcDoc.getAnswered()
+              + "\n");
+      String docId = srcDoc.getId();
+      String outFileName = mOutputDir + "/" + docId + ".xmi";
+      try {
+        File outFile = new File(outFileName);
+        this.writeXmi(aCAS, outFile);
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+    }
+
+  }
+
+  private void writeXmi(CAS aCas, File outFile) throws IOException, SAXException {
+    FileOutputStream out = null;
+
+    try {
+      // write XMI
+      out = new FileOutputStream(outFile);
+      XmiCasSerializer ser = new XmiCasSerializer(aCas.getTypeSystem());
+      XMLSerializer xmlSer = new XMLSerializer(out, false);
+      ser.serialize(aCas, xmlSer.getContentHandler());
+    } finally {
+      if (out != null) {
+        out.close();
+      }
+    }
+  }
+
+  /**
+   * Closes the file and other resources initialized during the process
+   * 
+   */
+  @Override
+  public void destroy() {
+    System.out.println("Document number: " + mDocNum);
+    System.out.println("Average c1 score: " + c1Sum / mDocNum);
+    System.out.println(sb.toString());
+  }
 }

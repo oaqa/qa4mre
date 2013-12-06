@@ -14,7 +14,7 @@ import org.apache.uima.cas.Feature;
 import org.apache.uima.jcas.tcas.Annotation_Type;
 
 /** 
- * Updated by JCasGen Thu Nov 21 19:37:48 EST 2013
+ * Updated by JCasGen Thu Dec 05 14:35:25 EST 2013
  * @generated */
 public class Answer_Type extends Annotation_Type {
   /** @generated */
@@ -295,6 +295,24 @@ public class Answer_Type extends Annotation_Type {
     ll_cas.ll_setStringValue(addr, casFeatCode_debugInfo, v);}
     
   
+ 
+  /** @generated */
+  final Feature casFeat_isNoneOfTheAbove;
+  /** @generated */
+  final int     casFeatCode_isNoneOfTheAbove;
+  /** @generated */ 
+  public boolean getIsNoneOfTheAbove(int addr) {
+        if (featOkTst && casFeat_isNoneOfTheAbove == null)
+      jcas.throwFeatMissing("isNoneOfTheAbove", "edu.cmu.lti.qalab.types.Answer");
+    return ll_cas.ll_getBooleanValue(addr, casFeatCode_isNoneOfTheAbove);
+  }
+  /** @generated */    
+  public void setIsNoneOfTheAbove(int addr, boolean v) {
+        if (featOkTst && casFeat_isNoneOfTheAbove == null)
+      jcas.throwFeatMissing("isNoneOfTheAbove", "edu.cmu.lti.qalab.types.Answer");
+    ll_cas.ll_setBooleanValue(addr, casFeatCode_isNoneOfTheAbove, v);}
+    
+  
 
 
 
@@ -359,6 +377,10 @@ public class Answer_Type extends Annotation_Type {
  
     casFeat_debugInfo = jcas.getRequiredFeatureDE(casType, "debugInfo", "uima.cas.String", featOkTst);
     casFeatCode_debugInfo  = (null == casFeat_debugInfo) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_debugInfo).getCode();
+
+ 
+    casFeat_isNoneOfTheAbove = jcas.getRequiredFeatureDE(casType, "isNoneOfTheAbove", "uima.cas.Boolean", featOkTst);
+    casFeatCode_isNoneOfTheAbove  = (null == casFeat_isNoneOfTheAbove) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_isNoneOfTheAbove).getCode();
 
   }
 }

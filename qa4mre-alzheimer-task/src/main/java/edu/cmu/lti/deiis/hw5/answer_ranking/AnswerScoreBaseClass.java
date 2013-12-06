@@ -35,36 +35,35 @@ public class AnswerScoreBaseClass extends JCasAnnotator_ImplBase {
   }
 
   public double computScore(Answer answer, CandidateSentence sentence) {
-    // ArrayList<Token> answerTokenList = Utils.fromFSListToCollection(answer.getTokenList(),
-    // Token.class);
-    // ArrayList<Token> sentTokenList = Utils.fromFSListToCollection(sentence.getSentence()
-    // .getTokenList(), Token.class);
-    //
-    // Hashtable<String, Integer> sentenceSet = new Hashtable<String, Integer>();
-    // for (Token token : sentTokenList) {
-    // String text = token.getText();
-    // if (!sentenceSet.containsKey(text))
-    // sentenceSet.put(text, 0);
-    // sentenceSet.put(text, sentenceSet.get(text) + 1);
-    // }
-    //
-    // int min_counter = Integer.MAX_VALUE;
-    //
-    //
-    // for (Token token : answerTokenList) {
-    // String text = token.getText();
-    // if (sentenceSet.containsKey(text))
-    // if (min_counter > sentenceSet.get(text))
-    // min_counter = sentenceSet.get(text);
-    // }
-    //
-    // if (min_counter == Integer.MAX_VALUE){
-    //
-    // min_counter = 0;
-    // }
-    //
-    // double unigramScore = ((double) min_counter);// / Math.sqrt(sentTokenList.size());
-    // double non_zero = 0.0;
+    ArrayList<Token> answerTokenList = Utils.fromFSListToCollection(answer.getTokenList(),
+            Token.class);
+    ArrayList<Token> sentTokenList = Utils.fromFSListToCollection(sentence.getSentence()
+            .getTokenList(), Token.class);
+
+    Hashtable<String, Integer> sentenceSet = new Hashtable<String, Integer>();
+    for (Token token : sentTokenList) {
+      String text = token.getText();
+      if (!sentenceSet.containsKey(text))
+        sentenceSet.put(text, 0);
+      sentenceSet.put(text, sentenceSet.get(text) + 1);
+    }
+
+    int min_counter = Integer.MAX_VALUE;
+
+    for (Token token : answerTokenList) {
+      String text = token.getText();
+      if (sentenceSet.containsKey(text))
+        if (min_counter > sentenceSet.get(text))
+          min_counter = sentenceSet.get(text);
+    }
+
+    if (min_counter == Integer.MAX_VALUE) {
+
+      min_counter = 0;
+    }
+
+    double unigramScore = ((double) min_counter) / Math.sqrt(sentTokenList.size());
+    double non_zero = 0.0;
     ArrayList<NounPhrase> candSentNouns = Utils.fromFSListToCollection(sentence.getSentence()
             .getPhraseList(), NounPhrase.class);
     ArrayList<NER> candSentNers = Utils.fromFSListToCollection(sentence.getSentence().getNerList(),
@@ -73,29 +72,28 @@ public class AnswerScoreBaseClass extends JCasAnnotator_ImplBase {
             NounPhrase.class);
     ArrayList<NER> choiceNERs = Utils.fromFSListToCollection(answer.getNerList(), NER.class);
 
-    // if (candSentNouns.size() != 0)
-    // non_zero += 1.0;
-    // if (candSentNers.size() != 0)
-    // non_zero += 1.0;
-    // if (choiceNouns.size() != 0)
-    // non_zero += 1.0;
-    // if (choiceNERs.size() != 0)
-    // non_zero += 1.0;
-    // non_zero = non_zero > 3.0 ? 2.0 : non_zero;
+    if (candSentNouns.size() != 0)
+      non_zero += 1.0;
+    if (candSentNers.size() != 0)
+      non_zero += 1.0;
+    if (choiceNouns.size() != 0)
+      non_zero += 1.0;
+    if (choiceNERs.size() != 0)
+      non_zero += 1.0;
 
-    int nnMatch = 0;
+    double nnMatch = 0.0;
 
     for (int k = 0; k < candSentNouns.size(); k++) {
       for (int l = 0; l < choiceNERs.size(); l++) {
         if (candSentNouns.get(k).getText().contains(choiceNERs.get(l).getText())) {
           nnMatch++;
-          // break;
+          break;
         }
       }
       for (int l = 0; l < choiceNouns.size(); l++) {
         if (candSentNouns.get(k).getText().contains(choiceNouns.get(l).getText())) {
           nnMatch++;
-          // break;
+          break;
         }
       }
     }
@@ -104,25 +102,26 @@ public class AnswerScoreBaseClass extends JCasAnnotator_ImplBase {
       for (int l = 0; l < choiceNERs.size(); l++) {
         if (candSentNers.get(k).getText().contains(choiceNERs.get(l).getText())) {
           nnMatch++;
-          // break;
+          break;
         }
       }
       for (int l = 0; l < choiceNouns.size(); l++) {
         if (candSentNers.get(k).getText().contains(choiceNouns.get(l).getText())) {
           nnMatch++;
-          // break;
+          break;
         }
       }
     }
     double score = 0.0;
-    // if (nnMatch < 0.5)
-    // score = (double)unigramScore > 0.5 ? 1.0 : 0.0;
+    if (nnMatch < 0.5)
+      score = unigramScore;
+    else
+      score = nnMatch / non_zero;
+    return score * sentence.getRelevanceScore() / 2;
+    // if (nnMatch > 0.001)
+//    return nnMatch * sentence.getRelevanceScore();
     // else
-    // score = (double) nnMatch;// / non_zero;
-//    if (nnMatch > 0.001)
-    return nnMatch * sentence.getRelevanceScore();
-//    else
-//      return sentence.getRelevanceScore();
+    // return sentence.getRelevanceScore();
     // return score * sentence.getRelevanceScore();
   }
 

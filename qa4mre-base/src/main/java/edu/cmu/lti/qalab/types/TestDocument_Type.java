@@ -14,7 +14,7 @@ import org.apache.uima.cas.Feature;
 
 
 /** 
- * Updated by JCasGen Thu Nov 21 19:37:48 EST 2013
+ * Updated by JCasGen Thu Dec 05 14:35:26 EST 2013
  * @generated */
 public class TestDocument_Type extends SourceDocument_Type {
   /** @generated */
@@ -97,6 +97,78 @@ public class TestDocument_Type extends SourceDocument_Type {
     ll_cas.ll_setStringValue(addr, casFeatCode_topicId, v);}
     
   
+ 
+  /** @generated */
+  final Feature casFeat_c1score;
+  /** @generated */
+  final int     casFeatCode_c1score;
+  /** @generated */ 
+  public double getC1score(int addr) {
+        if (featOkTst && casFeat_c1score == null)
+      jcas.throwFeatMissing("c1score", "edu.cmu.lti.qalab.types.TestDocument");
+    return ll_cas.ll_getDoubleValue(addr, casFeatCode_c1score);
+  }
+  /** @generated */    
+  public void setC1score(int addr, double v) {
+        if (featOkTst && casFeat_c1score == null)
+      jcas.throwFeatMissing("c1score", "edu.cmu.lti.qalab.types.TestDocument");
+    ll_cas.ll_setDoubleValue(addr, casFeatCode_c1score, v);}
+    
+  
+ 
+  /** @generated */
+  final Feature casFeat_precision;
+  /** @generated */
+  final int     casFeatCode_precision;
+  /** @generated */ 
+  public double getPrecision(int addr) {
+        if (featOkTst && casFeat_precision == null)
+      jcas.throwFeatMissing("precision", "edu.cmu.lti.qalab.types.TestDocument");
+    return ll_cas.ll_getDoubleValue(addr, casFeatCode_precision);
+  }
+  /** @generated */    
+  public void setPrecision(int addr, double v) {
+        if (featOkTst && casFeat_precision == null)
+      jcas.throwFeatMissing("precision", "edu.cmu.lti.qalab.types.TestDocument");
+    ll_cas.ll_setDoubleValue(addr, casFeatCode_precision, v);}
+    
+  
+ 
+  /** @generated */
+  final Feature casFeat_correctAnswered;
+  /** @generated */
+  final int     casFeatCode_correctAnswered;
+  /** @generated */ 
+  public int getCorrectAnswered(int addr) {
+        if (featOkTst && casFeat_correctAnswered == null)
+      jcas.throwFeatMissing("correctAnswered", "edu.cmu.lti.qalab.types.TestDocument");
+    return ll_cas.ll_getIntValue(addr, casFeatCode_correctAnswered);
+  }
+  /** @generated */    
+  public void setCorrectAnswered(int addr, int v) {
+        if (featOkTst && casFeat_correctAnswered == null)
+      jcas.throwFeatMissing("correctAnswered", "edu.cmu.lti.qalab.types.TestDocument");
+    ll_cas.ll_setIntValue(addr, casFeatCode_correctAnswered, v);}
+    
+  
+ 
+  /** @generated */
+  final Feature casFeat_answered;
+  /** @generated */
+  final int     casFeatCode_answered;
+  /** @generated */ 
+  public int getAnswered(int addr) {
+        if (featOkTst && casFeat_answered == null)
+      jcas.throwFeatMissing("answered", "edu.cmu.lti.qalab.types.TestDocument");
+    return ll_cas.ll_getIntValue(addr, casFeatCode_answered);
+  }
+  /** @generated */    
+  public void setAnswered(int addr, int v) {
+        if (featOkTst && casFeat_answered == null)
+      jcas.throwFeatMissing("answered", "edu.cmu.lti.qalab.types.TestDocument");
+    ll_cas.ll_setIntValue(addr, casFeatCode_answered, v);}
+    
+  
 
 
 
@@ -117,6 +189,22 @@ public class TestDocument_Type extends SourceDocument_Type {
  
     casFeat_topicId = jcas.getRequiredFeatureDE(casType, "topicId", "uima.cas.String", featOkTst);
     casFeatCode_topicId  = (null == casFeat_topicId) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_topicId).getCode();
+
+ 
+    casFeat_c1score = jcas.getRequiredFeatureDE(casType, "c1score", "uima.cas.Double", featOkTst);
+    casFeatCode_c1score  = (null == casFeat_c1score) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_c1score).getCode();
+
+ 
+    casFeat_precision = jcas.getRequiredFeatureDE(casType, "precision", "uima.cas.Double", featOkTst);
+    casFeatCode_precision  = (null == casFeat_precision) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_precision).getCode();
+
+ 
+    casFeat_correctAnswered = jcas.getRequiredFeatureDE(casType, "correctAnswered", "uima.cas.Integer", featOkTst);
+    casFeatCode_correctAnswered  = (null == casFeat_correctAnswered) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_correctAnswered).getCode();
+
+ 
+    casFeat_answered = jcas.getRequiredFeatureDE(casType, "answered", "uima.cas.Integer", featOkTst);
+    casFeatCode_answered  = (null == casFeat_answered) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_answered).getCode();
 
   }
 }
