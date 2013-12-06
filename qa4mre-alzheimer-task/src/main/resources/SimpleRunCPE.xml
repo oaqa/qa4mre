@@ -65,6 +65,9 @@
     <delegateAnalysisEngine key="AnswerHeuristicAnnotator">
       <import name="annotators.AnswerHeuristicAnnotator"/>
     </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="AnswerChoiceCandAnsOriginalScorer">
+      <import name="annotators.AnswerChoiceCandAnsOriginalScorer"/>
+    </delegateAnalysisEngine>
     <!--<delegateAnalysisEngine key="AnswerSelectionByKCandAggregation"> <import 
 			location="annotators/AnswerSelectionByKCandAggregation.xml"/> </delegateAnalysisEngine> -->
 
@@ -97,7 +100,7 @@
 				<!--<node>AnswerChoiceCandAnsSynonymScorer</node> -->
 				<!--<node>AnswerChoiceCandAnsPMIScorer</node> -->
 				<node>QuestionCandSentSimilarityMatcher</node>
-				<node>AnswerChoiceCandAnsSimilarityScorer</node>
+				<node>AnswerChoiceCandAnsOriginalScorer</node>
         <node>AnswerSelectionByKCandVoting</node>
         <!--<node>AnswerSelectionByKCandVoting</node> -->
 			</fixedFlow>
