@@ -76,8 +76,9 @@ public class AnswerSelectionByKCandAggregation extends JCasAnnotator_ImplBase {
 
 					CandidateAnswer candAns = candAnswerList.get(j);
 					String answer = candAns.getText();
-					double totalScore = candAns.getSimilarityScore()
-							+ candAns.getSynonymScore() + candAns.getPMIScore();
+					double totalScore = candAns.getSimilarityScore() + candAns.getSynonymScore()
+          + candAns.getPMIScore() + candAns.getFinalScore();
+
 
 					Double existingVal=hshAnswer.get(answer);
 					if(existingVal==null){
@@ -97,6 +98,18 @@ public class AnswerSelectionByKCandAggregation extends JCasAnnotator_ImplBase {
 			}
 			System.out.println("Correct Choice: " + "\t" + correct);
 			System.out.println("Best Choice: " + "\t" + bestChoice);
+			
+			for (Answer answer : choiceList)
+      {
+        if (bestChoice != null && answer.getText().equals(bestChoice))
+        {
+          answer.setIsSelected(true);
+        }
+        else
+        {
+          answer.setIsSelected(false);
+        }
+      }
 
 			if (bestChoice == null) {
 				unanswered++;

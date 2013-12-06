@@ -15,7 +15,6 @@ import org.apache.uima.util.Progress;
 import org.apache.uima.util.ProgressImpl;
 import org.xml.sax.SAXException;
 
-import edu.cmu.lti.qalab.types.SourceDocument;
 import edu.cmu.lti.qalab.types.TestDocument;
 
 /**
@@ -35,7 +34,11 @@ public class QA4MREXMITestDocReader extends CollectionReader_ImplBase {
 		
 		File inputDir = new File(
 				(String) getConfigParameterValue("INPUT_DIR"));
+		System.out.println(inputDir.getAbsolutePath());
 		documents = inputDir.listFiles();
+		for(int i=0;i<documents.length;i++){
+		  System.out.println(documents[i].getName());
+		}
 		System.out.println("Total files: "+documents.length);
 	}
 

@@ -3,6 +3,7 @@ package edu.cmu.lti.deiis.hw5.answer_ranking;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.params.MapSolrParams;
@@ -10,6 +11,7 @@ import org.apache.solr.common.params.SolrParams;
 import org.apache.uima.UimaContext;
 import org.apache.uima.analysis_component.JCasAnnotator_ImplBase;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
+import org.apache.uima.cas.FSIndex;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.cas.FSList;
 import org.apache.uima.resource.ResourceInitializationException;
@@ -18,11 +20,15 @@ import edu.cmu.lti.oaqa.core.provider.solr.SolrWrapper;
 import edu.cmu.lti.qalab.types.Answer;
 import edu.cmu.lti.qalab.types.CandidateAnswer;
 import edu.cmu.lti.qalab.types.CandidateSentence;
+import edu.cmu.lti.qalab.types.Corefcluster;
 import edu.cmu.lti.qalab.types.NER;
 import edu.cmu.lti.qalab.types.NounPhrase;
+import edu.cmu.lti.qalab.types.Phrase;
 import edu.cmu.lti.qalab.types.Question;
 import edu.cmu.lti.qalab.types.QuestionAnswerSet;
+import edu.cmu.lti.qalab.types.Sentence;
 import edu.cmu.lti.qalab.types.TestDocument;
+import edu.cmu.lti.qalab.types.Token;
 import edu.cmu.lti.qalab.utils.Utils;
 
 public class AnswerChoiceCandAnsPMIScorer extends JCasAnnotator_ImplBase {
@@ -55,6 +61,15 @@ public class AnswerChoiceCandAnsPMIScorer extends JCasAnnotator_ImplBase {
 		//String testDocId = testDoc.getId();
 		ArrayList<QuestionAnswerSet> qaSet = Utils
 				.getQuestionAnswerSetFromTestDocCAS(aJCas);
+		
+		// Hash the co-reference cluster
+    HashMap<Integer, Corefcluster> clusterHashMap = new HashMap<Integer, Corefcluster>();
+    FSIndex ClusterIndex = aJCas.getAnnotationIndex(Corefcluster.type);
+    Iterator ClusterIter = ClusterIndex.iterator();
+    while (ClusterIter.hasNext()) {
+      Corefcluster corefcluster = (Corefcluster) ClusterIter.next();
+      clusterHashMap.put(corefcluster.getId(), corefcluster);
+    }
 
 		for (int i = 0; i < qaSet.size(); i++) {
 
@@ -71,12 +86,31 @@ public class AnswerChoiceCandAnsPMIScorer extends JCasAnnotator_ImplBase {
 			for (int c = 0; c < topK; c++) {
 
 				CandidateSentence candSent = candSentList.get(c);
+				Sentence sent = candSent.getSentence();
 
 				ArrayList<NounPhrase> candSentNouns = Utils
 						.fromFSListToCollection(candSent.getSentence()
 								.getPhraseList(), NounPhrase.class);
 				ArrayList<NER> candSentNers = Utils.fromFSListToCollection(
 						candSent.getSentence().getNerList(), NER.class);
+				ArrayList<Phrase> candSentCoref = null;
+				
+				// initial coref list
+				if (sent.getGenPhraseList() != null) {
+          FSList fsPList = sent.getGenPhraseList();
+          ArrayList<Phrase> phrases = Utils.fromFSListToCollection(fsPList, Phrase.class);
+
+          for (int j = 0; j < phrases.size(); j++) {
+            Phrase phrase = (Phrase) phrases.get(j);
+            int clusterID = phrase.getCluster();
+            Corefcluster corefcluster = clusterHashMap.get(clusterID);
+            if (corefcluster.getChain() == null) {
+              continue;
+            }
+            candSentCoref = Utils.fromFSListToCollection(corefcluster.getChain(),
+                    Phrase.class);
+          }
+        }
 
 				ArrayList<CandidateAnswer>candAnsList=new ArrayList<CandidateAnswer>();
 				for (int j = 0; j < choiceList.size(); j++) {
@@ -103,9 +137,22 @@ public class AnswerChoiceCandAnsPMIScorer extends JCasAnnotator_ImplBase {
 						}
 
 					}
+					
+					if (candSentCoref != null)
+					{
+  					for (int k = 0; k < candSentCoref.size(); k++) {
+  
+              try {
+                score1 += scoreCoOccurInSameDoc(candSentCoref.get(k)
+                    .getText(), choiceList.get(j));
+              } catch (Exception e) {
+                e.printStackTrace();
+              }
+            }
+					}
 
-					System.out.println(choiceList.get(j).getText() + "\t"
-							+ score1 + "\t" + ((score1)));
+					System.out.println(choiceList.get(j).getText() + " "
+							+ score1);
 
 					CandidateAnswer candAnswer=null;
 					if(candSent.getCandAnswerList()==null){
@@ -202,6 +249,67 @@ public class AnswerChoiceCandAnsPMIScorer extends JCasAnnotator_ImplBase {
 		if (choiceNounPhrases.size() > 0) {
 			// score=score/choiceNounPhrases.size();
 		}
+//		if (choiceNounPhrases.size() == 0)
+//		{
+//		  ArrayList<Token> choiceTokens = Utils.fromFSListToCollection(
+//	        choice.getTokenList(), Token.class);
+//		  for (int i = 0; i < choiceTokens.size(); i++) {
+//	      String choiceToken = choiceTokens.get(i).getText();
+//	      if (question.split("[ ]").length > 1) {
+//	        question = "\"" + question + "\"";
+//	      }
+//	      if (choiceToken.split("[ ]").length > 1) {
+//	        choiceToken = "\"" + choiceToken + "\"";
+//	      }
+//
+//	      String query = question + " AND " + choiceToken;
+//	      // System.out.println(query);
+//	      HashMap<String, String> params = new HashMap<String, String>();
+//	      params.put("q", query);
+//	      params.put("rows", "1");
+//	      SolrParams solrParams = new MapSolrParams(params);
+//	      QueryResponse rsp = null;
+//	      long combinedHits = 0;
+//	      try {
+//	        rsp = solrWrapper.getServer().query(solrParams);
+//	        combinedHits = rsp.getResults().getNumFound();
+//	      } catch (Exception e) {
+//	        // System.out.println(e + "\t" + query);
+//	      }
+//
+//	      // System.out.println(query+"\t"+combinedHits);
+//
+//	      query = choiceToken;
+//	      // System.out.println(query);
+//	      params = new HashMap<String, String>();
+//	      params.put("q", query);
+//	      params.put("rows", "1");
+//	      solrParams = new MapSolrParams(params);
+//
+//	      long nHits1 = 0;
+//	      try {
+//	        rsp = solrWrapper.getServer().query(solrParams);
+//	        nHits1 = rsp.getResults().getNumFound();
+//	      } catch (Exception e) {
+//	        // System.out.println(e+"\t"+query);
+//	      }
+//	      // System.out.println(query+"\t"+nHits1);
+//
+//	      /*
+//	       * query = question; // System.out.println(query); params = new
+//	       * HashMap<String, String>(); params.put("q", query);
+//	       * params.put("rows", "1"); solrParams = new MapSolrParams(params);
+//	       * rsp = solrWrapper.getServer().query(solrParams); long nHits2 =
+//	       * rsp.getResults().getNumFound(); //
+//	       * System.out.println(query+"\t"+nHits2);
+//	       */
+//
+//	      // score += myLog(combinedHits, nHits1, nHits2);
+//	      if (nHits1 != 0) {
+//	        score += (double) combinedHits / nHits1;
+//	      }
+//	    }
+//		}
 		return score;
 	}
 

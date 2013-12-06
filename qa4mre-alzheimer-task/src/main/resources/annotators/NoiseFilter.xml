@@ -41,7 +41,7 @@
       <nameValuePair>
         <name>MIN_WORDS</name>
         <value>
-          <integer>5</integer>
+          <integer>15</integer>
         </value>
       </nameValuePair>
       <nameValuePair>

@@ -74,8 +74,7 @@ Of mice and men: an Alzheimer’s cure for our murine brethren. Alzheimer's Dise
 					<answer a_id='1'>Alzheimer's treatment</answer>
 					<answer a_id='2'>nest making</answer>
 					<answer a_id='3'>restoring smell</answer>
-					<answer a_id='4'>neurodegeneration
-</answer>
+					<answer a_id='4'>neurodegeneration</answer>
 					<answer a_id='5'>None of the above</answer>
 				</q>
 				<q  q_id="10" >
@@ -247,8 +246,7 @@ Fighting Alzheimer’s disease? Get the immune system on board. James Fuller Jam
 					<q_str>Name a similarity between AD and TB.</q_str>
 					<answer a_id='1'>the body is slowly destroying the brain</answer>
 					<answer a_id='2'>the vaccine that teaches the immune system to fight off the infection</answer>
-					<answer a_id='3'>drugs and therapy
-</answer>
+					<answer a_id='3'>drugs and therapy</answer>
 					<answer a_id='4'>side effects of the vaccines</answer>
 					<answer a_id='5'>None of the above</answer>
 				</q>
@@ -291,8 +289,7 @@ Alanna Shaikh: How I'm preparing to get Alzheimer's. I'd like to talk about my d
 				</q>
 				<q  q_id="5" >
 					<q_str>What is Alanna's aim when building her physical strength?</q_str>
-					<answer a_id='1'>to become a better person
-</answer>
+					<answer a_id='1'>to become a better person</answer>
 					<answer a_id='2'>to win a tai chi medal</answer>
 					<answer a_id='3'>to fill out forms</answer>
 					<answer a_id='4'>to have the ability to knit a sweater</answer>
@@ -434,8 +431,7 @@ Financial challenges faced by person with dementia. The idea: A person with deme
 				<q  q_id="7" >
 					<q_str>All but one of the following are reasons why a total of $100,000 for the common funds of a family seeking assistance is not enough. Which one is that?</q_str>
 					<answer a_id='1'>The needs of the family continue.</answer>
-					<answer a_id='2'>The cost of living constantly increases.
-</answer>
+					<answer a_id='2'>The cost of living constantly increases.</answer>
 					<answer a_id='3'>The costs incident to the disease constantly increase.</answer>
 					<answer a_id='4'>Health care covers assisted living.</answer>
 					<answer a_id='5'>None of the above</answer>
