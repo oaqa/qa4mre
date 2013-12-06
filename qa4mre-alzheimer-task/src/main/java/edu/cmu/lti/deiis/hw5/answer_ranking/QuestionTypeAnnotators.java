@@ -51,59 +51,59 @@ public class QuestionTypeAnnotators extends JCasAnnotator_ImplBase {
       }
       if (text.startsWith("what experimental")){
         question.setQuestionType(SUBTYPE);
-        question.setAnswerClass("experimental"); // ChIP, promoter deletion experiments, electrophoretic mobility shift assay,immunostaining
+        question.setAnswerClass("experimental"); 
         continue;
       }
       if (text.startsWith("what software")){
         question.setQuestionType(SUBTYPE);
-        question.setAnswerClass("software"); // MatInspector
+        question.setAnswerClass("software");
         continue;
       }
       if (text.startsWith("what organism")){
         question.setQuestionType(SUBTYPE);
-        question.setAnswerClass("organism"); // mouse
+        question.setAnswerClass("organism");
         continue;
       }
       if (text.startsWith("which is the part of the human body")){
         question.setQuestionType(SUBTYPE);
-        question.setAnswerClass("human body"); // head
+        question.setAnswerClass("human body");
         continue;
       }
       if (text.startsWith("what target gene")){
         question.setQuestionType(SUBTYPE);
-        question.setAnswerClass("target gene"); // Seladin-1,APP
+        question.setAnswerClass("target gene");
         continue;
       }
       if (text.startsWith("what is the gene symbol")){
         question.setQuestionType(SUBTYPE);
-        question.setAnswerClass("gene symbol"); // BACE, microtubule-associated protein tau, APOE
+        question.setAnswerClass("gene symbol");
         continue;
       }
       if (text.startsWith("what is the long name")){
         question.setQuestionType(SUBTYPE);
-        question.setAnswerClass("long name"); // selective AD indicator 1
+        question.setAnswerClass("long name");
         continue;
       }
       if (text.startsWith("what method")){
         question.setQuestionType(SUBTYPE);
-        question.setAnswerClass("method"); // ChIP
+        question.setAnswerClass("method");
         continue;
       }
       if (text.startsWith("what is the target gene")){
         question.setQuestionType(SUBTYPE);
-        question.setAnswerClass("target gene"); // Seladin-1,APP
+        question.setAnswerClass("target gene");
         continue;
       }
       
       if (text.startsWith("what program")){
         question.setQuestionType(SUBTYPE);
-        question.setAnswerClass("program"); // WebPrank
+        question.setAnswerClass("program");
         continue;
       }
       
       if (text.startsWith("what specific protein forms")){
         question.setQuestionType(SUBTYPE);
-        question.setAnswerClass("specific protein forms"); // APC
+        question.setAnswerClass("specific protein forms");
         continue;
       }
       

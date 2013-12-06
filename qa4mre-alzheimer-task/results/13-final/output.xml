@@ -172,7 +172,7 @@
 			<answer a_id="2"/>
 		</question>
 		<question q_id="2" answered="YES">
-			<answer a_id="4"/>
+			<answer a_id="3"/>
 		</question>
 		<question q_id="3" answered="YES">
 			<answer a_id="1"/>
@@ -206,7 +206,9 @@
 		<question q_id="2" answered="YES">
 			<answer a_id="1"/>
 		</question>
-		<question q_id ="3" answered="NO" />
+		<question q_id="3" answered="YES">
+			<answer a_id="3"/>
+		</question>
 		<question q_id ="4" answered="NO" />
 		<question q_id="5" answered="YES">
 			<answer a_id="5"/>

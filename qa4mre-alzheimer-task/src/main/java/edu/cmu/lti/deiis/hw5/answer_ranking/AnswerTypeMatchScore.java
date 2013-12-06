@@ -29,7 +29,7 @@ public class AnswerTypeMatchScore extends JCasAnnotator_ImplBase {
 
     BufferedReader reader = null;
     try {
-      reader = new BufferedReader(new FileReader("taxonomy.txt"));
+      reader = new BufferedReader(new FileReader("data/taxonomy.txt"));
       String className = null;
       String line = reader.readLine();
       while (line != null) {

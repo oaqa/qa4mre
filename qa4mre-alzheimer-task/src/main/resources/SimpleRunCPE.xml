@@ -71,6 +71,15 @@
     <delegateAnalysisEngine key="QuestionAnswerPMI">
       <import name="annotators.QuestionAnswerPMI"/>
     </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="CandSentScoreBaseClass">
+      <import name="annotators.CandSentScoreBaseClass"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="AnswerScoreBaseClass">
+      <import name="annotators.AnswerScoreBaseClass"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="AnswerSelectionByKCandVoting2">
+      <import name="annotators.AnswerSelectionByKCandVoting"/>
+    </delegateAnalysisEngine>
     <!--<delegateAnalysisEngine key="AnswerSelectionByKCandAggregation">
       <import location="annotators/AnswerSelectionByKCandAggregation.xml"/>
     </delegateAnalysisEngine>-->
@@ -98,6 +107,9 @@
         <node>QuestionTypeAnnotator</node>
         <node>AnswerTypeMatchScore</node>
         <node>QuestionAnswerPMI</node>
+        <node>CandSentScoreBaseClass</node>
+        <node>AnswerScoreBaseClass</node>
+        <node>AnswerSelectionByKCandVoting2</node>
         <!--<node>AnswerSelectionByKCandVoting</node>-->
       </fixedFlow>
     </flowConstraints>

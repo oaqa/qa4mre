@@ -1,0 +1,129 @@
+experimental
+ChIP
+promoter deletion experiments
+Cultivate Slime Molds
+electrophoretic mobility shift assay
+immunostaining
+Ant Microphotography
+
+software
+SimBio Virtual Biology
+Newbyte
+MatInspector
+A.D.A.M
+Brainiac!
+
+organism
+eyes
+skin
+lungs
+spleen
+bladder
+mouse
+testis
+blood vessel
+placenta
+lymph node
+trachea
+thymus
+eye
+liver
+kidney
+lymph
+nerve
+mouth
+pancreas
+spleen
+prostate
+pharynx
+stomach
+bone marrow
+lung
+salivary gland
+parathyroid gland
+muscle
+blood
+tonsil
+larynx
+skin
+colon
+breast
+ovary
+heart
+umbilical cord
+ear
+thyroid
+amnion
+bladder
+embryo
+esophagus
+leiomios
+bone
+adrenal gland
+cervix
+small intestine
+uterus
+adipose
+pituitary
+rectum
+ganglia
+gallbladder
+spinal cord
+peritoneum
+ureter
+
+human body
+eyes
+skin
+spleen
+bladder
+head
+mouse
+liver
+stomach
+heart
+prostate
+kidney
+
+target gene
+Seladin-1
+APP
+ALB
+CCR5
+BCL2
+IL2
+IL10
+
+gene symbol
+BACE
+microtubule-associated protein tau
+APOE
+
+long name
+selective AD indicator 1
+
+method
+ChIP
+promoter deletion experiments
+Cultivate Slime Molds
+electrophoretic mobility shift assay
+immunostaining
+Ant Microphotography
+
+program
+WebPrank
+SimBio Virtual Biology
+Newbyte
+MatInspector
+A.D.A.M
+Brainiac!
+
+specific protein forms
+APC
+Seladin-1
+APP
+ALB
+CCR5
+BCL2
+IL2
+IL10
