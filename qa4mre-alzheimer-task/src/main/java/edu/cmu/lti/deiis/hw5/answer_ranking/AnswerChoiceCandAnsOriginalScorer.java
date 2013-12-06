@@ -162,7 +162,7 @@ public class AnswerChoiceCandAnsOriginalScorer extends JCasAnnotator_ImplBase {
                 e.printStackTrace();
               }
             }
-            scoreList.add(new ScoreWeightPair(partialScore, 5.0));
+            scoreList.add(new ScoreWeightPair(partialScore, 3.0));
           }
 
           // PMI Score for QC+A(NER)
@@ -177,7 +177,7 @@ public class AnswerChoiceCandAnsOriginalScorer extends JCasAnnotator_ImplBase {
                 e.printStackTrace();
               }
             }
-            scoreList.add(new ScoreWeightPair(partialScore, 0.0));
+            scoreList.add(new ScoreWeightPair(partialScore, 1.0));
           }
 
           // PMI Score for QC+A(Co-ref)
@@ -194,7 +194,7 @@ public class AnswerChoiceCandAnsOriginalScorer extends JCasAnnotator_ImplBase {
                 }
               }
             }
-            scoreList.add(new ScoreWeightPair(partialScore, 9.0));
+            scoreList.add(new ScoreWeightPair(partialScore, 3.0));
           }
 
           // NP & NE Overlap
@@ -232,7 +232,7 @@ public class AnswerChoiceCandAnsOriginalScorer extends JCasAnnotator_ImplBase {
                 }
               }
             }
-            scoreList.add(new ScoreWeightPair(nnMatch, 1.0));
+            scoreList.add(new ScoreWeightPair(nnMatch, 3.0));
           }
           
           // PMI Score for Q+A(NP,NER)
@@ -253,7 +253,7 @@ public class AnswerChoiceCandAnsOriginalScorer extends JCasAnnotator_ImplBase {
               }
             }
             
-            scoreList.add(new ScoreWeightPair(partialScore, 3.0));
+            scoreList.add(new ScoreWeightPair(partialScore, 1.0));
           }
           
 
