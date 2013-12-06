@@ -20,6 +20,12 @@ import edu.cmu.lti.qalab.types.Synonym;
 import edu.cmu.lti.qalab.types.Token;
 import edu.cmu.lti.qalab.utils.Utils;
 
+/**
+ * Finds Token instances that appear to be non-English symbols and determines their likely
+ * expansion (ex: "Aß" expands to "Abeta"). Updates the Token.synonyms
+ * FSList to include the expansion as a synonym (e.g. after processing the Token "Aß",
+ * its synonyms list will contain "Abeta" as a synonym). 
+ */
 public class SymbolAnnotator extends JCasAnnotator_ImplBase{
 
   HashMap<String, String> symbolReplacements = new HashMap<String, String>();
