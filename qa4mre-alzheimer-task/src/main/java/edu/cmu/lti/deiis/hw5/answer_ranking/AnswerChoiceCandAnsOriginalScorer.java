@@ -31,6 +31,18 @@ import edu.cmu.lti.qalab.types.TestDocument;
 import edu.cmu.lti.qalab.types.Token;
 import edu.cmu.lti.qalab.utils.Utils;
 
+/** Computes similarity scores, and combines them in linear function. For this
+ * implementation, the scores that were used were:
+ * - PMI of NP: Question Candidate Sentences + Answers
+ * - PMI of NER: Question Candidate Sentences + Answers
+ * - PMI of Coreference: Question Candidate Sentences + Answers
+ * - Overlap of NP, NER: Question Candidate Sentences + Answers
+ * - PMI of NP, NER: Question + Answers
+ * 
+ * Additionally, checks certain flags to see if the candidate Answer matches
+ * the cardinality and entity type of the Question. If there is a mismatch, penalties
+ * are applied to the score.
+ */
 public class AnswerChoiceCandAnsOriginalScorer extends JCasAnnotator_ImplBase {
 
   class ScoreWeightPair {

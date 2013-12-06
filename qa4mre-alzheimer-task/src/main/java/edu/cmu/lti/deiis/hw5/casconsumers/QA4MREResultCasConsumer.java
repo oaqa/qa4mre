@@ -24,6 +24,8 @@ import edu.cmu.lti.qalab.types.SourceDocument;
 import edu.cmu.lti.qalab.types.TestDocument;
 import edu.cmu.lti.qalab.utils.Utils;
 
+/** Outputs results in the specified QA4MRE format.
+ */
 public class QA4MREResultCasConsumer extends CasConsumer_ImplBase {
 
   int mDocNum;

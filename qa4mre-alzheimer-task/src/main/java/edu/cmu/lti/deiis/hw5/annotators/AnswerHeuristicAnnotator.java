@@ -48,7 +48,12 @@ import edu.cmu.lti.qalab.utils.Utils;
  * 4) Determines whether the Answer entity type matches the Question entity type, then
  * sets the Answer.matchesQuestionEntityType feature (True, False).
  * 
- * These flags can then be used downstream during Answer scoring.
+ * These flags are then be used downstream during Answer scoring.
+ * 
+ * Additionally, this module, analyzes each Question, and determines its "target" 
+ * (i.e. the span of text between the WH-word and the verb), and then populates the 
+ * Question.target feature. This information is then used to generate queries in 
+ * downstream processes.
  */
 public class AnswerHeuristicAnnotator extends JCasAnnotator_ImplBase {
 
