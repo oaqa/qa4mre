@@ -165,7 +165,7 @@ public class AnswerChoiceCandAnsOriginalScorer extends JCasAnnotator_ImplBase {
             scoreList.add(new ScoreWeightPair(partialScore, 5.0));
           }
 
-          // PMI Score for QC+A(NER)
+          /*// PMI Score for QC+A(NER)
           {
             partialScore = 0.0;
             for (int k = 0; k < candSentNers.size(); k++) {
@@ -178,7 +178,7 @@ public class AnswerChoiceCandAnsOriginalScorer extends JCasAnnotator_ImplBase {
               }
             }
             scoreList.add(new ScoreWeightPair(partialScore, 0.0));
-          }
+          }*/
 
           // PMI Score for QC+A(Co-ref)
           {
@@ -194,7 +194,7 @@ public class AnswerChoiceCandAnsOriginalScorer extends JCasAnnotator_ImplBase {
                 }
               }
             }
-            scoreList.add(new ScoreWeightPair(partialScore, 9.0));
+            scoreList.add(new ScoreWeightPair(partialScore, 6.0));
           }
 
           // NP & NE Overlap
@@ -232,10 +232,10 @@ public class AnswerChoiceCandAnsOriginalScorer extends JCasAnnotator_ImplBase {
                 }
               }
             }
-            scoreList.add(new ScoreWeightPair(nnMatch, 1.0));
+            scoreList.add(new ScoreWeightPair(nnMatch, 6.0));
           }
           
-          // PMI Score for Q+A(NP,NER)
+          /*// PMI Score for Q+A(NP,NER)
           {
             partialScore = 0.0;
             ArrayList<NounPhrase> choiceNouns = Utils.fromFSListToCollection(
@@ -253,8 +253,8 @@ public class AnswerChoiceCandAnsOriginalScorer extends JCasAnnotator_ImplBase {
               }
             }
             
-            scoreList.add(new ScoreWeightPair(partialScore, 3.0));
-          }
+            scoreList.add(new ScoreWeightPair(partialScore, 0.0));
+          }*/
           
 
           /*// PMI QC+QAC(NP)
@@ -392,6 +392,13 @@ public class AnswerChoiceCandAnsOriginalScorer extends JCasAnnotator_ImplBase {
 
   }
 
+  /**
+   * Get PMI score for answer and candidate sentences NER
+   * @param question
+   * @param choice
+   * @return
+   * @throws Exception
+   */
   public double scoreCoOccurInSameDocNP(String question, Answer choice)
       throws Exception {
     ArrayList<NounPhrase> choiceNounPhrases = Utils.fromFSListToCollection(
@@ -405,6 +412,13 @@ public class AnswerChoiceCandAnsOriginalScorer extends JCasAnnotator_ImplBase {
     return score;
   }
   
+  /**
+   * Get PMI score for answer and candidate sentences NER
+   * @param question
+   * @param choice
+   * @return
+   * @throws Exception
+   */
   public double scoreCoOccurInSameDocNER(String question, Answer choice)
       throws Exception {
     ArrayList<NER> choiceNERs = Utils.fromFSListToCollection(
@@ -417,6 +431,13 @@ public class AnswerChoiceCandAnsOriginalScorer extends JCasAnnotator_ImplBase {
     return score;
   }
   
+  /**
+   * Get PMI score for answer candidate sentences and question candidate sentences for NP
+   * @param question
+   * @param choice
+   * @return
+   * @throws Exception
+   */
   public double scoreCoOccurCandCandNP(String question, Answer choice)
       throws Exception {
     
@@ -439,6 +460,13 @@ public class AnswerChoiceCandAnsOriginalScorer extends JCasAnnotator_ImplBase {
     return score;
   }
   
+  /**
+   * Get PMI score for answer candidate sentences and question candidate sentences for NER
+   * @param question
+   * @param choice
+   * @return
+   * @throws Exception
+   */
   public double scoreCoOccurCandCandNER(String question, Answer choice)
       throws Exception {
     
@@ -461,6 +489,14 @@ public class AnswerChoiceCandAnsOriginalScorer extends JCasAnnotator_ImplBase {
     return score;
   }
   
+  /**
+   * Get PMI score for answer candidate sentences and question candidate sentences for Coref
+   * @param question
+   * @param choice
+   * @param clusterHashMap
+   * @return
+   * @throws Exception
+   */
   public double scoreCoOccurCandCandCoref(String question, Answer choice, HashMap<Integer, Corefcluster> clusterHashMap)
       throws Exception {
     
@@ -498,6 +534,12 @@ public class AnswerChoiceCandAnsOriginalScorer extends JCasAnnotator_ImplBase {
     return score;
   }
   
+  /**
+   * Get co-occurance based PMI for string t1 and string t2
+   * @param t1
+   * @param t2
+   * @return
+   */
   double getCoOccur(String t1, String t2)
   {
     double ret = 0.0;
@@ -541,6 +583,12 @@ public class AnswerChoiceCandAnsOriginalScorer extends JCasAnnotator_ImplBase {
     return ret;
   }
 
+  
+  /**
+   * Linear combine the scores.
+   * @param scoreList
+   * @return
+   */
   private double calculateFinalScore(ArrayList<ScoreWeightPair> scoreList) {
     double scoreSum = 0.0;
     double weightSum = 0.0;

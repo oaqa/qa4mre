@@ -73,8 +73,7 @@ public class AnswerSelectionByKCandVoting extends JCasAnnotator_ImplBase {
           CandidateAnswer candAns = candAnswerList.get(j);
           String answer = candAns.getText();
 
-          double totalScore = candAns.getSimilarityScore() + candAns.getSynonymScore()
-                  + candAns.getPMIScore() + candAns.getFinalScore();
+          double totalScore = candAns.getFinalScore();
 
           if (totalScore > maxScore) {
             maxScore = totalScore;
@@ -95,14 +94,20 @@ public class AnswerSelectionByKCandVoting extends JCasAnnotator_ImplBase {
       } catch (Exception e) {
         e.printStackTrace();
       }
+      if (bestChoice == null)
+      {
+        bestChoice = choiceList.get(0).getText();
+      }
       System.out.println("Correct Choice: " + "\t" + correct);
       System.out.println("Best Choice: " + "\t" + bestChoice);
       
-      for (Answer answer : choiceList)
+      for (int answerI = 0; answerI < choiceList.size(); answerI++)
       {
+        Answer answer = choiceList.get(answerI);
         if (bestChoice != null && answer.getText().equals(bestChoice))
         {
           answer.setIsSelected(true);
+          System.out.println("Best Choice: " + "\t" + (answerI+1));
         }
         else
         {
