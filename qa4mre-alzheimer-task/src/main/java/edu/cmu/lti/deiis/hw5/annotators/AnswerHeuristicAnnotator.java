@@ -34,6 +34,22 @@ import edu.cmu.lti.qalab.types.TestDocument;
 import edu.cmu.lti.qalab.types.Token;
 import edu.cmu.lti.qalab.utils.Utils;
 
+/**
+ * For a given Question and its candidate Answers, this module:
+ * 1) Determines the Question cardinality (e.g. is it asking for something singular or
+ * plural), and updates the Question.cardinality feature (1 = Singular, 2 = Plural, 
+ * 3 = Unknown).
+ * 2) Determines the Question target entity (e.g. is it expecting an answer that is 
+ * an Integer, a Double, a Date, or a generic Entity), and updates the 
+ * Question.entityType feature ("Integer", "Double", "DateTime", "Entity").
+ * 3) Determines whether the Answer cardinality matches the Question cardinality, then 
+ * sets the Answer.matchesQuestionCardinality feature (0 = false, 1 = true, 
+ * 2 = unknown).
+ * 4) Determines whether the Answer entity type matches the Question entity type, then
+ * sets the Answer.matchesQuestionEntityType feature (True, False).
+ * 
+ * These flags can then be used downstream during Answer scoring.
+ */
 public class AnswerHeuristicAnnotator extends JCasAnnotator_ImplBase {
 
   @Override

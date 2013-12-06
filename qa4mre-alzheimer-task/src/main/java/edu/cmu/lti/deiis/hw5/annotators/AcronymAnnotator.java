@@ -24,6 +24,12 @@ import edu.cmu.lti.qalab.types.Synonym;
 import edu.cmu.lti.qalab.types.Token;
 import edu.cmu.lti.qalab.utils.Utils;
 
+/**
+ * Finds Token instances that appear to be acronyms and determines their likely
+ * expansion (ex: "AD" expands to "Alzheimer's Disease"). Updates the Token.synonyms
+ * FSList to include the expansion as a synonym (e.g. after processing the Token "AD",
+ * its synonyms list will contain "Alzheimer's Disease" as a synonym). 
+ */
 public class AcronymAnnotator extends JCasAnnotator_ImplBase{
 
   // Regex patterns (to find acronyms)
