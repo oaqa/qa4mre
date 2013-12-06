@@ -79,17 +79,40 @@ public class AnswerChoiceCandAnsOriginalScorer extends JCasAnnotator_ImplBase {
       clusterHashMap.put(corefcluster.getId(), corefcluster);
     }
 
+    int aa = 0;
+    int bb = 0;
+    int cc = 0;
+    int dd = 0;
     for (int i = 0; i < qaSet.size(); i++) {
 
       Question question = qaSet.get(i).getQuestion();
-      System.out.println("Question: " + question.getText());
+      //System.out.println("Question: " + question.getText());
       ArrayList<Answer> choiceList = Utils.fromFSListToCollection(qaSet.get(i)
           .getAnswerList(), Answer.class);
       ArrayList<CandidateSentence> candSentList = Utils.fromFSListToCollection(
           qaSet.get(i).getCandidateSentenceList(), CandidateSentence.class);
+      ArrayList<NounPhrase> qNPList = Utils.fromFSListToCollection(question.getNounList(), NounPhrase.class);
+      ArrayList<NER> qNERList = Utils.fromFSListToCollection(question.getNerList(), NER.class);
+      
+      
+      for (int ii = 0; ii<choiceList.size(); ii++)
+      {
+        if (choiceList.get(ii).getIsCorrect() && choiceList.get(ii).getMatchesQuestionCardinality() != 0) aa++;
+        if (!choiceList.get(ii).getIsCorrect() && choiceList.get(ii).getMatchesQuestionCardinality() != 0) bb++;
+        if (choiceList.get(ii).getIsCorrect() && choiceList.get(ii).getMatchesQuestionCardinality() == 0) cc++;
+        if (!choiceList.get(ii).getIsCorrect() && choiceList.get(ii).getMatchesQuestionCardinality() == 0) dd++;
+      }
 
       int topK = Math.min(K_CANDIDATES, candSentList.size());
-      for (int c = 0; c < topK; c++) {
+      for (int c = 0; c < K_CANDIDATES; c++) {
+        if (c >= topK) {
+          for (int j = 0; j<choiceList.size(); j++)
+          {
+            String output = "###CandSent " + c + " - Choice "+j+" Correct false : 0.0 0.0 0.0 0.0 0.0";
+            System.out.println(output);
+          }
+          continue;
+        }
 
         CandidateSentence candSent = candSentList.get(c);
         Sentence sent = candSent.getSentence();
@@ -132,14 +155,14 @@ public class AnswerChoiceCandAnsOriginalScorer extends JCasAnnotator_ImplBase {
             partialScore = 0.0;
             for (int k = 0; k < candSentNouns.size(); k++) {
               try {
-                partialScore += scoreCoOccurInSameDoc(candSentNouns.get(k)
+                partialScore += scoreCoOccurInSameDocNP(candSentNouns.get(k)
                     .getText(), choiceList.get(j));
 
               } catch (Exception e) {
                 e.printStackTrace();
               }
             }
-            scoreList.add(new ScoreWeightPair(partialScore, 1.0));
+            scoreList.add(new ScoreWeightPair(partialScore, 5.0));
           }
 
           // PMI Score for QC+A(NER)
@@ -148,13 +171,13 @@ public class AnswerChoiceCandAnsOriginalScorer extends JCasAnnotator_ImplBase {
             for (int k = 0; k < candSentNers.size(); k++) {
 
               try {
-                partialScore += scoreCoOccurInSameDoc(candSentNers.get(k)
+                partialScore += scoreCoOccurInSameDocNER(candSentNers.get(k)
                     .getText(), choiceList.get(j));
               } catch (Exception e) {
                 e.printStackTrace();
               }
             }
-            scoreList.add(new ScoreWeightPair(partialScore, 1.0));
+            scoreList.add(new ScoreWeightPair(partialScore, 0.0));
           }
 
           // PMI Score for QC+A(Co-ref)
@@ -164,14 +187,14 @@ public class AnswerChoiceCandAnsOriginalScorer extends JCasAnnotator_ImplBase {
               for (int k = 0; k < candSentCoref.size(); k++) {
 
                 try {
-                  partialScore += scoreCoOccurInSameDoc(candSentCoref.get(k)
+                  partialScore += scoreCoOccurInSameDocNP(candSentCoref.get(k)
                       .getText(), choiceList.get(j));
                 } catch (Exception e) {
                   e.printStackTrace();
                 }
               }
             }
-            scoreList.add(new ScoreWeightPair(partialScore, 1.0));
+            scoreList.add(new ScoreWeightPair(partialScore, 9.0));
           }
 
           // NP & NE Overlap
@@ -209,10 +232,32 @@ public class AnswerChoiceCandAnsOriginalScorer extends JCasAnnotator_ImplBase {
                 }
               }
             }
-            scoreList.add(new ScoreWeightPair(partialScore, 1.0));
+            scoreList.add(new ScoreWeightPair(nnMatch, 1.0));
           }
+          
+          // PMI Score for Q+A(NP,NER)
+          {
+            partialScore = 0.0;
+            ArrayList<NounPhrase> choiceNouns = Utils.fromFSListToCollection(
+                answer.getNounPhraseList(), NounPhrase.class);
+            ArrayList<NER> choiceNERs = Utils.fromFSListToCollection(
+                answer.getNerList(), NER.class);
+            for (int k = 0; k < qNERList.size(); k++) {
+              for (int l = 0; l < choiceNERs.size(); l++) {
+                partialScore += this.getCoOccur(qNERList.get(k).getText(), choiceNERs.get(l).getText());
+              }
+            }
+            for (int k = 0; k < qNPList.size(); k++) {
+              for (int l = 0; l < choiceNouns.size(); l++) {
+                partialScore += this.getCoOccur(qNPList.get(k).getText(), choiceNouns.get(l).getText());
+              }
+            }
+            
+            scoreList.add(new ScoreWeightPair(partialScore, 3.0));
+          }
+          
 
-          // PMI QC+QAC(NP)
+          /*// PMI QC+QAC(NP)
           {
             partialScore = 0.0;
             for (int k = 0; k < candSentNers.size(); k++) {
@@ -257,7 +302,7 @@ public class AnswerChoiceCandAnsOriginalScorer extends JCasAnnotator_ImplBase {
               }
             }
             scoreList.add(new ScoreWeightPair(partialScore, 1.0));
-          }
+          }*/
         }
 
         // Re-scale the score to range(0,1)
@@ -279,6 +324,18 @@ public class AnswerChoiceCandAnsOriginalScorer extends JCasAnnotator_ImplBase {
             scores.get(k).get(j).score = (tempScore - min) / range;
           }
         }
+        
+        //Output
+        for (int j = 0; j<choiceList.size(); j++)
+        {
+          String output = "###CandSent " + c + " - Choice "+j+" Correct "+choiceList.get(j).getIsCorrect()+" :";
+          
+          for (int k = 0; k<scores.get(j).size(); k++)
+          {
+            output += " "+scores.get(j).get(k).score;
+          }
+          System.out.println(output);
+        }
 
         for (int j = 0; j < choiceList.size(); j++) {
           double score1 = calculateFinalScore(scores.get(j));
@@ -286,13 +343,23 @@ public class AnswerChoiceCandAnsOriginalScorer extends JCasAnnotator_ImplBase {
           int cardinality = answer.getMatchesQuestionCardinality();
           boolean entityType = answer.getMatchesQuestionEntityType();
           if (cardinality == 0)
-            score1 *= 0.5;
+          {
+            score1 *= 0.8;
+          }
           else if (cardinality == 1)
+          {
             score1 *= 1.0;
+          }
           if (!entityType)
-            score1 *= 0.5;
+          {
+            score1 *= 0.8;
+          }
+          else
+          {
+            score1 *= 1.0;
+          }
 
-          System.out.println(choiceList.get(j).getText() + " " + score1);
+          //System.out.println(choiceList.get(j).getText() + " " + score1);
 
           CandidateAnswer candAnswer = null;
           if (candSent.getCandAnswerList() == null) {
@@ -319,12 +386,13 @@ public class AnswerChoiceCandAnsOriginalScorer extends JCasAnnotator_ImplBase {
       qaSet.get(i).setCandidateSentenceList(fsCandSentList);
 
     }
+    System.out.println("a="+aa+" b="+bb+" c="+cc+" d="+dd);
     FSList fsQASet = Utils.fromCollectionToFSList(aJCas, qaSet);
     testDoc.setQaList(fsQASet);
 
   }
 
-  public double scoreCoOccurInSameDoc(String question, Answer choice)
+  public double scoreCoOccurInSameDocNP(String question, Answer choice)
       throws Exception {
     ArrayList<NounPhrase> choiceNounPhrases = Utils.fromFSListToCollection(
         choice.getNounPhraseList(), NounPhrase.class);
@@ -333,6 +401,18 @@ public class AnswerChoiceCandAnsOriginalScorer extends JCasAnnotator_ImplBase {
     for (int i = 0; i < choiceNounPhrases.size(); i++) {
       String choiceNounPhrase = choiceNounPhrases.get(i).getText();
       score += getCoOccur(question, choiceNounPhrase);
+    }
+    return score;
+  }
+  
+  public double scoreCoOccurInSameDocNER(String question, Answer choice)
+      throws Exception {
+    ArrayList<NER> choiceNERs = Utils.fromFSListToCollection(
+        choice.getNerList(), NER.class);
+    double score = 0.0;
+    for (int i = 0; i < choiceNERs.size(); i++) {
+      String choiceNER = choiceNERs.get(i).getText();
+      score += getCoOccur(question, choiceNER);
     }
     return score;
   }

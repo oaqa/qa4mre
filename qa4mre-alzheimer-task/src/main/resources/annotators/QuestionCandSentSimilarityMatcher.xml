@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <analysisEngineDescription xmlns="http://uima.apache.org/resourceSpecifier">
   <frameworkImplementation>org.apache.uima.java</frameworkImplementation>
   <primitive>true</primitive>
@@ -48,7 +49,7 @@
       <nameValuePair>
         <name>SOLR_CORE</name>
         <value>
-          <string></string>
+          <string/>
         </value>
       </nameValuePair>
       <nameValuePair>
@@ -60,7 +61,7 @@
       <nameValuePair>
         <name>TOP_SEARCH_RESULTS</name>
         <value>
-          <integer>10</integer>
+          <integer>5</integer>
         </value>
       </nameValuePair>     
     </configurationParameterSettings>
