@@ -37,6 +37,10 @@ import edu.stanford.nlp.trees.semgraph.SemanticGraphCoreAnnotations.CollapsedCCP
 import edu.stanford.nlp.trees.semgraph.SemanticGraphEdge;
 import edu.stanford.nlp.util.CoreMap;
 
+/** Uses the StanfordCoreNLP package to split text into sentences, tokenize, 
+ * perform pos tagging (and lemmatization), identify named entities, perform 
+ * dependency parsing and coreferencing. Creates annotations based on the above.
+ */
 public class StanfordCorefAnnotator extends JCasAnnotator_ImplBase {
 
   private StanfordCoreNLP stanfordAnnotator;

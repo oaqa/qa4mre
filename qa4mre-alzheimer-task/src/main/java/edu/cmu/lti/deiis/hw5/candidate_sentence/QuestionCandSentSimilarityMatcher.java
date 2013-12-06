@@ -26,6 +26,10 @@ import edu.cmu.lti.qalab.types.TestDocument;
 import edu.cmu.lti.qalab.types.Token;
 import edu.cmu.lti.qalab.utils.Utils;
 
+/** Retrieves candidate sentences from Solr based upon annotations created during 
+ * pre-processing (named entities, noun phrases, coreferences, dependencies, and synonyms).
+ */
+
 public class QuestionCandSentSimilarityMatcher extends JCasAnnotator_ImplBase {
 
   SolrWrapper solrWrapper = null;
