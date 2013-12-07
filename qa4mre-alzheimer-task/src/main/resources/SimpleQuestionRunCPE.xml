@@ -48,6 +48,9 @@
   <delegateAnalysisEngine key="NoneOfTheAbove">
       <import name="annotators.NoneOfTheAbove"/>
     </delegateAnalysisEngine>
+  <delegateAnalysisEngine key="AnswerMoving">
+      <import name="annotators.AnswerMoving"/>
+    </delegateAnalysisEngine>
   </delegateAnalysisEngineSpecifiers>
   <analysisEngineMetaData>
     <name>CpeQuestionDescriptor</name>
@@ -59,13 +62,9 @@
     <flowConstraints>
       <fixedFlow>
         <node>QuestionTypeAnnotator</node>
-        <!-- <node>QuestionCandSentSynonymMatcher</node>-->
-        <!-- <node>QuestionCandSentDependencyMatcher</node>-->
         <node>AnswerTypeMatchScore</node>
-        <!-- <node>AnswerChoiceCandAnsSynonymScorer</node>-->
-        <!--<node>AnswerChoiceCandAnsPMIScorer</node>-->
         <node>CandSentScoreBaseClass</node>
-      <node>AnswerScoreBaseClass</node>
+        <node>AnswerScoreBaseClass</node>
         <node>AnswerSelectionByKCandVoting</node>
       </fixedFlow>
     </flowConstraints>

@@ -173,40 +173,40 @@ public class AnswerSelectionByKCandVoting extends JCasAnnotator_ImplBase {
         }else{
           bestAnswer.setIsSelected(true);
         }
-        if (bestAnswer != null && correctAnswer.equals(bestAnswer)) {
-          matched++;
-        }
-        if (bestAnswer != null && !correctAnswer.equals(bestAnswer)) {
-          unmatched++;
-        }
-        total++;
-        if (showInfo) {
-          System.out.print(bestScore + "(PMI: " + bestPMI + ") Best Answer: ");
-          if (bestAnswer == null) {
-            System.out.println("not answered");
-          } else {
-            System.out.println(bestAnswer.getText());
-          }
-          System.out.println(correctScore + "(PMI: " + correctPMI + ") Correct Answer: "
-                  + correctAnswer.getText());
-          System.out.println("================================================");
-        }
+//        if (bestAnswer != null && correctAnswer.equals(bestAnswer)) {
+//          matched++;
+//        }
+//        if (bestAnswer != null && !correctAnswer.equals(bestAnswer)) {
+//          unmatched++;
+//        }
+//        total++;
+//        if (showInfo) {
+//          System.out.print(bestScore + "(PMI: " + bestPMI + ") Best Answer: ");
+//          if (bestAnswer == null) {
+//            System.out.println("not answered");
+//          } else {
+//            System.out.println(bestAnswer.getText());
+//          }
+//          System.out.println(correctScore + "(PMI: " + correctPMI + ") Correct Answer: "
+//                  + correctAnswer.getText());
+//          System.out.println("================================================");
+//        }
       }
       pw.close();
     } catch (FileNotFoundException e) {
       e.printStackTrace();
     }
 
-    System.out.println("Correct: " + matched + "/" + total + "=" + ((matched * 100.0) / total)
-            + "%");
-    double cAt1 = (matched / total * unanswered + matched) * (1.0 / total);
+//    System.out.println("Correct: " + matched + "/" + total + "=" + ((matched * 100.0) / total)
+//            + "%");
+//    double cAt1 = (matched / total * unanswered + matched) * (1.0 / total);
+//
+//    System.out.println("c@1 score:" + cAt1);
 
-    System.out.println("c@1 score:" + cAt1);
-
-    testDoc.setPrecision(((double) matched) / total);
-    testDoc.setC1score(cAt1);
-    testDoc.setAnswered((int) Math.round(matched + unmatched));
-    testDoc.setCorrectAnswered((int) Math.round(matched));
+//    testDoc.setPrecision(((double) matched) / total);
+//    testDoc.setC1score(cAt1);
+//    testDoc.setAnswered((int) Math.round(matched + unmatched));
+//    testDoc.setCorrectAnswered((int) Math.round(matched));
 
   }
 

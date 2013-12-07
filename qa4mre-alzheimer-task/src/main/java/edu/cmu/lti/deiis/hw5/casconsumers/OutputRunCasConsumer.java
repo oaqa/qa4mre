@@ -23,7 +23,9 @@ import org.xml.sax.SAXException;
 import edu.cmu.lti.qalab.types.Answer;
 import edu.cmu.lti.qalab.types.Question;
 import edu.cmu.lti.qalab.types.QuestionAnswerSet;
+import edu.cmu.lti.qalab.types.SourceDocument;
 import edu.cmu.lti.qalab.types.TestDocument;
+import edu.cmu.lti.qalab.utils.Utils;
 
 public class OutputRunCasConsumer extends CasConsumer_ImplBase {
 
@@ -157,8 +159,15 @@ public class OutputRunCasConsumer extends CasConsumer_ImplBase {
 				doc.setReadingTestId(String.valueOf(testId));
 				testId++;
 				//TBD: get reading-test id, such as r_id = doc.getReadingTestId()
-				System.out.println(doc.getReadingTestId());
-				out.write(String.format("\t<reading-test r_id=\"%d\">\n", Integer.parseInt(doc.getReadingTestId())));
+//				System.out.println(doc.getReadingTestId());
+//				out.write(String.format("\t<reading-test r_id=\"%d\">\n", Integer.parseInt(doc.getReadingTestId())));
+				
+				
+				SourceDocument srcDoc = Utils.getSourceDocumentFromCAS(jcas);
+				String[] docIdParts = srcDoc.getId().split("_");
+				String r_id = docIdParts[1];
+				out.write(String.format("\t<reading-test r_id=\"%d\">\n", Integer.parseInt(r_id)));
+				
 				
 				FSList list = doc.getQaList();
 				boolean answered = false;
