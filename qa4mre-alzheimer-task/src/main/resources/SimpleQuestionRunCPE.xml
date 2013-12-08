@@ -33,6 +33,9 @@
     <delegateAnalysisEngine key="QuestionCandSentAnswerMatcher">
       <import name="annotators.QuestionCandSentAnswerMatcher"/>
     </delegateAnalysisEngine>
+  <delegateAnalysisEngine key="OutputRunCasConsumerDescriptor">
+      <import name="consumers.OutputRunCasConsumerDescriptor"/>
+    </delegateAnalysisEngine>
   </delegateAnalysisEngineSpecifiers>
   <analysisEngineMetaData>
     <name>CpeQuestionDescriptor</name>
@@ -50,6 +53,7 @@
         <!-- <node>AnswerChoiceCandAnsSynonymScorer</node>-->
         <!--<node>AnswerChoiceCandAnsPMIScorer</node>-->
         <node>AnswerSelectionByKCandVoting</node>
+      <node>OutputRunCasConsumerDescriptor</node>
       </fixedFlow>
     </flowConstraints>
     <typePriorities/>

@@ -8,6 +8,7 @@ import org.apache.uima.UimaContext;
 import org.apache.uima.analysis_component.JCasAnnotator_ImplBase;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.jcas.JCas;
+import org.apache.uima.jcas.cas.FSList;
 import org.apache.uima.resource.ResourceInitializationException;
 
 import edu.cmu.lti.qalab.types.Answer;
@@ -88,6 +89,7 @@ public class AnswerSelectionByKCandVoting extends JCasAnnotator_ImplBase {
         hshAnswer.put(selectedAnswer, existingVal + 1.0);
       }
 
+      
       String bestChoice = null;
       try {
         bestChoice = findBestChoice(hshAnswer);
@@ -95,6 +97,16 @@ public class AnswerSelectionByKCandVoting extends JCasAnnotator_ImplBase {
       } catch (Exception e) {
         e.printStackTrace();
       }
+      
+      FSList answers = qaSet.get(i).getAnswerList();
+      ArrayList<Answer> answerList = Utils.fromFSListToCollection(answers, Answer.class);
+      for ( Answer a: answerList ){
+        String t = a.getText();
+        if ( t.equals(bestChoice))
+          a.setIsSelected(true);
+      }
+      
+      qaSet.get(i).setAnswerList(Utils.fromCollectionToFSList(aJCas, answerList));
       System.out.println("Correct Choice: " + "\t" + correct);
       System.out.println("Best Choice: " + "\t" + bestChoice);
 

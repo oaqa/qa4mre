@@ -1,3 +1,6 @@
 eclipse.preferences.version=1
 encoding//data/Biomedical_about_Alzheimer_Sample_GS_Docs=UTF-8
+encoding//data/medical_oov_updated2.txt=UTF-8
 encoding//data/oov_medical.txt=UTF-8
+encoding//src/main/java/edu/cmu/lti/deiis/hw5/candidate_sentence/QuestionCandSentAnswerMatcher.java=UTF-8
+encoding//src/main/java/edu/cmu/lti/deiis/hw5/candidate_sentence/QuestionCandSentAnswerMatcher21.java=UTF-8

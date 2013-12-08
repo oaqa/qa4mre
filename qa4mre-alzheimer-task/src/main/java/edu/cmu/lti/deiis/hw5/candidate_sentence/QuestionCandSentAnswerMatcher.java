@@ -3,7 +3,11 @@ package edu.cmu.lti.deiis.hw5.candidate_sentence;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.InputStreamReader;
+import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.Hashtable;
+import java.util.Vector;
 
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
@@ -27,6 +31,13 @@ import edu.cmu.lti.qalab.types.QuestionAnswerSet;
 import edu.cmu.lti.qalab.types.Sentence;
 import edu.cmu.lti.qalab.types.TestDocument;
 import edu.cmu.lti.qalab.utils.Utils;
+import gov.nih.nlm.nls.lvg.Api.LvgCmdApi;
+import gov.nih.nlm.nls.lvg.Db.DbBase;
+import gov.nih.nlm.nls.lvg.Flows.ToAcronyms;
+import gov.nih.nlm.nls.lvg.Flows.ToFruitfulEnhanced;
+import gov.nih.nlm.nls.lvg.Lib.Configuration;
+import gov.nih.nlm.nls.lvg.Lib.LexItem;
+import gov.nih.nlm.nls.lvg.Trie.RamTrie;
 
 /**
  * 
@@ -53,10 +64,20 @@ public class QuestionCandSentAnswerMatcher extends JCasAnnotator_ImplBase {
 
 	ArrayList<String> syno = new ArrayList<String>();
 
+	LvgCmdApi lvgApi = null;
+
+	LvgCmdApi lvgApi2 = null;
+
+	LvgCmdApi lvgApi3 = null;
+
 	@Override
 	public void initialize(UimaContext context)
 			throws ResourceInitializationException {
 		super.initialize(context);
+		this.iniAcroms();
+		this.iniSyns();
+		this.iniVariants();
+
 		serverUrl = (String) context.getConfigParameterValue("SOLR_SERVER_URL");
 		coreName = (String) context.getConfigParameterValue("SOLR_CORE");
 		schemaName = (String) context.getConfigParameterValue("SCHEMA_NAME");
@@ -118,7 +139,6 @@ public class QuestionCandSentAnswerMatcher extends JCasAnnotator_ImplBase {
 								.replace("_", "").trim();
 						int idx = Integer.parseInt(sentIdx);
 						Sentence annSentence = sentenceList.get(idx);
-
 						String sentence = doc.get("text").toString();
 						double relScore = Double.parseDouble(doc.get("score")
 								.toString());
@@ -152,9 +172,10 @@ public class QuestionCandSentAnswerMatcher extends JCasAnnotator_ImplBase {
 	public String formSolrQuery(Question question, Answer answer) {
 		String query = "";
 		query += "(" + deleteStopWords(question.getText());
-		query += " " + addSyno(question.getText()) + ") OR (";
+		query += this.addSyno(question.getText());
+		query += " ) OR (";
 		query += deleteStopWordsInAnswer(answer.getText());
-		//query += " " + addSyno(answer.getText());
+		// query += " " + addSyno(answer.getText());
 		query += ")";
 		// query = "nounphrases: mice";
 		System.out.println("Answer-Question Query: " + query);
@@ -165,6 +186,7 @@ public class QuestionCandSentAnswerMatcher extends JCasAnnotator_ImplBase {
 		String result = "";
 		String[] s = text.toLowerCase().split(" ");
 		for (String ss : s) {
+
 			if (!word.contains(ss))
 				continue;
 			int index = word.indexOf(ss);
@@ -172,6 +194,7 @@ public class QuestionCandSentAnswerMatcher extends JCasAnnotator_ImplBase {
 			for (int i = 0; i < tokens.length; i++) {
 				result += " " + tokens[i];
 			}
+			
 		}
 		return result;
 	}
@@ -180,21 +203,16 @@ public class QuestionCandSentAnswerMatcher extends JCasAnnotator_ImplBase {
 		String[] s = text.toLowerCase().split(" ");
 		String result = "";
 		for (String ss : s) {
+			if (ss.contains("?"))
+				ss = ss.substring(0, ss.indexOf('?'));
+			
 			if (stopWords.contains(ss))
 				continue;
-			if(word.contains(ss)){
-				result += " ("+ss;
-				String[] tokens = syno.get(word.indexOf(ss)).split(",");
-				for (int i = 0; i < tokens.length; i++) {
-				 result += " " +tokens[i];
-				}
-				result +=")";
-			}
-			else{	
-			 result += " " + ss;
-			 
-			}
+			
+			result += " " + ss;
+			result += " " + this.runSynos(ss) + " " + this.runAcroms(ss);
 		}
+
 		return result;
 	}
 
@@ -204,19 +222,25 @@ public class QuestionCandSentAnswerMatcher extends JCasAnnotator_ImplBase {
 		for (String ss : s) {
 			if (stopWords.contains(ss))
 				continue;
-			if(word.contains(ss)){
-				result += " ("+ss;
+			if (word.contains(ss)) {
+				result += " (" + ss;
 				String[] tokens = syno.get(word.indexOf(ss)).split(",");
 				for (int i = 0; i < tokens.length; i++) {
-				 result += " " +tokens[i];
+					result += " " + tokens[i];
 				}
-				result +=") AND";
+				//result += " " + this.runSynos(ss);
+				// Acronum
+				//if (ss.toUpperCase().equals(ss)) {
+				//result += " " + this.runAcroms(ss);
+				//}
+				result +=")";
+			} else {
+				     //SYN: (
+				result += " " + ss + " ";//+ this.runSynos(ss) + " "+ this.runAcroms(ss) +")";
 			}
-			else{	
-			 result += " " + ss + " AND";
-			 
-			}
-			//result += " " + ss + " AND";
+
+			//result += this.runVariants(ss);
+			result += " AND ";
 		}
 		if (result.length() > 4)
 			result = result.substring(0, result.length() - 4);
@@ -234,14 +258,155 @@ public class QuestionCandSentAnswerMatcher extends JCasAnnotator_ImplBase {
 	}
 
 	private void loadSyno() throws Exception {
-		File f = new File("data/oov_medical.txt");
+		File f = new File("data/medical_oov_updated2.txt");
 		BufferedReader reader = new BufferedReader(new FileReader(f));
 		String line;
 		while ((line = reader.readLine()) != null) {
+			System.out.println(line);
 			String[] s = line.split(":");
+
 			word.add(s[0].toLowerCase().trim());
 			syno.add(s[1].toLowerCase().substring(0, s[1].indexOf('(')));
 		}
 		reader.close();
 	}
+
+	private void iniAcroms() {
+		try {
+			String lvgConfigFile = "/Users/Jerry/Downloads/lvg2013/data/config/lvg.properties";
+			lvgApi = new LvgCmdApi("-f:a", lvgConfigFile);
+
+			if (lvgApi != null) {
+				lvgApi.CleanUp();
+			}
+		} catch (Exception e2) {
+			System.err.println(e2.getMessage());
+
+		}
+
+	}
+
+	private String runAcroms(String term) {
+		String toReturn = null;
+		if (lvgApi != null) {
+			lvgApi.CleanUp();
+		}
+		try {
+			toReturn = lvgApi.MutateToString(term);
+		} catch (Exception e) {
+			// e.printStackTrace();
+			System.out.println("No match for acroms " + term);
+		}
+		if (toReturn != null) {
+			toReturn = toReturn.split("|")[0];
+			System.out.println("toReturn in acros is " + toReturn);
+			return toReturn;
+		} else
+			return "";
+
+	}
+
+	private void iniVariants() {
+		try {
+			String lvgConfigFile = "/Users/Jerry/Downloads/lvg2013/data/config/lvg.properties";
+			lvgApi3 = new LvgCmdApi("-f:Ge -m", lvgConfigFile);
+
+			if (lvgApi3 != null) {
+				lvgApi3.CleanUp();
+			}
+
+		} catch (Exception e2) {
+			System.err.println(e2.getMessage());
+
+		}
+
+	}
+
+	
+	private String runVariants(String term) {
+
+		Configuration conf = new Configuration("/Users/Jerry/Downloads/lvg2013/data/config/lvg.properties", true);
+        
+        
+        int minTermLen = Integer.parseInt(
+            conf.GetConfiguration(Configuration.MIN_TERM_LENGTH));
+        String lvgDir = conf.GetConfiguration(Configuration.LVG_DIR);
+        int minTrieStemLength = Integer.parseInt(
+            conf.GetConfiguration(Configuration.DIR_TRIE_STEM_LENGTH));
+        // Mutate: connect to DB
+        LexItem in = new LexItem(term);
+        Vector<LexItem> outs = new Vector<LexItem>();
+        try
+        {
+            Connection conn = DbBase.OpenConnection(conf);
+            RamTrie trieI = new RamTrie(true, minTermLen, lvgDir, 0);
+            RamTrie trieD = 
+                new RamTrie(false, minTermLen, lvgDir, minTrieStemLength);
+            if(conn != null)
+            {
+                outs = ToFruitfulEnhanced.Mutate(in, conn, trieI, trieD, 
+                    true, true);
+            }
+            DbBase.CloseConnection(conn, conf);
+        }
+        catch (Exception e)
+        {
+            System.err.println(e.getMessage());
+        }
+        String result = "";
+        for(LexItem s: outs){
+        	result+=" "+s.GetTargetTerm();
+        }
+        return result;
+      
+	}
+
+	private void iniSyns() {
+		try {
+			//Hashtable<String, String> properties = new Hashtable<String, String>();
+			// properties.put("LVG_DIR", "/Users/Jerry/Downloads/lvg2013");
+			// lvgApi2 = new
+			// LvgCmdApi("-f:r -x /Users/Jerry/Downloads/lvg2013/data/config/",
+			// properties);
+			String lvgConfigFile = "/Users/Jerry/Downloads/lvg2013/data/config/lvg.properties";
+			lvgApi2 = new LvgCmdApi("-f:r", lvgConfigFile);
+
+			if (lvgApi2 != null) {
+				lvgApi2.CleanUp();
+			}
+		} catch (Exception e2) {
+			System.err.println(e2.getMessage());
+
+		}
+
+	}
+
+	private String runSynos(String term) {
+		String toReturn = null;
+		if (lvgApi2 != null) {
+			lvgApi2.CleanUp();
+		}
+		try {
+			toReturn = lvgApi2.MutateToString(term);
+		} catch (Exception e) {
+			// e.printStackTrace();
+			System.err.println("no match! fot synos " + term);
+		}
+
+		System.out.println("toReturn is : " + toReturn);
+
+		if (toReturn != null && !toReturn.equals("")) {
+			String combine = "";
+			String[] sentences = toReturn.split("\n");
+			for (int i = 0; i < sentences.length; i++) {
+				System.out.println("debug:" + sentences[i]);
+				combine += " " + sentences[i].split("|")[1];
+			}
+			return combine;
+
+		} else
+			return "";
+
+	}
+
 }
