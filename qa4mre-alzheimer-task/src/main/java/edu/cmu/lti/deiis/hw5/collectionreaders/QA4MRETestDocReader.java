@@ -110,12 +110,10 @@ public class QA4MRETestDocReader extends CollectionReader_ImplBase {
 
 			Question question = new Question(jcas);
 			question.setText(questionStr);
-			ArrayList<Answer> answerCollection = new ArrayList<Answer>();
+      ArrayList<Answer> answerCollection = new ArrayList<Answer>();
 			for (int j = 0; j < answerNodeList.getLength(); j++) {
 				Element ansEle = (Element) answerNodeList.item(j);
-				String isCorrect = ansEle.getAttribute("correct");// <answer
-																	// a_id="2"
-																	// correct="Yes">aromatase</answer>
+				String isCorrect = ansEle.getAttribute("correct");
 
 				String answer = answerNodeList.item(j).getTextContent();
 				Answer ans = new Answer(jcas);
@@ -131,6 +129,13 @@ public class QA4MRETestDocReader extends CollectionReader_ImplBase {
 				}
 				ans.setId(String.valueOf(j));
 				ans.setText(answer);
+				
+//				// Check is answer is "None of the above"
+//				if (answer.equals("None of the above")){
+//				  ans.setIsNoneOfTheAbove(true);
+//				  question.setHasNoneOfTheAbove(true);
+//				}
+				
 				answerCollection.add(ans);
 			}
 			FSList answerFSList = this.createAnswerFSList(jcas,
@@ -170,7 +175,6 @@ public class QA4MRETestDocReader extends CollectionReader_ImplBase {
 				chars = new char[4096];
 			}
 			xmlText = xmlText.trim();
-			// System.out.println(xmlText);
 			System.out
 					.println("Read: " + testFile[nCurrFile].getAbsolutePath());
 

@@ -68,9 +68,7 @@ public class StanfordQuestionNLPAnnotator extends JCasAnnotator_ImplBase {
 				Answer answer = choiceList.get(j);
 				Annotation document = new Annotation(answer.getText());
 				try {
-					// System.out.println("Entering stanford annotation");
 					stanfordAnnotator.annotate(document);
-					// System.out.println("Out of stanford annotation");
 				} catch (Exception e) {
 					e.printStackTrace();
 					return;

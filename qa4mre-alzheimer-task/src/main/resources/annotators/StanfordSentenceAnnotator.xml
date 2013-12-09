@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?><analysisEngineDescription xmlns="http://uima.apache.org/resourceSpecifier">
+<?xml version="1.0" encoding="UTF-8"?>
+<analysisEngineDescription xmlns="http://uima.apache.org/resourceSpecifier">
   <frameworkImplementation>org.apache.uima.java</frameworkImplementation>
   <primitive>true</primitive>
   <annotatorImplementationName>edu.cmu.lti.deiis.hw5.annotators.StanfordSentenceAnnotator</annotatorImplementationName>
   <analysisEngineMetaData>
     <name>StanfordNLPDescriptor</name>
-    <description/>
+    <description>For each TextDocument, split the document to sentences and add a list of sentences to TextDocument.</description>
     <version>1.0</version>
     <vendor/>
     <configurationParameters>
@@ -20,7 +21,7 @@
       <nameValuePair>
         <name>NOISE_THRESHOLD</name>
         <value>
-          <float>0.20</float>
+          <float>0.2</float>
         </value>
       </nameValuePair>
     </configurationParameterSettings>

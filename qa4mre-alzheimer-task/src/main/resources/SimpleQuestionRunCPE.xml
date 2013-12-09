@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?><analysisEngineDescription xmlns="http://uima.apache.org/resourceSpecifier">
+<?xml version="1.0" encoding="UTF-8"?>
+<analysisEngineDescription xmlns="http://uima.apache.org/resourceSpecifier">
   <frameworkImplementation>org.apache.uima.java</frameworkImplementation>
   <primitive>false</primitive>
   <delegateAnalysisEngineSpecifiers>
@@ -26,6 +27,30 @@
     <delegateAnalysisEngine key="AnswerChoiceCandAnsSimilarityScorer">
       <import location="annotators/AnswerChoiceCandAnsSimilarityScorer.xml"/>
     </delegateAnalysisEngine>
+  <delegateAnalysisEngine key="CandSentFromQAPair">
+      <import name="annotators.CandSentFromQAPair"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="AnswerScoreBaseClass">
+      <import name="annotators.AnswerScoreBaseClass"/>
+    </delegateAnalysisEngine>
+  <delegateAnalysisEngine key="CandSentScoreBaseClass">
+      <import name="annotators.CandSentScoreBaseClass"/>
+    </delegateAnalysisEngine>
+  <delegateAnalysisEngine key="QuestionTypeAnnotator">
+      <import name="annotators.QuestionTypeAnnotator"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="AnswerTypeMatchScore">
+      <import name="annotators.AnswerTypeMatchScore"/>
+    </delegateAnalysisEngine>
+  <delegateAnalysisEngine key="QuestionAnswerPMI">
+      <import name="annotators.QuestionAnswerPMI"/>
+    </delegateAnalysisEngine>
+  <delegateAnalysisEngine key="NoneOfTheAbove">
+      <import name="annotators.NoneOfTheAbove"/>
+    </delegateAnalysisEngine>
+  <delegateAnalysisEngine key="AnswerMoving">
+      <import name="annotators.AnswerMoving"/>
+    </delegateAnalysisEngine>
   </delegateAnalysisEngineSpecifiers>
   <analysisEngineMetaData>
     <name>CpeQuestionDescriptor</name>
@@ -36,12 +61,10 @@
     <configurationParameterSettings/>
     <flowConstraints>
       <fixedFlow>
-        <node>QuestionCandSentSimilarityMatcher</node>
-        <!-- <node>QuestionCandSentSynonymMatcher</node>-->
-        <!-- <node>QuestionCandSentDependencyMatcher</node>-->
-        <node>AnswerChoiceCandAnsSimilarityScorer</node>
-        <!-- <node>AnswerChoiceCandAnsSynonymScorer</node>-->
-        <!--<node>AnswerChoiceCandAnsPMIScorer</node>-->
+        <node>QuestionTypeAnnotator</node>
+        <node>AnswerTypeMatchScore</node>
+        <node>CandSentScoreBaseClass</node>
+        <node>AnswerScoreBaseClass</node>
         <node>AnswerSelectionByKCandVoting</node>
       </fixedFlow>
     </flowConstraints>

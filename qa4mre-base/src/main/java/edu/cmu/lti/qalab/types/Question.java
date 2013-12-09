@@ -12,8 +12,8 @@ import org.apache.uima.jcas.tcas.Annotation;
 
 
 /** 
- * Updated by JCasGen Mon May 13 14:41:33 EDT 2013
- * XML source: /media/alkesh/Windows7_OS/Users/alkesh/git/qa4mre-cse/qa4mre-base/src/main/resources/TypeSystemDescriptor.xml
+ * Updated by JCasGen Thu Dec 05 14:35:26 EST 2013
+ * XML source: /Users/troy/git/hw5-team10/qa4mre-base/src/main/resources/TypeSystemDescriptor.xml
  * @generated */
 public class Question extends Annotation {
   /** @generated
@@ -169,6 +169,60 @@ public class Question extends Annotation {
     if (Question_Type.featOkTst && ((Question_Type)jcasType).casFeat_tokenList == null)
       jcasType.jcas.throwFeatMissing("tokenList", "edu.cmu.lti.qalab.types.Question");
     jcasType.ll_cas.ll_setRefValue(addr, ((Question_Type)jcasType).casFeatCode_tokenList, jcasType.ll_cas.ll_getFSRef(v));}    
+   
+    
+  //*--------------*
+  //* Feature: questionType
+
+  /** getter for questionType - gets Question Type, the value is defined in QuestionTypeAnnotator
+   * @generated */
+  public int getQuestionType() {
+    if (Question_Type.featOkTst && ((Question_Type)jcasType).casFeat_questionType == null)
+      jcasType.jcas.throwFeatMissing("questionType", "edu.cmu.lti.qalab.types.Question");
+    return jcasType.ll_cas.ll_getIntValue(addr, ((Question_Type)jcasType).casFeatCode_questionType);}
+    
+  /** setter for questionType - sets Question Type, the value is defined in QuestionTypeAnnotator 
+   * @generated */
+  public void setQuestionType(int v) {
+    if (Question_Type.featOkTst && ((Question_Type)jcasType).casFeat_questionType == null)
+      jcasType.jcas.throwFeatMissing("questionType", "edu.cmu.lti.qalab.types.Question");
+    jcasType.ll_cas.ll_setIntValue(addr, ((Question_Type)jcasType).casFeatCode_questionType, v);}    
+   
+    
+  //*--------------*
+  //* Feature: hasNoneOfTheAbove
+
+  /** getter for hasNoneOfTheAbove - gets 
+   * @generated */
+  public boolean getHasNoneOfTheAbove() {
+    if (Question_Type.featOkTst && ((Question_Type)jcasType).casFeat_hasNoneOfTheAbove == null)
+      jcasType.jcas.throwFeatMissing("hasNoneOfTheAbove", "edu.cmu.lti.qalab.types.Question");
+    return jcasType.ll_cas.ll_getBooleanValue(addr, ((Question_Type)jcasType).casFeatCode_hasNoneOfTheAbove);}
+    
+  /** setter for hasNoneOfTheAbove - sets  
+   * @generated */
+  public void setHasNoneOfTheAbove(boolean v) {
+    if (Question_Type.featOkTst && ((Question_Type)jcasType).casFeat_hasNoneOfTheAbove == null)
+      jcasType.jcas.throwFeatMissing("hasNoneOfTheAbove", "edu.cmu.lti.qalab.types.Question");
+    jcasType.ll_cas.ll_setBooleanValue(addr, ((Question_Type)jcasType).casFeatCode_hasNoneOfTheAbove, v);}    
+   
+    
+  //*--------------*
+  //* Feature: answerClass
+
+  /** getter for answerClass - gets 
+   * @generated */
+  public String getAnswerClass() {
+    if (Question_Type.featOkTst && ((Question_Type)jcasType).casFeat_answerClass == null)
+      jcasType.jcas.throwFeatMissing("answerClass", "edu.cmu.lti.qalab.types.Question");
+    return jcasType.ll_cas.ll_getStringValue(addr, ((Question_Type)jcasType).casFeatCode_answerClass);}
+    
+  /** setter for answerClass - sets  
+   * @generated */
+  public void setAnswerClass(String v) {
+    if (Question_Type.featOkTst && ((Question_Type)jcasType).casFeat_answerClass == null)
+      jcasType.jcas.throwFeatMissing("answerClass", "edu.cmu.lti.qalab.types.Question");
+    jcasType.ll_cas.ll_setStringValue(addr, ((Question_Type)jcasType).casFeatCode_answerClass, v);}    
   }
 
     

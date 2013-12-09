@@ -2,7 +2,7 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>edu.cmu.lti.qalab</groupId>
-  <artifactId>qa4mre-alzheimer-task</artifactId>
+  <artifactId>qa4mre-hw5-team10</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <repositories>
     <repository>
@@ -58,8 +58,8 @@
     </dependency>
   </dependencies>
   <scm>
-    <connection>scm:git:git@github.com:kar2905/qalabcmu.git</connection>
-    <developerConnection>scm:git:git@github.com:kar2905/qalabcmu.git</developerConnection>
+    <connection>scm:git:git@github.com:troyhua/hw5-team10.git</connection>
+    <developerConnection>scm:git:git@github.com:troyhua/hw5-team10.git</developerConnection>
   </scm>
   <build>
     <plugins>
